@@ -89,6 +89,35 @@
       margin: 0 auto;
       filter: drop-shadow(0 14px 24px rgba(0,0,0,0.18));
     }
+    /* ------------------------------------------------------------------
+       LAUNCH SCENE
+       A tall section whose inner wrapper is sticky, so the big RV stays
+       centered on screen while we scroll through it. The scrubbed scale +
+       fade lives in JavaScript. 200vh gives the shrink room to breathe.
+    ------------------------------------------------------------------ */
+    .rv-launch {
+      position: relative;
+      height: 200vh;
+    }
+    .rv-launch-inner {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    /* the large "launch" RV that scales down into the driving RV. It is
+       roughly 4x the size of the driving RV (which is 230px). We set the
+       transform origin to the centre so it shrinks toward the road. */
+    .rv-launch .hero-rv {
+      display: block;
+      width: 920px;
+      max-width: 92vw;
+      transform-origin: center center;
+      will-change: transform, opacity;
+      filter: drop-shadow(0 18px 28px rgba(0,0,0,0.22));
+    }
 
     /* ------------------------------------------------------------------
        THE JOURNEY
@@ -99,48 +128,65 @@
     ------------------------------------------------------------------ */
     .journey {
       position: relative;
-      max-width: 980px;
+      max-width: 1140px;
       margin: 0 auto;
       padding: 0 1.5rem;
     }
 
-    /* the dashed "road" line running down the centre */
-    .journey::before {
-      content: "";
+    /* the winding road is an SVG that we draw with JavaScript so it can
+       follow exactly the same left/right weave as the RV. It sits behind
+       the stop cards. */
+    .road {
       position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 50%;
-      width: 4px;
-      transform: translateX(-50%);
-      background: repeating-linear-gradient(
-        to bottom,
-        #f4e9c1 0 18px,
-        transparent 18px 36px
-      );
+      inset: 0;
+      width: 100%;
+      height: 100%;
       z-index: 0;
+      pointer-events: none;
+    }
+    .road .road-base {            /* the wide tan "asphalt" */
+      fill: none;
+      stroke: #efe3b8;
+      stroke-width: 64;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .road .road-line {            /* the dashed centre line */
+      fill: none;
+      stroke: #c9a544;
+      stroke-width: 5;
+      stroke-linecap: round;
+      stroke-dasharray: 2 30;
     }
 
     /* the RV that drives down the page */
     .rv-wrap {
       position: sticky;
       top: 38vh;               /* keeps the RV near the middle of the viewport */
-      z-index: 2;
+      z-index: 1;              /* above the road (0) but BEHIND the stop cards (2) */
       width: 230px;
       margin: 0 auto;
       pointer-events: none;     /* let scroll/clicks pass through to content */
       will-change: transform;   /* hint the browser we will animate this */
     }
     .rv-wrap img {
+      display: block;
       width: 100%;
       filter: drop-shadow(0 18px 18px rgba(0,0,0,0.25));
+    }
+    /* the two RV graphics are stacked on top of each other. We fade
+       between them depending on which way the RV is currently driving. */
+    .rv-wrap .rv-dir-left {
+      position: absolute;
+      inset: 0;
+      opacity: 0;              /* starts hidden; GSAP fades it in on left turns */
     }
 
     /* ---------- Stop cards ---------- */
     .stop {
       position: relative;
-      z-index: 1;
-      max-width: 440px;
+      z-index: 2;              /* in front of the RV (1) and road (0) */
+      max-width: 420px;
       margin: -4rem 0 14rem;     /* big gaps so the RV has room to "travel" */
       background: #fbf6e7;
       border-radius: 16px;
@@ -217,9 +263,21 @@
       celebrations, the Mobile Alumni Center turns every stop into a chance to
       reconnect and celebrate what it means to be part of the Humboldt family.
     </p>
-    <img class="map" src="images/rv-map.png"
-         alt="Illustrated map of California showing the Mobile Alumni Center's West Coast route">
   </header>
+
+  <!-- ============================================================
+       LAUNCH SCENE
+       The big hero RV lives in its own tall section. The inner wrapper is
+       sticky, so the RV stays centered on screen while you scroll. A
+       scrubbed ScrollTrigger shrinks it down to driving size and fades it
+       out, handing off to the small RV that starts the journey below.
+       ============================================================ -->
+  <section class="rv-launch">
+    <div class="rv-launch-inner">
+      <img class="hero-rv" id="heroRv" src="images/rv.png"
+           alt="Illustrated Cal Poly Humboldt motorhome, ready to start its journey">
+    </div>
+  </section>
 
   <!-- ============================================================
        THE JOURNEY
@@ -228,10 +286,18 @@
        ============================================================ -->
   <section class="journey">
 
-    <!-- the driving RV -->
+    <!-- the winding road, drawn by JavaScript to match the RV's weave -->
+    <svg class="road" preserveAspectRatio="none" aria-hidden="true">
+      <path class="road-base" id="roadPath"></path>
+      <path class="road-line" id="roadLine"></path>
+    </svg>
+
+    <!-- the driving RV: two graphics stacked so we can face it either way -->
     <div class="rv-wrap">
-      <img id="rv" src="images/rv.png"
+      <img id="rvRight" src="images/rv.png"
            alt="Illustrated Cal Poly Humboldt motorhome">
+      <img id="rvLeft" class="rv-dir-left" src="images/rv-right-to-left.png"
+           alt="">
     </div>
 
     <!-- STOP 1 -->
@@ -448,67 +514,170 @@
 
   <script>
     /* ================================================================
-       RV ROAD-TRIP ANIMATION  (GSAP + ScrollTrigger)
+       RV ZIG-ZAG ROAD-TRIP ANIMATION  (GSAP + ScrollTrigger)
        ----------------------------------------------------------------
-       Two things are happening here:
-       1. The RV "drives" — it sways left/right and bobs up/down the
-          whole time you scroll the .journey section. (scrub)
-       2. Each stop card slides in from its side and fades up when it
-          reaches the middle of the screen.
+       The RV weaves left and right down a curving road as you scroll.
+       The trick: the road and the RV are driven by the SAME math
+       (a sine wave), so the RV always sits right on the asphalt.
+       We also swap between two RV graphics so it faces the way it
+       is driving.
        ================================================================ */
 
-    // ScrollTrigger is a separate plugin file, so we have to register it
-    // before GSAP knows how to use it.
     gsap.registerPlugin(ScrollTrigger);
 
-    /* ---------- 1. THE DRIVING RV ----------
-       gsap.to(target, vars) animates "to" the values you give it.
-       Because we attach a scrollTrigger with scrub:true, the animation
-       progress is tied to the scrollbar instead of playing on a timer.
-       Scroll down = drive forward, scroll up = reverse. */
-    gsap.to("#rv", {
-      // keyframes let us define a sequence of poses the RV moves through
-      keyframes: [
-        { x: 70,  rotation: 2,  y: -8 },  // drift right, tilt, bob up
-        { x: -70, rotation: -2, y: 6  },  // drift left, tilt the other way
-        { x: 50,  rotation: 1,  y: -6 },  // back toward the right
-        { x: 0,   rotation: 0,  y: 0  }   // settle at the last stop
-      ],
-      ease: "none", // linear, so motion maps evenly to scroll position
+    /* ---------- LAUNCH HANDOFF ----------
+       The big hero RV (920px) shrinks down to roughly driving size
+       (230px -> scale 0.25) as you scroll through the .rv-launch section,
+       then fades out near the end so the small journey RV below takes over
+       seamlessly. scrub:true ties it all to the scrollbar. */
+    gsap.timeline({
       scrollTrigger: {
-        trigger: ".journey",  // watch the whole journey section
-        start: "top top",     // begin when the section top hits the viewport top
-        end: "bottom bottom", // finish when the section bottom hits the viewport bottom
-        scrub: true           // <-- glue the animation to the scrollbar
+        trigger: ".rv-launch",
+        start: "top top",
+        end: "bottom bottom",
+        scrub: true
+      }
+    })
+    .fromTo("#heroRv",
+      { scale: 1, autoAlpha: 1 },
+      { scale: 0.25, ease: "power1.in", duration: 0.85 }   // shrink to driving size
+    )
+    .to("#heroRv",
+      { autoAlpha: 0, ease: "none", duration: 0.15 }       // fade out for the handoff
+    );
+
+    // ----- tuning knobs you can play with -----
+    const WAVES = 4;          // how many full left-right swings down the page
+    const PHASE = Math.PI;    // start on the LEFT and curve toward the RIGHT first
+                              // (PHASE = 0 would start on the right instead)
+
+    const journey = document.querySelector(".journey");
+    const roadSvg = document.querySelector(".road");
+    const roadBase = document.getElementById("roadPath");
+    const roadLine = document.getElementById("roadLine");
+
+    // measurements, refreshed by buildRoad() and reused while scrolling
+    let centerX = 0;   // horizontal middle of the journey
+    let amp = 0;       // how far the RV swings from the middle (pixels)
+    let H = 0;         // total height of the journey section
+    let vh = 0;        // viewport height
+
+    /* The road is a cosine curve based on how far DOWN the road you are
+       (y / H). Using cosine means BOTH ends (y=0 and y=H, with a whole
+       number of WAVES) land on a turning point of the curve, so the road
+       is already curving at the very top and bottom — no straight intro
+       or outro. */
+    function roadXAt(y) {
+      return centerX + amp * Math.cos(2 * Math.PI * WAVES * (y / H) + PHASE);
+    }
+
+    /* Draw the road by sampling that curve down its full height. */
+    function buildRoad() {
+      const W = journey.clientWidth;
+      H = journey.clientHeight;
+      vh = window.innerHeight;
+
+      centerX = W / 2;
+      amp = Math.min(W * 0.22, 160);   // gentle on phones, bigger on desktop
+
+      roadSvg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+
+      let d = "";
+      const STEP = 12;
+      for (let y = 0; y <= H; y += STEP) {
+        const x = roadXAt(y);
+        d += (y === 0 ? "M" : "L") + x.toFixed(1) + " " + y + " ";
+      }
+      roadBase.setAttribute("d", d);  // the wide tan asphalt
+      roadLine.setAttribute("d", d);  // the dashed centre line
+    }
+
+    /* ---------- CROSSFADE HELPER ----------
+       smoothstep gives an eased 0->1 ramp between two edges. We use it to
+       blend continuously between the two RV graphics through each turn,
+       so the swap always looks like a smooth fade rather than a snap. */
+    function smoothstep(edge0, edge1, x) {
+      const t = gsap.utils.clamp(0, 1, (x - edge0) / (edge1 - edge0));
+      return t * t * (3 - 2 * t);
+    }
+
+    /* ---------- THE DRIVING RV ----------
+       We read ScrollTrigger's own "progress" (0 -> 1 across the journey)
+       on every update. Driving it straight from progress means the RV is
+       glued to the same point of the road whether you scroll DOWN or UP,
+       so it reverses cleanly instead of drifting. */
+    ScrollTrigger.create({
+      trigger: ".journey",
+      start: "top top",
+      end: "bottom bottom",
+      scrub: true,
+      onUpdate: (self) => {
+        const p = self.progress;   // 0 at the top of the journey, 1 at the bottom
+
+        // the road point currently at the RV's sticky line (38% down screen)
+        const localY = vh * 0.38 + p * (H - vh);
+        const theta = 2 * Math.PI * WAVES * (localY / H) + PHASE;
+
+        const x = amp * Math.cos(theta);          // sideways offset from centre
+        const slope = -Math.sin(theta);           // dx/dy: + driving right, - driving left
+
+        // entry/exit fade: the bus fades IN over the first 12% of the
+        // journey and fades OUT over the last 12%. This hides the flatter
+        // motion at the very top and bottom so it never looks like the RV
+        // is just sliding down a straight line.
+        const fadeIn = smoothstep(0, 0.12, p);
+        const fadeOut = smoothstep(1, 0.88, p);
+        const wrapOpacity = fadeIn * fadeOut;
+
+        // move + tilt the RV, and apply the entry/exit fade to the wrapper
+        gsap.set(".rv-wrap", { x: x, rotation: slope * 4, opacity: wrapOpacity });
+
+        // continuous crossfade across the FULL weave: as the slope swings
+        // from +1 (driving right) to -1 (driving left), the two graphics
+        // gradually dissolve into each other the whole time, so there is
+        // never a hard swap — just a constant, gentle fade.
+        const leftOpacity = smoothstep(1, -1, slope);
+        gsap.set("#rvLeft",  { opacity: leftOpacity });
+        gsap.set("#rvRight", { opacity: 1 - leftOpacity });
       }
     });
 
-    /* ---------- 2. STOP CARDS REVEAL ----------
-       We loop over every [data-stop] card and give each its OWN trigger.
-       .left cards slide in from the left, .right cards from the right. */
+    /* ---------- STOP CARDS REVEAL ----------
+       Each card slides in from its side and fades up as it appears. */
     gsap.utils.toArray("[data-stop]").forEach((card) => {
       const fromLeft = card.classList.contains("left");
-
       gsap.from(card, {
-        // gsap.from() animates FROM these values TO the element's normal state
-        x: fromLeft ? -120 : 120, // start off to the side
-        autoAlpha: 0,             // start invisible (opacity + visibility)
+        x: fromLeft ? -120 : 120,
+        autoAlpha: 0,
         duration: 0.8,
         ease: "power2.out",
         scrollTrigger: {
           trigger: card,
-          start: "top 80%",            // when the card's top reaches 80% down the screen
-          toggleActions: "play none none reverse" // play in, reverse back out on scroll up
+          start: "top 80%",
+          toggleActions: "play none none reverse"
         }
       });
     });
+
+    // Build the road now, and rebuild whenever things resize. We refresh
+    // ScrollTrigger too so all measurements stay in sync.
+    function refreshAll() {
+      buildRoad();
+      ScrollTrigger.refresh();
+    }
+    window.addEventListener("load", refreshAll);
+    window.addEventListener("resize", refreshAll);
+    buildRoad();
   </script>
 
   <!--  <script src="js/rv-mobile-alumni-center.js"></script>-->
 
   <!-- Bootstrap JavaScript -->
  <script src="js/bootstrap.bundle.min.js"></script>
- <script src="js/gsap.min.js"></script>
+ <!-- NOTE: GSAP is already loaded from the CDN higher up (before the
+      animation script). Re-loading it here would replace the GSAP
+      instance our ScrollTriggers are attached to and freeze the RV
+      animation, so it is intentionally removed. -->
  <script src="js/main.js"></script>
 </body>
 
