@@ -558,8 +558,16 @@
         const x = amp * Math.cos(theta);          // sideways offset from centre
         const slope = -Math.sin(theta);           // dx/dy: + driving right, - driving left
 
-        // move + tilt the RV slightly into the turn
-        gsap.set(".rv-wrap", { x: x, rotation: slope * 4 });
+        // entry/exit fade: the bus fades IN over the first 12% of the
+        // journey and fades OUT over the last 12%. This hides the flatter
+        // motion at the very top and bottom so it never looks like the RV
+        // is just sliding down a straight line.
+        const fadeIn = smoothstep(0, 0.12, p);
+        const fadeOut = smoothstep(1, 0.88, p);
+        const wrapOpacity = fadeIn * fadeOut;
+
+        // move + tilt the RV, and apply the entry/exit fade to the wrapper
+        gsap.set(".rv-wrap", { x: x, rotation: slope * 4, opacity: wrapOpacity });
 
         // continuous crossfade across the FULL weave: as the slope swings
         // from +1 (driving right) to -1 (driving left), the two graphics
