@@ -499,11 +499,13 @@
     let H = 0;         // total height of the journey section
     let vh = 0;        // viewport height
 
-    /* The road is a pure sine curve based on how far DOWN the road you are
-       (y / H). Because it does not depend on scroll position, the curve is
-       continuous from the very top to the very bottom — no straight bits. */
+    /* The road is a cosine curve based on how far DOWN the road you are
+       (y / H). Using cosine means BOTH ends (y=0 and y=H, with a whole
+       number of WAVES) land on a turning point of the curve, so the road
+       is already curving at the very top and bottom — no straight intro
+       or outro. */
     function roadXAt(y) {
-      return centerX + amp * Math.sin(2 * Math.PI * WAVES * (y / H) + PHASE);
+      return centerX + amp * Math.cos(2 * Math.PI * WAVES * (y / H) + PHASE);
     }
 
     /* Draw the road by sampling that curve down its full height. */
@@ -527,21 +529,19 @@
       roadLine.setAttribute("d", d);  // the dashed centre line
     }
 
-    /* ---------- DIRECTION CROSSFADE ----------
-       The two RV graphics are stacked. When the bus changes direction we
-       smoothly fade one out and the other in (instead of showing both). */
-    let facingLeft = false;
-    function setFacing(left) {
-      if (left === facingLeft) return;   // already facing this way, do nothing
-      facingLeft = left;
-      gsap.to("#rvLeft",  { opacity: left ? 1 : 0, duration: 0.35, ease: "power1.inOut", overwrite: true });
-      gsap.to("#rvRight", { opacity: left ? 0 : 1, duration: 0.35, ease: "power1.inOut", overwrite: true });
+    /* ---------- CROSSFADE HELPER ----------
+       smoothstep gives an eased 0->1 ramp between two edges. We use it to
+       blend continuously between the two RV graphics through each turn,
+       so the swap always looks like a smooth fade rather than a snap. */
+    function smoothstep(edge0, edge1, x) {
+      const t = gsap.utils.clamp(0, 1, (x - edge0) / (edge1 - edge0));
+      return t * t * (3 - 2 * t);
     }
 
     /* ---------- THE DRIVING RV ----------
-       As you scroll, "prog" runs 0 -> 1 across the journey. We convert that
-       into the exact point of the road sitting at the RV's fixed line, so
-       the bus is always glued to the curve — including at the start/end. */
+       As you scroll, "drive.p" runs 0 -> 1 across the journey. We convert
+       that into the exact point of the road sitting at the RV's fixed line,
+       so the bus is always glued to the curve — including at the start/end. */
     const drive = { p: 0 };
     gsap.to(drive, {
       p: 1,
@@ -555,18 +555,19 @@
       onUpdate: () => {
         // the road point currently at the RV's sticky line (38% down screen)
         const localY = vh * 0.38 + drive.p * (H - vh);
-        const t = localY / H;
-        const theta = 2 * Math.PI * WAVES * t + PHASE;
+        const theta = 2 * Math.PI * WAVES * (localY / H) + PHASE;
 
-        const x = amp * Math.sin(theta);   // sideways offset from centre
-        const slope = Math.cos(theta);     // +driving right, -driving left
+        const x = amp * Math.cos(theta);          // sideways offset from centre
+        const slope = -Math.sin(theta);           // dx/dy: + driving right, - driving left
 
         // move + tilt the RV slightly into the turn
         gsap.set(".rv-wrap", { x: x, rotation: slope * 4 });
 
-        // pick a facing direction (small dead-zone avoids flicker at a turn)
-        if (slope < -0.04) setFacing(true);
-        else if (slope > 0.04) setFacing(false);
+        // continuous crossfade: fully right-facing when slope >= 0.35,
+        // fully left-facing when slope <= -0.35, smoothly blended between.
+        const leftOpacity = smoothstep(0.35, -0.35, slope);
+        gsap.set("#rvLeft",  { opacity: leftOpacity });
+        gsap.set("#rvRight", { opacity: 1 - leftOpacity });
       }
     });
 
