@@ -134,7 +134,7 @@
     .rv-wrap {
       position: sticky;
       top: 38vh;               /* keeps the RV near the middle of the viewport */
-      z-index: 2;
+      z-index: 1;              /* above the road (0) but BEHIND the stop cards (2) */
       width: 230px;
       margin: 0 auto;
       pointer-events: none;     /* let scroll/clicks pass through to content */
@@ -156,7 +156,7 @@
     /* ---------- Stop cards ---------- */
     .stop {
       position: relative;
-      z-index: 1;
+      z-index: 2;              /* in front of the RV (1) and road (0) */
       max-width: 420px;
       margin: -4rem 0 14rem;     /* big gaps so the RV has room to "travel" */
       background: #fbf6e7;
@@ -539,22 +539,20 @@
     }
 
     /* ---------- THE DRIVING RV ----------
-       As you scroll, "drive.p" runs 0 -> 1 across the journey. We convert
-       that into the exact point of the road sitting at the RV's fixed line,
-       so the bus is always glued to the curve — including at the start/end. */
-    const drive = { p: 0 };
-    gsap.to(drive, {
-      p: 1,
-      ease: "none",
-      scrollTrigger: {
-        trigger: ".journey",
-        start: "top top",
-        end: "bottom bottom",
-        scrub: true
-      },
-      onUpdate: () => {
+       We read ScrollTrigger's own "progress" (0 -> 1 across the journey)
+       on every update. Driving it straight from progress means the RV is
+       glued to the same point of the road whether you scroll DOWN or UP,
+       so it reverses cleanly instead of drifting. */
+    ScrollTrigger.create({
+      trigger: ".journey",
+      start: "top top",
+      end: "bottom bottom",
+      scrub: true,
+      onUpdate: (self) => {
+        const p = self.progress;   // 0 at the top of the journey, 1 at the bottom
+
         // the road point currently at the RV's sticky line (38% down screen)
-        const localY = vh * 0.38 + drive.p * (H - vh);
+        const localY = vh * 0.38 + p * (H - vh);
         const theta = 2 * Math.PI * WAVES * (localY / H) + PHASE;
 
         const x = amp * Math.cos(theta);          // sideways offset from centre
