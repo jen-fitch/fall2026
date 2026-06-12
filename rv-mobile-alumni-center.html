@@ -89,6 +89,16 @@
       margin: 0 auto;
       filter: drop-shadow(0 14px 24px rgba(0,0,0,0.18));
     }
+    /* the large "launch" RV that replaces the state map. It is roughly 4x
+       the size of the driving RV (which is 230px), so it reads as the hero
+       before the journey scales it down and sends it off. */
+    .road-hero .hero-rv {
+      display: block;
+      width: 920px;
+      max-width: 100%;
+      margin: 1rem auto 0;
+      filter: drop-shadow(0 18px 28px rgba(0,0,0,0.22));
+    }
 
     /* ------------------------------------------------------------------
        THE JOURNEY
@@ -234,8 +244,8 @@
       celebrations, the Mobile Alumni Center turns every stop into a chance to
       reconnect and celebrate what it means to be part of the Humboldt family.
     </p>
-    <img class="map" src="images/rv-map.png"
-         alt="Illustrated map of California showing the Mobile Alumni Center's West Coast route">
+    <img class="hero-rv" src="images/rv.png"
+         alt="Illustrated Cal Poly Humboldt motorhome, ready to start its journey">
   </header>
 
   <!-- ============================================================
@@ -485,8 +495,9 @@
     gsap.registerPlugin(ScrollTrigger);
 
     // ----- tuning knobs you can play with -----
-    const WAVES = 4;   // how many full left-right swings down the page
-    const PHASE = 0;   // shifts where the weave starts
+    const WAVES = 4;          // how many full left-right swings down the page
+    const PHASE = Math.PI;    // start on the LEFT and curve toward the RIGHT first
+                              // (PHASE = 0 would start on the right instead)
 
     const journey = document.querySelector(".journey");
     const roadSvg = document.querySelector(".road");
