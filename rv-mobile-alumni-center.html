@@ -561,9 +561,11 @@
         // move + tilt the RV slightly into the turn
         gsap.set(".rv-wrap", { x: x, rotation: slope * 4 });
 
-        // continuous crossfade: fully right-facing when slope >= 0.35,
-        // fully left-facing when slope <= -0.35, smoothly blended between.
-        const leftOpacity = smoothstep(0.35, -0.35, slope);
+        // continuous crossfade across the FULL weave: as the slope swings
+        // from +1 (driving right) to -1 (driving left), the two graphics
+        // gradually dissolve into each other the whole time, so there is
+        // never a hard swap — just a constant, gentle fade.
+        const leftOpacity = smoothstep(1, -1, slope);
         gsap.set("#rvLeft",  { opacity: leftOpacity });
         gsap.set("#rvRight", { opacity: 1 - leftOpacity });
       }
