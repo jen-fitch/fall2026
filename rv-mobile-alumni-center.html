@@ -611,7 +611,10 @@
 
   <!-- Bootstrap JavaScript -->
  <script src="js/bootstrap.bundle.min.js"></script>
- <script src="js/gsap.min.js"></script>
+ <!-- NOTE: GSAP is already loaded from the CDN higher up (before the
+      animation script). Re-loading it here would replace the GSAP
+      instance our ScrollTriggers are attached to and freeze the RV
+      animation, so it is intentionally removed. -->
  <script src="js/main.js"></script>
 </body>
 
