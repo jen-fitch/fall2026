@@ -39,25 +39,324 @@
   <meta property="og:description"
     content="Humboldt The Magazine of Cal Poly Humboldt">
   <style>
+    /* ------------------------------------------------------------------
+       PAGE THEME
+       Background is the Humboldt teal. We use a tan "road" color and a
+       deep-green ink color for headings to match the RV + map artwork.
+    ------------------------------------------------------------------ */
     body {
       background: #6DC6CC;
+      color: #14342f;
+      font-family: system-ui, sans-serif;
+      overflow-x: hidden; /* the RV sways sideways, so hide any sideways scrollbar */
     }
-.box {height: 100px; width: 100px; color: white; text-align: center; line-height: 100px; font-size: 30px;}
-.a {background: red;}
-.ghost {background: gray;}
-.b {background: green;}
-.c {background: blue;}
+
+    /* ---------- Intro / hero ---------- */
+    .road-hero {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 4rem 1.5rem 2rem;
+      text-align: center;
+    }
+    .road-hero .kicker {
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #0e5a52;
+      margin: 0 0 0.75rem;
+    }
+    .road-hero h1 {
+      font-size: clamp(2.2rem, 6vw, 3.6rem);
+      line-height: 1.05;
+      margin: 0 0 1rem;
+      color: #0b2e29;
+      text-wrap: balance;
+    }
+    .road-hero p {
+      font-size: 1.125rem;
+      line-height: 1.6;
+      max-width: 56ch;
+      margin: 0 auto 2rem;
+    }
+    .road-hero .map {
+      max-width: 360px;
+      margin: 0 auto;
+      filter: drop-shadow(0 14px 24px rgba(0,0,0,0.18));
+    }
+
+    /* ------------------------------------------------------------------
+       THE JOURNEY
+       .journey is the tall scrolling area. The RV lives inside it and is
+       "sticky", so it stays parked in the middle of the screen while the
+       stop cards scroll past it. GSAP then nudges it side-to-side + bobs
+       it as you scroll, so it feels like it is driving.
+    ------------------------------------------------------------------ */
+    .journey {
+      position: relative;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* the dashed "road" line running down the centre */
+    .journey::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 4px;
+      transform: translateX(-50%);
+      background: repeating-linear-gradient(
+        to bottom,
+        #f4e9c1 0 18px,
+        transparent 18px 36px
+      );
+      z-index: 0;
+    }
+
+    /* the RV that drives down the page */
+    .rv-wrap {
+      position: sticky;
+      top: 38vh;               /* keeps the RV near the middle of the viewport */
+      z-index: 2;
+      width: 230px;
+      margin: 0 auto;
+      pointer-events: none;     /* let scroll/clicks pass through to content */
+      will-change: transform;   /* hint the browser we will animate this */
+    }
+    .rv-wrap img {
+      width: 100%;
+      filter: drop-shadow(0 18px 18px rgba(0,0,0,0.25));
+    }
+
+    /* ---------- Stop cards ---------- */
+    .stop {
+      position: relative;
+      z-index: 1;
+      max-width: 440px;
+      margin: -4rem 0 14rem;     /* big gaps so the RV has room to "travel" */
+      background: #fbf6e7;
+      border-radius: 16px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.18);
+      overflow: hidden;
+    }
+    .stop.left  { margin-right: auto; }   /* card on the left side of the road */
+    .stop.right { margin-left: auto; }    /* card on the right side of the road */
+
+    .stop img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+    .stop .stop-body { padding: 1.5rem 1.75rem 1.75rem; }
+    .stop .stop-tag {
+      display: inline-block;
+      background: #f4b73e;
+      color: #3a2a00;
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
+      margin-bottom: 0.75rem;
+    }
+    .stop h2 {
+      margin: 0 0 0.6rem;
+      font-size: 1.6rem;
+      color: #0b2e29;
+    }
+    .stop p {
+      margin: 0;
+      line-height: 1.6;
+      color: #2c3f3a;
+    }
+
+    /* ---------- Outro ---------- */
+    .road-outro {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 6rem;
+      text-align: center;
+    }
+    .road-outro h2 { color: #0b2e29; font-size: 2rem; margin: 0 0 0.75rem; }
+    .road-outro p  { font-size: 1.1rem; line-height: 1.6; }
   </style>
 
 </head>
 
 <body>
-  <h1>Hello, world!</h1>
+
+  <!-- ============================================================
+       HERO / INTRO
+       ============================================================ -->
+  <header class="road-hero">
+    <p class="kicker">Cal Poly Humboldt &middot; Fall 2026</p>
+    <h1>The Mobile Alumni Center Hits the Road</h1>
+    <p>
+      This fall, a little piece of campus is coming to you. The Cal Poly
+      Humboldt RV is trading its parking spot under the redwoods for the
+      open road, carrying green-and-gold spirit down the California coast.
+      Over four stops and more than 500 miles, it will reconnect Lumberjacks
+      with each other, with the university, and with the places that made
+      their college years unforgettable. Scroll along and ride shotgun.
+    </p>
+    <img class="map" src="images/rv-map.png"
+         alt="Illustrated map of California showing the RV route from Humboldt south through Fort Bragg, Santa Cruz, and Monterey">
+  </header>
+
+  <!-- ============================================================
+       THE JOURNEY
+       The .rv-wrap is sticky, so it parks on screen while the .stop
+       cards scroll past. GSAP animates the RV as you scroll.
+       ============================================================ -->
+  <section class="journey">
+
+    <!-- the driving RV -->
+    <div class="rv-wrap">
+      <img id="rv" src="images/rv.png"
+           alt="Illustrated Cal Poly Humboldt motorhome">
+    </div>
+
+    <!-- STOP 1 -->
+    <article class="stop left" data-stop>
+      <img src="images/stop-humboldt.png" alt="Alumni gathered among the redwoods in Humboldt County">
+      <div class="stop-body">
+        <span class="stop-tag">Stop 1 &middot; Humboldt</span>
+        <h2>Where the Journey Begins</h2>
+        <p>
+          Every road trip needs a starting line, and ours sits right where
+          it should: beneath the towering coast redwoods of Humboldt County.
+          On a crisp September morning, the RV rolls out of Arcata with a
+          full tank, a packed itinerary, and a send-off party worthy of the
+          occasion.
+        </p>
+        <p>
+          Faculty, current students, and alumni who never strayed far from
+          home gather to wish the Mobile Alumni Center well. There are
+          handshakes, hugs, and more than a few stories about late nights in
+          the library and foggy mornings on the quad. It is the perfect
+          reminder of exactly what this journey is all about.
+        </p>
+      </div>
+    </article>
+
+    <!-- STOP 2 -->
+    <article class="stop right" data-stop>
+      <img src="images/stop-fortbragg.png" alt="Coastal alumni reunion at Fort Bragg">
+      <div class="stop-body">
+        <span class="stop-tag">Stop 2 &middot; Fort Bragg</span>
+        <h2>Coastal Reunions</h2>
+        <p>
+          Two hours south, Highway 1 narrows and the Pacific opens up beside
+          us. Fort Bragg greets the RV with rugged bluffs, salt air, and the
+          steady rhythm of waves against the rocks. It is the kind of view
+          that makes you slow down and remember why the North Coast gets
+          under your skin.
+        </p>
+        <p>
+          Grads from across Mendocino County climb aboard to tour the
+          revamped alumni center on wheels, sign the travel guestbook, and
+          trade updates on careers, families, and the occasional fishing
+          record. By the time the RV pulls away, a few new road-trip friends
+          are already planning to meet up at the next stop.
+        </p>
+      </div>
+    </article>
+
+    <!-- STOP 3 -->
+    <article class="stop left" data-stop>
+      <img src="images/stop-santacruz.png" alt="Beachside alumni meetup in Santa Cruz">
+      <div class="stop-body">
+        <span class="stop-tag">Stop 3 &middot; Santa Cruz</span>
+        <h2>Sun, Surf &amp; Stories</h2>
+        <p>
+          The fog lifts and the energy shifts as the RV rolls into Santa
+          Cruz. The boardwalk hums, the sun is out, and the beach becomes an
+          impromptu reunion hall. Recent graduates mix with alumni who
+          walked the stage decades ago, proof that the Lumberjack bond does
+          not fade with a diploma.
+        </p>
+        <p>
+          Over tacos and lemonade, conversations drift from favorite
+          professors to first jobs to the wild ways life unfolds after
+          college. A few brave souls even paddle out for a sunset surf.
+          However they choose to celebrate, everyone leaves with sand in
+          their shoes and a renewed sense of community.
+        </p>
+      </div>
+    </article>
+
+    <!-- STOP 4 -->
+    <article class="stop right" data-stop>
+      <img src="images/stop-monterey.png" alt="Evening alumni gathering near Monterey Bay">
+      <div class="stop-body">
+        <span class="stop-tag">Stop 4 &middot; Monterey</span>
+        <h2>A Bayside Send-Off</h2>
+        <p>
+          The final leg curves around Monterey Bay just as the sky turns
+          gold. String lights flicker on, a local band tunes up, and the RV
+          parks one last time against a backdrop of sailboats and sea otters.
+          It is less a farewell than a victory lap.
+        </p>
+        <p>
+          Alumni raise a glass to the miles behind them and the friendships
+          rekindled along the way. Before the night ends, the team is
+          already mapping next year&apos;s route, because the Mobile Alumni
+          Center has proven one thing for certain: home travels well, and the
+          Lumberjack family is everywhere.
+        </p>
+      </div>
+    </article>
+
+  </section>
+
+  <!-- ============================================================
+       OUTRO
+       ============================================================ -->
+  <footer class="road-outro">
+    <h2>Catch the RV Near You</h2>
+    <p>
+      The Mobile Alumni Center is just getting started, and this first tour
+      down the coast is only the beginning of the road. Keep an eye out for
+      the green-and-teal rig rolling into a town near you, follow along on
+      social media for route announcements, and when you spot it parked at a
+      local park or pier, come say hello. There is always a seat saved for a
+      fellow Lumberjack.
+    </p>
+  </footer>
+
+  <!-- (original scaffolding content removed) -->
+  <div style="display:none">
+    <h1>Hello, world!</h1>
   <h3>
     Fancy display heading
     <small class="text-body-secondary">With faded secondary text</small>
   </h3>
-
+  <div><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam consequat tristique erat ut euismod. Ut sed congue purus, eget malesuada sem. Etiam commodo fermentum consequat. Suspendisse ut pharetra ipsum. Mauris viverra consectetur lacus, nec sollicitudin sem interdum sit amet. Etiam faucibus sed nisl ut aliquet. Pellentesque et malesuada sapien. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Vivamus convallis nisi ligula. Nullam eros justo, bibendum eu placerat vitae, lacinia vel metus. Duis cursus felis sed erat scelerisque, et ornare velit tincidunt. Curabitur ornare tristique ex eget fringilla. Aenean suscipit purus nibh, nec feugiat sapien ornare non. Proin ultrices interdum lectus, et cursus justo malesuada ac. Maecenas in eros at lacus aliquam aliquam quis varius lectus. Aliquam nec scelerisque velit.</p>
+    <p>Etiam vulputate elit in velit pretium, at ultricies lacus tincidunt. Suspendisse ullamcorper neque arcu, in euismod ante accumsan varius. Vestibulum consectetur ipsum nec nunc consequat, in aliquam sem pharetra. Fusce vel tortor a turpis vehicula posuere. Fusce nibh sem, luctus vel sagittis sed, gravida consectetur metus. Nulla vestibulum dui nec nisl rhoncus, a gravida tortor commodo. Donec in malesuada libero. Pellentesque pharetra elit in rhoncus ornare.</p>
+    <p>Cras sollicitudin elementum lacus sed luctus. Vivamus ultricies in urna ac vestibulum. Duis molestie id metus ut fermentum. In in mattis eros, vitae placerat sapien. Vestibulum vitae purus tempus, ullamcorper risus ut, luctus sem. Cras ultrices posuere consequat. In ac turpis tincidunt, sollicitudin mauris eget, tincidunt ligula. Vivamus quis vestibulum sem. Nulla bibendum magna ut pellentesque varius. Proin vehicula, tellus nec venenatis ornare, lectus lacus mattis urna, id ultrices augue eros id libero. Fusce quis ipsum auctor, pulvinar neque eget, laoreet sapien. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+    <p>Cras pellentesque purus eu lobortis sollicitudin. Donec tincidunt, odio vitae dignissim placerat, dui leo tincidunt lacus, vitae ornare nisl nulla at dolor. Maecenas tempor leo ut elit lacinia bibendum. Nulla id pulvinar libero, nec rutrum augue. Maecenas maximus magna sit amet pellentesque lobortis. Ut ligula massa, tempor nec dolor in, ullamcorper faucibus odio. Aliquam eu pretium elit. Vestibulum sodales leo sed nibh condimentum, vel tempor erat faucibus.</p>
+    <p>Pellentesque id pulvinar nulla. Praesent sit amet porta elit, sit amet ullamcorper leo. Nullam convallis nisl ipsum, ut consectetur dolor malesuada vel. Donec in ex congue, consequat sem facilisis, rhoncus dui. Donec congue tincidunt dui, in vehicula purus. Nullam magna metus, tristique nec dignissim et, congue non nibh. Maecenas sit amet justo quis nulla mollis egestas. Cras in velit in augue tempus volutpat. Sed a porttitor metus. Suspendisse vitae vulputate risus. Proin mollis leo ut ante congue, ut tempor risus varius.</p>
+  </div>
+  <div class="box a">A</div>
+<!--  <div class="box b">B</div>-->
+<!--  <div class="box c">C</div>-->
+  <div><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam consequat tristique erat ut euismod. Ut sed congue purus, eget malesuada sem. Etiam commodo fermentum consequat. Suspendisse ut pharetra ipsum. Mauris viverra consectetur lacus, nec sollicitudin sem interdum sit amet. Etiam faucibus sed nisl ut aliquet. Pellentesque et malesuada sapien. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Vivamus convallis nisi ligula. Nullam eros justo, bibendum eu placerat vitae, lacinia vel metus. Duis cursus felis sed erat scelerisque, et ornare velit tincidunt. Curabitur ornare tristique ex eget fringilla. Aenean suscipit purus nibh, nec feugiat sapien ornare non. Proin ultrices interdum lectus, et cursus justo malesuada ac. Maecenas in eros at lacus aliquam aliquam quis varius lectus. Aliquam nec scelerisque velit.</p>
+    <p>Etiam vulputate elit in velit pretium, at ultricies lacus tincidunt. Suspendisse ullamcorper neque arcu, in euismod ante accumsan varius. Vestibulum consectetur ipsum nec nunc consequat, in aliquam sem pharetra. Fusce vel tortor a turpis vehicula posuere. Fusce nibh sem, luctus vel sagittis sed, gravida consectetur metus. Nulla vestibulum dui nec nisl rhoncus, a gravida tortor commodo. Donec in malesuada libero. Pellentesque pharetra elit in rhoncus ornare.</p>
+    <p>Cras sollicitudin elementum lacus sed luctus. Vivamus ultricies in urna ac vestibulum. Duis molestie id metus ut fermentum. In in mattis eros, vitae placerat sapien. Vestibulum vitae purus tempus, ullamcorper risus ut, luctus sem. Cras ultrices posuere consequat. In ac turpis tincidunt, sollicitudin mauris eget, tincidunt ligula. Vivamus quis vestibulum sem. Nulla bibendum magna ut pellentesque varius. Proin vehicula, tellus nec venenatis ornare, lectus lacus mattis urna, id ultrices augue eros id libero. Fusce quis ipsum auctor, pulvinar neque eget, laoreet sapien. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+    <p>Cras pellentesque purus eu lobortis sollicitudin. Donec tincidunt, odio vitae dignissim placerat, dui leo tincidunt lacus, vitae ornare nisl nulla at dolor. Maecenas tempor leo ut elit lacinia bibendum. Nulla id pulvinar libero, nec rutrum augue. Maecenas maximus magna sit amet pellentesque lobortis. Ut ligula massa, tempor nec dolor in, ullamcorper faucibus odio. Aliquam eu pretium elit. Vestibulum sodales leo sed nibh condimentum, vel tempor erat faucibus.</p>
+    <p>Pellentesque id pulvinar nulla. Praesent sit amet porta elit, sit amet ullamcorper leo. Nullam convallis nisl ipsum, ut consectetur dolor malesuada vel. Donec in ex congue, consequat sem facilisis, rhoncus dui. Donec congue tincidunt dui, in vehicula purus. Nullam magna metus, tristique nec dignissim et, congue non nibh. Maecenas sit amet justo quis nulla mollis egestas. Cras in velit in augue tempus volutpat. Sed a porttitor metus. Suspendisse vitae vulputate risus. Proin mollis leo ut ante congue, ut tempor risus varius.</p>
+  </div>
+  <div><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam consequat tristique erat ut euismod. Ut sed congue purus, eget malesuada sem. Etiam commodo fermentum consequat. Suspendisse ut pharetra ipsum. Mauris viverra consectetur lacus, nec sollicitudin sem interdum sit amet. Etiam faucibus sed nisl ut aliquet. Pellentesque et malesuada sapien. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Vivamus convallis nisi ligula. Nullam eros justo, bibendum eu placerat vitae, lacinia vel metus. Duis cursus felis sed erat scelerisque, et ornare velit tincidunt. Curabitur ornare tristique ex eget fringilla. Aenean suscipit purus nibh, nec feugiat sapien ornare non. Proin ultrices interdum lectus, et cursus justo malesuada ac. Maecenas in eros at lacus aliquam aliquam quis varius lectus. Aliquam nec scelerisque velit.</p>
+    <p>Etiam vulputate elit in velit pretium, at ultricies lacus tincidunt. Suspendisse ullamcorper neque arcu, in euismod ante accumsan varius. Vestibulum consectetur ipsum nec nunc consequat, in aliquam sem pharetra. Fusce vel tortor a turpis vehicula posuere. Fusce nibh sem, luctus vel sagittis sed, gravida consectetur metus. Nulla vestibulum dui nec nisl rhoncus, a gravida tortor commodo. Donec in malesuada libero. Pellentesque pharetra elit in rhoncus ornare.</p>
+    <p>Cras sollicitudin elementum lacus sed luctus. Vivamus ultricies in urna ac vestibulum. Duis molestie id metus ut fermentum. In in mattis eros, vitae placerat sapien. Vestibulum vitae purus tempus, ullamcorper risus ut, luctus sem. Cras ultrices posuere consequat. In ac turpis tincidunt, sollicitudin mauris eget, tincidunt ligula. Vivamus quis vestibulum sem. Nulla bibendum magna ut pellentesque varius. Proin vehicula, tellus nec venenatis ornare, lectus lacus mattis urna, id ultrices augue eros id libero. Fusce quis ipsum auctor, pulvinar neque eget, laoreet sapien. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+    <p>Cras pellentesque purus eu lobortis sollicitudin. Donec tincidunt, odio vitae dignissim placerat, dui leo tincidunt lacus, vitae ornare nisl nulla at dolor. Maecenas tempor leo ut elit lacinia bibendum. Nulla id pulvinar libero, nec rutrum augue. Maecenas maximus magna sit amet pellentesque lobortis. Ut ligula massa, tempor nec dolor in, ullamcorper faucibus odio. Aliquam eu pretium elit. Vestibulum sodales leo sed nibh condimentum, vel tempor erat faucibus.</p>
+    <p>Pellentesque id pulvinar nulla. Praesent sit amet porta elit, sit amet ullamcorper leo. Nullam convallis nisl ipsum, ut consectetur dolor malesuada vel. Donec in ex congue, consequat sem facilisis, rhoncus dui. Donec congue tincidunt dui, in vehicula purus. Nullam magna metus, tristique nec dignissim et, congue non nibh. Maecenas sit amet justo quis nulla mollis egestas. Cras in velit in augue tempus volutpat. Sed a porttitor metus. Suspendisse vitae vulputate risus. Proin mollis leo ut ante congue, ut tempor risus varius.</p>
+  </div>
+  </div><!-- /hidden original scaffolding -->
 
 
   <!-- GSAP -->
@@ -93,20 +392,60 @@
 <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/CustomWiggle.min.js"></script>-->
 
   <script>
+    /* ================================================================
+       RV ROAD-TRIP ANIMATION  (GSAP + ScrollTrigger)
+       ----------------------------------------------------------------
+       Two things are happening here:
+       1. The RV "drives" — it sways left/right and bobs up/down the
+          whole time you scroll the .journey section. (scrub)
+       2. Each stop card slides in from its side and fades up when it
+          reaches the middle of the screen.
+       ================================================================ */
+
+    // ScrollTrigger is a separate plugin file, so we have to register it
+    // before GSAP knows how to use it.
     gsap.registerPlugin(ScrollTrigger);
 
-    gsap.to(".a",{
+    /* ---------- 1. THE DRIVING RV ----------
+       gsap.to(target, vars) animates "to" the values you give it.
+       Because we attach a scrollTrigger with scrub:true, the animation
+       progress is tied to the scrollbar instead of playing on a timer.
+       Scroll down = drive forward, scroll up = reverse. */
+    gsap.to("#rv", {
+      // keyframes let us define a sequence of poses the RV moves through
+      keyframes: [
+        { x: 70,  rotation: 2,  y: -8 },  // drift right, tilt, bob up
+        { x: -70, rotation: -2, y: 6  },  // drift left, tilt the other way
+        { x: 50,  rotation: 1,  y: -6 },  // back toward the right
+        { x: 0,   rotation: 0,  y: 0  }   // settle at the last stop
+      ],
+      ease: "none", // linear, so motion maps evenly to scroll position
       scrollTrigger: {
-        trigger: ".a",
-        start: "top 80%",
-        end: "top 10%",
-        scrub: true,
-        markers: true,
-        toggleActions: "restart pause reverse pause"
-      },
-      x: 600,
-      rotation: 360,
-      duration: 3
+        trigger: ".journey",  // watch the whole journey section
+        start: "top top",     // begin when the section top hits the viewport top
+        end: "bottom bottom", // finish when the section bottom hits the viewport bottom
+        scrub: true           // <-- glue the animation to the scrollbar
+      }
+    });
+
+    /* ---------- 2. STOP CARDS REVEAL ----------
+       We loop over every [data-stop] card and give each its OWN trigger.
+       .left cards slide in from the left, .right cards from the right. */
+    gsap.utils.toArray("[data-stop]").forEach((card) => {
+      const fromLeft = card.classList.contains("left");
+
+      gsap.from(card, {
+        // gsap.from() animates FROM these values TO the element's normal state
+        x: fromLeft ? -120 : 120, // start off to the side
+        autoAlpha: 0,             // start invisible (opacity + visibility)
+        duration: 0.8,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: card,
+          start: "top 80%",            // when the card's top reaches 80% down the screen
+          toggleActions: "play none none reverse" // play in, reverse back out on scroll up
+        }
+      });
     });
   </script>
 
