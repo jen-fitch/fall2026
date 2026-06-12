@@ -104,21 +104,30 @@
       padding: 0 1.5rem;
     }
 
-    /* the dashed "road" line running down the centre */
-    .journey::before {
-      content: "";
+    /* the winding road is an SVG that we draw with JavaScript so it can
+       follow exactly the same left/right weave as the RV. It sits behind
+       the stop cards. */
+    .road {
       position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 50%;
-      width: 4px;
-      transform: translateX(-50%);
-      background: repeating-linear-gradient(
-        to bottom,
-        #f4e9c1 0 18px,
-        transparent 18px 36px
-      );
+      inset: 0;
+      width: 100%;
+      height: 100%;
       z-index: 0;
+      pointer-events: none;
+    }
+    .road .road-base {            /* the wide tan "asphalt" */
+      fill: none;
+      stroke: #efe3b8;
+      stroke-width: 64;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .road .road-line {            /* the dashed centre line */
+      fill: none;
+      stroke: #c9a544;
+      stroke-width: 5;
+      stroke-linecap: round;
+      stroke-dasharray: 2 30;
     }
 
     /* the RV that drives down the page */
@@ -132,8 +141,16 @@
       will-change: transform;   /* hint the browser we will animate this */
     }
     .rv-wrap img {
+      display: block;
       width: 100%;
       filter: drop-shadow(0 18px 18px rgba(0,0,0,0.25));
+    }
+    /* the two RV graphics are stacked on top of each other. We fade
+       between them depending on which way the RV is currently driving. */
+    .rv-wrap .rv-dir-left {
+      position: absolute;
+      inset: 0;
+      opacity: 0;              /* starts hidden; GSAP fades it in on left turns */
     }
 
     /* ---------- Stop cards ---------- */
@@ -228,10 +245,18 @@
        ============================================================ -->
   <section class="journey">
 
-    <!-- the driving RV -->
+    <!-- the winding road, drawn by JavaScript to match the RV's weave -->
+    <svg class="road" preserveAspectRatio="none" aria-hidden="true">
+      <path class="road-base" id="roadPath"></path>
+      <path class="road-line" id="roadLine"></path>
+    </svg>
+
+    <!-- the driving RV: two graphics stacked so we can face it either way -->
     <div class="rv-wrap">
-      <img id="rv" src="images/rv.png"
+      <img id="rvRight" src="images/rv.png"
            alt="Illustrated Cal Poly Humboldt motorhome">
+      <img id="rvLeft" class="rv-dir-left" src="images/rv-right-to-left.png"
+           alt="">
     </div>
 
     <!-- STOP 1 -->
@@ -448,60 +473,120 @@
 
   <script>
     /* ================================================================
-       RV ROAD-TRIP ANIMATION  (GSAP + ScrollTrigger)
+       RV ZIG-ZAG ROAD-TRIP ANIMATION  (GSAP + ScrollTrigger)
        ----------------------------------------------------------------
-       Two things are happening here:
-       1. The RV "drives" — it sways left/right and bobs up/down the
-          whole time you scroll the .journey section. (scrub)
-       2. Each stop card slides in from its side and fades up when it
-          reaches the middle of the screen.
+       The RV weaves left and right down a curving road as you scroll.
+       The trick: the road and the RV are driven by the SAME math
+       (a sine wave), so the RV always sits right on the asphalt.
+       We also swap between two RV graphics so it faces the way it
+       is driving.
        ================================================================ */
 
-    // ScrollTrigger is a separate plugin file, so we have to register it
-    // before GSAP knows how to use it.
     gsap.registerPlugin(ScrollTrigger);
 
-    /* ---------- 1. THE DRIVING RV ----------
-       gsap.to(target, vars) animates "to" the values you give it.
-       Because we attach a scrollTrigger with scrub:true, the animation
-       progress is tied to the scrollbar instead of playing on a timer.
-       Scroll down = drive forward, scroll up = reverse. */
-    gsap.to("#rv", {
-      // keyframes let us define a sequence of poses the RV moves through
-      keyframes: [
-        { x: 70,  rotation: 2,  y: -8 },  // drift right, tilt, bob up
-        { x: -70, rotation: -2, y: 6  },  // drift left, tilt the other way
-        { x: 50,  rotation: 1,  y: -6 },  // back toward the right
-        { x: 0,   rotation: 0,  y: 0  }   // settle at the last stop
-      ],
-      ease: "none", // linear, so motion maps evenly to scroll position
+    // ----- tuning knobs you can play with -----
+    const WAVES = 4;   // how many full left-right swings down the page
+    const PHASE = 0;   // shifts where the weave starts
+
+    const journey = document.querySelector(".journey");
+    const roadSvg = document.querySelector(".road");
+    const roadBase = document.getElementById("roadPath");
+    const roadLine = document.getElementById("roadLine");
+
+    // These get filled in by buildRoad() and reused by the scroll handler.
+    let centerX = 0;   // horizontal middle of the journey
+    let amp = 0;       // how far the RV swings from the middle (pixels)
+
+    /* The RV is "sticky" at 38% down the viewport, so as you scroll, a
+       different slice of the road passes through that fixed line. This
+       function converts a vertical position inside the road (localY)
+       into the same scroll-progress value the RV uses, so the curve of
+       the road lines up perfectly with the RV's sideways weave. */
+    function xForLocalY(localY, H, vh) {
+      const travel = Math.max(H - vh, 1);          // scrollable distance
+      const p = (localY - vh * 0.38) / travel;     // 0..1 progress at this point
+      return centerX + amp * Math.sin(2 * Math.PI * WAVES * p + PHASE);
+    }
+
+    /* Draw the road as a sine curve using the math above. We rebuild it
+       whenever the page size changes so it always matches. */
+    function buildRoad() {
+      const W = journey.clientWidth;
+      const H = journey.clientHeight;
+      const vh = window.innerHeight;
+
+      centerX = W / 2;
+      amp = Math.min(W * 0.22, 160);   // gentle on phones, bigger on desktop
+
+      // make the SVG use real pixel coordinates
+      roadSvg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+
+      // sample points down the road and join them into a path string
+      let d = "";
+      const STEP = 12;
+      for (let y = 0; y <= H; y += STEP) {
+        const x = xForLocalY(y, H, vh);
+        d += (y === 0 ? "M" : "L") + x.toFixed(1) + " " + y + " ";
+      }
+      roadBase.setAttribute("d", d);  // the wide tan asphalt
+      roadLine.setAttribute("d", d);  // the dashed centre line
+    }
+
+    /* ---------- THE DRIVING RV ----------
+       One scrubbed tween advances a plain object's "p" from 0 to 1 as
+       you scroll. On every frame we position + rotate the RV and decide
+       which graphic to show, all from the same sine wave. */
+    const drive = { p: 0 };
+    gsap.to(drive, {
+      p: 1,
+      ease: "none",
       scrollTrigger: {
-        trigger: ".journey",  // watch the whole journey section
-        start: "top top",     // begin when the section top hits the viewport top
-        end: "bottom bottom", // finish when the section bottom hits the viewport bottom
-        scrub: true           // <-- glue the animation to the scrollbar
+        trigger: ".journey",
+        start: "top top",
+        end: "bottom bottom",
+        scrub: true
+      },
+      onUpdate: () => {
+        const theta = 2 * Math.PI * WAVES * drive.p + PHASE;
+        const x = amp * Math.sin(theta);   // sideways position
+        const slope = Math.cos(theta);     // +driving right, -driving left
+
+        // move + tilt the RV slightly into the turn
+        gsap.set(".rv-wrap", { x: x, rotation: slope * 3 });
+
+        // crossfade to the left-facing graphic when driving left.
+        // multiplying by 3 makes the swap quick near each turn.
+        const leftOpacity = gsap.utils.clamp(0, 1, -slope * 3 + 0.5);
+        gsap.set("#rvLeft", { opacity: leftOpacity });
       }
     });
 
-    /* ---------- 2. STOP CARDS REVEAL ----------
-       We loop over every [data-stop] card and give each its OWN trigger.
-       .left cards slide in from the left, .right cards from the right. */
+    /* ---------- STOP CARDS REVEAL ----------
+       Each card slides in from its side and fades up as it appears. */
     gsap.utils.toArray("[data-stop]").forEach((card) => {
       const fromLeft = card.classList.contains("left");
-
       gsap.from(card, {
-        // gsap.from() animates FROM these values TO the element's normal state
-        x: fromLeft ? -120 : 120, // start off to the side
-        autoAlpha: 0,             // start invisible (opacity + visibility)
+        x: fromLeft ? -120 : 120,
+        autoAlpha: 0,
         duration: 0.8,
         ease: "power2.out",
         scrollTrigger: {
           trigger: card,
-          start: "top 80%",            // when the card's top reaches 80% down the screen
-          toggleActions: "play none none reverse" // play in, reverse back out on scroll up
+          start: "top 80%",
+          toggleActions: "play none none reverse"
         }
       });
     });
+
+    // Build the road now, and rebuild whenever things resize. We refresh
+    // ScrollTrigger too so all measurements stay in sync.
+    function refreshAll() {
+      buildRoad();
+      ScrollTrigger.refresh();
+    }
+    window.addEventListener("load", refreshAll);
+    window.addEventListener("resize", refreshAll);
+    buildRoad();
   </script>
 
   <!--  <script src="js/rv-mobile-alumni-center.js"></script>-->
