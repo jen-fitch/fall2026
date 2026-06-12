@@ -1,0 +1,113 @@
+/* ==========================================================================
+   1. GLOBAL LAYER ARCHITECTURE DECLARATION
+   ========================================================================== */
+/* This exact order dictates specificity. Last layer wins over previous ones. */
+@layer bootstrap, reset, base, layout, components;
+
+/* ==========================================================================
+   2. THIRD-PARTY FRAMEWORK LAYER
+   ========================================================================== */
+/* Sandboxes Bootstrap entirely so its classes don't override your custom work */
+
+@import 'bootstrap.min.css' layer(bootstrap);
+/* ==========================================================================
+   3. MODERN RESET LAYER
+   ========================================================================== */
+@layer reset {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    min-height: 100svh;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  img, picture, svg {
+    display: block;
+    max-width: 100%;
+  }
+}
+
+/* ==========================================================================
+   4. BASE DESIGN TOKENS & SYSTEM DEFAULTS
+   ========================================================================== */
+@layer base {
+  :root {
+    /* Custom Design Tokens */
+    --brand-primary: #6f42c1;
+    --brand-secondary: #e83e8c;
+
+    /* Overriding Bootstrap 5 variables natively, must be withing :root */
+    --bs-primary: var(--brand-primary);
+  }
+
+  body {
+    font-family: system-ui, sans-serif;
+    color: var(--bs-body-color);
+    background-color: var(--bs-body-bg);
+  }
+}
+/* Test the .btn-secondary class and override with our custom variable above */
+.btn-secondary {
+  background-color: var(--brand-secondary);
+  border-color: var(--brand-secondary);
+  color: #fff;
+}
+.btn-primary {
+  background-color: var(--brand-primary);
+}
+h1 {
+  color: var(--brand-primary);
+}
+/* ==========================================================================
+   5. MACRO LAYOUT & UTILITIES
+   ========================================================================== */
+@layer layout {
+  /* Layout tweaks that go beyond standard Bootstrap grid wrappers */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: var(--bs-zindex-sticky);
+  }
+}
+
+/* ==========================================================================
+   6. MICRO COMPONENT ARCHITECTURE (Grid Template Areas example)
+   ========================================================================== */
+@layer components {
+  .interactive-promo-card {
+    display: grid;
+    gap: 1rem;
+    padding: 1.5rem;
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    grid-template-areas:
+      "badge"
+      "media"
+      "title"
+      "desc"
+      "actions";
+  }
+
+  .card-badge   { grid-area: badge; justify-self: start; }
+  .card-media   { grid-area: media; background: var(--bs-gray-100); min-height: 200px; }
+  .card-title   { grid-area: title; margin: 0; }
+  .card-desc    { grid-area: desc; margin: 0; }
+  .card-actions { grid-area: actions; }
+
+  /* Responsive layout shuffle matching Bootstrap's 'md' breakpoint */
+  @media (min-width: 768px) {
+    .interactive-promo-card {
+      grid-template-columns: 1fr 300px;
+      grid-template-rows: auto auto 1fr auto;
+      gap: 1.5rem;
+      grid-template-areas:
+        "badge   media"
+        "title   media"
+        "desc    media"
+        "actions media";
+    }
+  }
+}
+
