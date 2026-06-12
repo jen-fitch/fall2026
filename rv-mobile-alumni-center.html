@@ -89,14 +89,33 @@
       margin: 0 auto;
       filter: drop-shadow(0 14px 24px rgba(0,0,0,0.18));
     }
-    /* the large "launch" RV that replaces the state map. It is roughly 4x
-       the size of the driving RV (which is 230px), so it reads as the hero
-       before the journey scales it down and sends it off. */
-    .road-hero .hero-rv {
+    /* ------------------------------------------------------------------
+       LAUNCH SCENE
+       A tall section whose inner wrapper is sticky, so the big RV stays
+       centered on screen while we scroll through it. The scrubbed scale +
+       fade lives in JavaScript. 200vh gives the shrink room to breathe.
+    ------------------------------------------------------------------ */
+    .rv-launch {
+      position: relative;
+      height: 200vh;
+    }
+    .rv-launch-inner {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    /* the large "launch" RV that scales down into the driving RV. It is
+       roughly 4x the size of the driving RV (which is 230px). We set the
+       transform origin to the centre so it shrinks toward the road. */
+    .rv-launch .hero-rv {
       display: block;
       width: 920px;
-      max-width: 100%;
-      margin: 1rem auto 0;
+      max-width: 92vw;
+      transform-origin: center center;
+      will-change: transform, opacity;
       filter: drop-shadow(0 18px 28px rgba(0,0,0,0.22));
     }
 
@@ -244,9 +263,21 @@
       celebrations, the Mobile Alumni Center turns every stop into a chance to
       reconnect and celebrate what it means to be part of the Humboldt family.
     </p>
-    <img class="hero-rv" src="images/rv.png"
-         alt="Illustrated Cal Poly Humboldt motorhome, ready to start its journey">
   </header>
+
+  <!-- ============================================================
+       LAUNCH SCENE
+       The big hero RV lives in its own tall section. The inner wrapper is
+       sticky, so the RV stays centered on screen while you scroll. A
+       scrubbed ScrollTrigger shrinks it down to driving size and fades it
+       out, handing off to the small RV that starts the journey below.
+       ============================================================ -->
+  <section class="rv-launch">
+    <div class="rv-launch-inner">
+      <img class="hero-rv" id="heroRv" src="images/rv.png"
+           alt="Illustrated Cal Poly Humboldt motorhome, ready to start its journey">
+    </div>
+  </section>
 
   <!-- ============================================================
        THE JOURNEY
@@ -493,6 +524,27 @@
        ================================================================ */
 
     gsap.registerPlugin(ScrollTrigger);
+
+    /* ---------- LAUNCH HANDOFF ----------
+       The big hero RV (920px) shrinks down to roughly driving size
+       (230px -> scale 0.25) as you scroll through the .rv-launch section,
+       then fades out near the end so the small journey RV below takes over
+       seamlessly. scrub:true ties it all to the scrollbar. */
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: ".rv-launch",
+        start: "top top",
+        end: "bottom bottom",
+        scrub: true
+      }
+    })
+    .fromTo("#heroRv",
+      { scale: 1, autoAlpha: 1 },
+      { scale: 0.25, ease: "power1.in", duration: 0.85 }   // shrink to driving size
+    )
+    .to("#heroRv",
+      { autoAlpha: 0, ease: "none", duration: 0.15 }       // fade out for the handoff
+    );
 
     // ----- tuning knobs you can play with -----
     const WAVES = 4;          // how many full left-right swings down the page
