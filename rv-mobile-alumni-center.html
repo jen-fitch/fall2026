@@ -99,7 +99,7 @@
     ------------------------------------------------------------------ */
     .journey {
       position: relative;
-      max-width: 980px;
+      max-width: 1140px;
       margin: 0 auto;
       padding: 0 1.5rem;
     }
@@ -157,7 +157,7 @@
     .stop {
       position: relative;
       z-index: 1;
-      max-width: 440px;
+      max-width: 420px;
       margin: -4rem 0 14rem;     /* big gaps so the RV has room to "travel" */
       background: #fbf6e7;
       border-radius: 16px;
@@ -493,49 +493,55 @@
     const roadBase = document.getElementById("roadPath");
     const roadLine = document.getElementById("roadLine");
 
-    // These get filled in by buildRoad() and reused by the scroll handler.
+    // measurements, refreshed by buildRoad() and reused while scrolling
     let centerX = 0;   // horizontal middle of the journey
     let amp = 0;       // how far the RV swings from the middle (pixels)
+    let H = 0;         // total height of the journey section
+    let vh = 0;        // viewport height
 
-    /* The RV is "sticky" at 38% down the viewport, so as you scroll, a
-       different slice of the road passes through that fixed line. This
-       function converts a vertical position inside the road (localY)
-       into the same scroll-progress value the RV uses, so the curve of
-       the road lines up perfectly with the RV's sideways weave. */
-    function xForLocalY(localY, H, vh) {
-      const travel = Math.max(H - vh, 1);          // scrollable distance
-      const p = (localY - vh * 0.38) / travel;     // 0..1 progress at this point
-      return centerX + amp * Math.sin(2 * Math.PI * WAVES * p + PHASE);
+    /* The road is a pure sine curve based on how far DOWN the road you are
+       (y / H). Because it does not depend on scroll position, the curve is
+       continuous from the very top to the very bottom — no straight bits. */
+    function roadXAt(y) {
+      return centerX + amp * Math.sin(2 * Math.PI * WAVES * (y / H) + PHASE);
     }
 
-    /* Draw the road as a sine curve using the math above. We rebuild it
-       whenever the page size changes so it always matches. */
+    /* Draw the road by sampling that curve down its full height. */
     function buildRoad() {
       const W = journey.clientWidth;
-      const H = journey.clientHeight;
-      const vh = window.innerHeight;
+      H = journey.clientHeight;
+      vh = window.innerHeight;
 
       centerX = W / 2;
       amp = Math.min(W * 0.22, 160);   // gentle on phones, bigger on desktop
 
-      // make the SVG use real pixel coordinates
       roadSvg.setAttribute("viewBox", `0 0 ${W} ${H}`);
 
-      // sample points down the road and join them into a path string
       let d = "";
       const STEP = 12;
       for (let y = 0; y <= H; y += STEP) {
-        const x = xForLocalY(y, H, vh);
+        const x = roadXAt(y);
         d += (y === 0 ? "M" : "L") + x.toFixed(1) + " " + y + " ";
       }
       roadBase.setAttribute("d", d);  // the wide tan asphalt
       roadLine.setAttribute("d", d);  // the dashed centre line
     }
 
+    /* ---------- DIRECTION CROSSFADE ----------
+       The two RV graphics are stacked. When the bus changes direction we
+       smoothly fade one out and the other in (instead of showing both). */
+    let facingLeft = false;
+    function setFacing(left) {
+      if (left === facingLeft) return;   // already facing this way, do nothing
+      facingLeft = left;
+      gsap.to("#rvLeft",  { opacity: left ? 1 : 0, duration: 0.35, ease: "power1.inOut", overwrite: true });
+      gsap.to("#rvRight", { opacity: left ? 0 : 1, duration: 0.35, ease: "power1.inOut", overwrite: true });
+    }
+
     /* ---------- THE DRIVING RV ----------
-       One scrubbed tween advances a plain object's "p" from 0 to 1 as
-       you scroll. On every frame we position + rotate the RV and decide
-       which graphic to show, all from the same sine wave. */
+       As you scroll, "prog" runs 0 -> 1 across the journey. We convert that
+       into the exact point of the road sitting at the RV's fixed line, so
+       the bus is always glued to the curve — including at the start/end. */
     const drive = { p: 0 };
     gsap.to(drive, {
       p: 1,
@@ -547,17 +553,20 @@
         scrub: true
       },
       onUpdate: () => {
-        const theta = 2 * Math.PI * WAVES * drive.p + PHASE;
-        const x = amp * Math.sin(theta);   // sideways position
+        // the road point currently at the RV's sticky line (38% down screen)
+        const localY = vh * 0.38 + drive.p * (H - vh);
+        const t = localY / H;
+        const theta = 2 * Math.PI * WAVES * t + PHASE;
+
+        const x = amp * Math.sin(theta);   // sideways offset from centre
         const slope = Math.cos(theta);     // +driving right, -driving left
 
         // move + tilt the RV slightly into the turn
-        gsap.set(".rv-wrap", { x: x, rotation: slope * 3 });
+        gsap.set(".rv-wrap", { x: x, rotation: slope * 4 });
 
-        // crossfade to the left-facing graphic when driving left.
-        // multiplying by 3 makes the swap quick near each turn.
-        const leftOpacity = gsap.utils.clamp(0, 1, -slope * 3 + 0.5);
-        gsap.set("#rvLeft", { opacity: leftOpacity });
+        // pick a facing direction (small dead-zone avoids flicker at a turn)
+        if (slope < -0.04) setFacing(true);
+        else if (slope > 0.04) setFacing(false);
       }
     });
 
