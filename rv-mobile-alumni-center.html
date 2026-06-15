@@ -54,7 +54,7 @@
     /* ---------- Intro / hero ---------- */
     .road-hero {
       max-width: 800px;
-      margin: 0 auto;
+      margin: 0 auto -120px;
       padding: 4rem 1.5rem 2rem;
       text-align: center;
     }
@@ -97,7 +97,7 @@
     .rv-launch {
       position: relative;
       height: 200vh;
-      margin-bottom: -150vh;
+      margin-bottom: -100vh;
       z-index: 2;
     }
     .rv-launch-inner {
@@ -106,6 +106,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      height: 100vh;
     }
     /* the large "launch" RV that scales down into the driving RV. It is
        roughly 4x the size of the driving RV (which is 230px). We set the
@@ -130,7 +131,7 @@
       position: relative;
       max-width: 1140px;
       margin: 0 auto;
-      padding: 0 1.5rem;
+      padding: 0 1.5rem 20rem;
     }
 
     /* the winding road is an SVG that we draw with JavaScript so it can
@@ -166,6 +167,7 @@
       z-index: 1;              /* above the road (0) but BEHIND the stop cards (2) */
       width: 230px;
       margin: 0 auto;
+      opacity: 0;
       pointer-events: none;     /* let scroll/clicks pass through to content */
       will-change: transform;   /* hint the browser we will animate this */
     }
@@ -223,6 +225,36 @@
       margin: 0;
       line-height: 1.6;
       color: #2c3f3a;
+    }
+
+    @media (max-width: 640px) {
+      .road-hero {
+        margin: 0 auto -30px;
+      }
+      .rv-wrap {
+        top: 56vh;
+        z-index: 1;
+        width: 200px;
+      }
+
+      .rv-launch-inner {
+        align-items: flex-start;
+        box-sizing: border-box;
+        padding-top: 2rem;
+      }
+
+      .stop {
+        z-index: 3;
+        margin: 4rem 0 18rem;
+      }
+
+      .stop:first-of-type {
+        margin-top: 2rem;
+      }
+
+      .stop:last-of-type {
+        margin-bottom: 0;
+      }
     }
 
     /* ---------- Outro ---------- */
@@ -495,42 +527,30 @@
 
     gsap.registerPlugin(ScrollTrigger);
 
-    /* ---------- LAUNCH HANDOFF ----------
-       The big hero RV (920px) shrinks down to roughly driving size
-       (230px -> scale 0.25) as you scroll through the .rv-launch section,
-       then fades out near the end so the small journey RV below takes over
-       seamlessly. scrub:true ties it all to the scrollbar. */
-    gsap.timeline({
-      scrollTrigger: {
-        trigger: ".rv-launch",
-        start: "top top",
-        end: "bottom bottom",
-        scrub: true
-      }
-    })
-    .fromTo("#heroRv",
-      { scale: 1, autoAlpha: 1 },
-      { scale: 0.25, ease: "power1.in", duration: 0.85 }   // shrink to driving size
-    )
-    .to("#heroRv",
-      { autoAlpha: 0, ease: "none", duration: 0.15 }       // fade out for the handoff
-    );
-
     // ----- tuning knobs you can play with -----
     const WAVES = 4;          // how many full left-right swings down the page
     const PHASE = Math.PI;    // start on the LEFT and curve toward the RIGHT first
                               // (PHASE = 0 would start on the right instead)
+    const TURN_BLEND = 0.22;   // lower = quicker PNG swap, higher = softer swap
+    const INITIAL_DIRECTION_BLEND = 0.025;
+    const JOURNEY_END_EXTRA = 320;
 
+    const heroRv = document.getElementById("heroRv");
     const journey = document.querySelector(".journey");
+    const roadOutro = document.querySelector(".road-outro");
     const roadSvg = document.querySelector(".road");
     const roadBase = document.getElementById("roadPath");
     const roadLine = document.getElementById("roadLine");
+    const rvWrap = document.querySelector(".rv-wrap");
+    const stopCards = gsap.utils.toArray("[data-stop]");
 
     // measurements, refreshed by buildRoad() and reused while scrolling
     let centerX = 0;   // horizontal middle of the journey
     let amp = 0;       // how far the RV swings from the middle (pixels)
     let H = 0;         // total height of the journey section
     let vh = 0;        // viewport height
+    let launchHandoffAlpha = 0;
+    let journeyProgress = 0;
 
     /* The road is a cosine curve based on how far DOWN the road you are
        (y / H). Using cosine means BOTH ends (y=0 and y=H, with a whole
@@ -571,6 +591,137 @@
       return t * t * (3 - 2 * t);
     }
 
+    function rvCenterYInViewport() {
+      const stickyTop = parseFloat(getComputedStyle(rvWrap).top);
+      const top = Number.isFinite(stickyTop) ? stickyTop : vh * 0.38;
+      return top + rvWrap.offsetHeight / 2;
+    }
+
+    function roadStateAtProgress(progress) {
+      const scrollDistance = H + JOURNEY_END_EXTRA - vh;
+      const localY = rvCenterYInViewport() + progress * scrollDistance;
+      const theta = 2 * Math.PI * WAVES * (localY / H) + PHASE;
+
+      return {
+        x: amp * Math.cos(theta),
+        slope: -Math.sin(theta)
+      };
+    }
+
+    function heroHandoffScale() {
+      return rvWrap.offsetWidth / heroRv.offsetWidth;
+    }
+
+    function heroStartCenterYInViewport() {
+      const inner = heroRv.parentElement;
+      const innerStyle = getComputedStyle(inner);
+
+      if (innerStyle.alignItems === "flex-start") {
+        const paddingTop = parseFloat(innerStyle.paddingTop) || 0;
+        return paddingTop + heroRv.offsetHeight / 2;
+      }
+
+      return vh / 2;
+    }
+
+    function mobileCardCoverAmount() {
+      if (window.innerWidth > 640) return 1;
+
+      const rvRect = rvWrap.getBoundingClientRect();
+      const rvCenterY = rvRect.top + rvRect.height / 2;
+
+      return stopCards.reduce((amount, card) => {
+        const cardRect = card.getBoundingClientRect();
+        const fadeDistance = rvRect.height * 0.6;
+        const coverTop = cardRect.top - rvRect.height * 0.35;
+        const coverBottom = cardRect.bottom + rvRect.height * 0.35;
+        const entering = smoothstep(coverTop, coverTop + fadeDistance, rvCenterY);
+        const leaving = 1 - smoothstep(coverBottom - fadeDistance, coverBottom, rvCenterY);
+
+        return Math.max(amount, entering * leaving);
+      }, 0);
+    }
+
+    function finalRevealY(progress) {
+      if (progress < 0.86) return 0;
+
+      const stickyTop = parseFloat(getComputedStyle(rvWrap).top) || rvCenterYInViewport() - rvWrap.offsetHeight / 2;
+      const rvRect = rvWrap.getBoundingClientRect();
+      const lastCardRect = stopCards[stopCards.length - 1].getBoundingClientRect();
+      const outroRect = roadOutro.getBoundingClientRect();
+      const aboveFooterTop = outroRect.top - rvRect.height - 24;
+      let desiredTop = Math.min(stickyTop, aboveFooterTop);
+
+      if (lastCardRect.bottom < stickyTop + rvRect.height) {
+        desiredTop = Math.max(desiredTop, Math.min(lastCardRect.bottom + 8, aboveFooterTop));
+      }
+
+      return desiredTop - rvRect.top;
+    }
+
+    function setJourneyRv(progress) {
+      const state = roadStateAtProgress(progress);
+
+      // Keep the RV visible through the last-card reveal on all screen sizes.
+      const wrapOpacity = launchHandoffAlpha;
+
+      gsap.set(rvWrap, { x: state.x, y: 0, rotation: state.slope * 4, opacity: wrapOpacity });
+      gsap.set(rvWrap, { y: finalRevealY(progress) });
+
+      // Keep one PNG dominant while the RV is moving clearly left or right.
+      // Only crossfade near the turning point, where the RV changes direction.
+      const turnLeftOpacity = smoothstep(TURN_BLEND, -TURN_BLEND, state.slope);
+      const hardLeftOpacity = state.slope < 0 ? 1 : 0;
+      const mobileCover = mobileCardCoverAmount();
+      const directionLeftOpacity = gsap.utils.interpolate(hardLeftOpacity, turnLeftOpacity, mobileCover);
+      const initialDirectionBlend = smoothstep(0, INITIAL_DIRECTION_BLEND, progress);
+      const leftOpacity = directionLeftOpacity * initialDirectionBlend;
+      gsap.set("#rvLeft",  { opacity: leftOpacity });
+      gsap.set("#rvRight", { opacity: 1 - leftOpacity });
+    }
+
+    function updateHandoffAlpha(self) {
+      launchHandoffAlpha = smoothstep(0.88, 1, self.progress);
+      setJourneyRv(journeyProgress);
+    }
+
+    /* ---------- LAUNCH HANDOFF ----------
+       The big hero RV shrinks, slides, and tilts into the same road point
+       used by the sticky journey RV at progress 0. The journey section now
+       reaches the top of the viewport when this timeline completes, so the
+       two RVs crossfade at the same size and same point on the curve. */
+    buildRoad();
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: ".rv-launch",
+        start: "top top",
+        end: "bottom bottom",
+        scrub: true,
+        invalidateOnRefresh: true,
+        onUpdate: updateHandoffAlpha,
+        onRefresh: updateHandoffAlpha
+      }
+    })
+    .fromTo(heroRv,
+      { scale: 1, x: 0, y: 0, rotation: 0, autoAlpha: 1 },
+      {
+        scale: heroHandoffScale,
+        x: () => roadStateAtProgress(0).x,
+        y: () => rvCenterYInViewport() - heroStartCenterYInViewport(),
+        rotation: () => roadStateAtProgress(0).slope * 4,
+        ease: "power1.inOut",
+        duration: 0.88
+      }
+    )
+    .to(heroRv,
+      { autoAlpha: 0, ease: "none", duration: 0.12 }
+    );
+
+    function updateJourneyRv(self) {
+      journeyProgress = self.progress;   // 0 at the top of the journey, 1 at the bottom
+      setJourneyRv(journeyProgress);
+    }
+
     /* ---------- THE DRIVING RV ----------
        We read ScrollTrigger's own "progress" (0 -> 1 across the journey)
        on every update. Driving it straight from progress means the RV is
@@ -579,42 +730,15 @@
     ScrollTrigger.create({
       trigger: ".journey",
       start: "top top",
-      end: "bottom bottom",
+      end: () => `bottom+=${JOURNEY_END_EXTRA} bottom`,
       scrub: true,
-      onUpdate: (self) => {
-        const p = self.progress;   // 0 at the top of the journey, 1 at the bottom
-
-        // the road point currently at the RV's sticky line (38% down screen)
-        const localY = vh * 0.38 + p * (H - vh);
-        const theta = 2 * Math.PI * WAVES * (localY / H) + PHASE;
-
-        const x = amp * Math.cos(theta);          // sideways offset from centre
-        const slope = -Math.sin(theta);           // dx/dy: + driving right, - driving left
-
-        // entry/exit fade: the bus fades IN over the first 12% of the
-        // journey and fades OUT over the last 12%. This hides the flatter
-        // motion at the very top and bottom so it never looks like the RV
-        // is just sliding down a straight line.
-        const fadeIn = smoothstep(0, 0.12, p);
-        const fadeOut = smoothstep(1, 0.88, p);
-        const wrapOpacity = fadeIn * fadeOut;
-
-        // move + tilt the RV, and apply the entry/exit fade to the wrapper
-        gsap.set(".rv-wrap", { x: x, rotation: slope * 4, opacity: wrapOpacity });
-
-        // continuous crossfade across the FULL weave: as the slope swings
-        // from +1 (driving right) to -1 (driving left), the two graphics
-        // gradually dissolve into each other the whole time, so there is
-        // never a hard swap — just a constant, gentle fade.
-        const leftOpacity = smoothstep(1, -1, slope);
-        gsap.set("#rvLeft",  { opacity: leftOpacity });
-        gsap.set("#rvRight", { opacity: 1 - leftOpacity });
-      }
+      onUpdate: updateJourneyRv,
+      onRefresh: updateJourneyRv
     });
 
     /* ---------- STOP CARDS REVEAL ----------
        Each card slides in from its side and fades up as it appears. */
-    gsap.utils.toArray("[data-stop]").forEach((card) => {
+    stopCards.forEach((card) => {
       const fromLeft = card.classList.contains("left");
       gsap.from(card, {
         x: fromLeft ? -120 : 120,
@@ -637,7 +761,7 @@
     }
     window.addEventListener("load", refreshAll);
     window.addEventListener("resize", refreshAll);
-    buildRoad();
+    refreshAll();
   </script>
 
   <!--  <script src="js/rv-mobile-alumni-center.js"></script>-->
