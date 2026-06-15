@@ -518,6 +518,7 @@
     const TURN_BLEND = 0.22;   // lower = quicker PNG swap, higher = softer swap
     const INITIAL_DIRECTION_BLEND = 0.025;
     const JOURNEY_END_EXTRA = 320;
+    const HANDOFF_FADE_START = 0.92;
 
     const heroRv = document.getElementById("heroRv");
     const journey = document.querySelector(".journey");
@@ -558,7 +559,7 @@
 
       let d = "";
       const STEP = 12;
-      const startY = rvCenterYInViewport();
+      const startY = rvCenterYInViewport() + rvWrap.offsetHeight * 0.28;
       let lastY = startY;
       for (let y = startY; y <= H; y += STEP) {
         const x = roadXAt(y);
@@ -681,7 +682,7 @@
     }
 
     function updateHandoffAlpha(self) {
-      launchHandoffAlpha = smoothstep(0.88, 1, self.progress);
+      launchHandoffAlpha = smoothstep(HANDOFF_FADE_START, 1, self.progress);
       setJourneyRv(journeyProgress);
     }
 
@@ -714,7 +715,10 @@
       }
     )
     .to(heroRv,
-      { autoAlpha: 0, ease: "none", duration: 0.12 }
+      { autoAlpha: 1, ease: "none", duration: 0.04 }
+    )
+    .to(heroRv,
+      { autoAlpha: 0, ease: "none", duration: 0.03 }
     );
 
     function updateJourneyRv(self) {
