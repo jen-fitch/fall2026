@@ -561,7 +561,7 @@
       return centerX + amp * Math.cos(2 * Math.PI * WAVES * (y / H) + PHASE);
     }
 
-    /* Draw the road by sampling that curve down its full height. */
+    /* Draw the road from the RV handoff line down through the page. */
     function buildRoad() {
       const W = journey.clientWidth;
       H = journey.clientHeight;
@@ -574,9 +574,16 @@
 
       let d = "";
       const STEP = 12;
-      for (let y = 0; y <= H; y += STEP) {
+      const startY = rvCenterYInViewport();
+      let lastY = startY;
+      for (let y = startY; y <= H; y += STEP) {
         const x = roadXAt(y);
-        d += (y === 0 ? "M" : "L") + x.toFixed(1) + " " + y + " ";
+        d += (y === startY ? "M" : "L") + x.toFixed(1) + " " + y.toFixed(1) + " ";
+        lastY = y;
+      }
+      if (lastY < H) {
+        const x = roadXAt(H);
+        d += "L" + x.toFixed(1) + " " + H.toFixed(1) + " ";
       }
       roadBase.setAttribute("d", d);  // the wide tan asphalt
       roadLine.setAttribute("d", d);  // the dashed centre line
@@ -597,9 +604,13 @@
       return top + rvWrap.offsetHeight / 2;
     }
 
-    function roadStateAtProgress(progress) {
+    function roadStateAtProgress(progress, yOffset = 0) {
       const scrollDistance = H + JOURNEY_END_EXTRA - vh;
-      const localY = rvCenterYInViewport() + progress * scrollDistance;
+      const localY = rvCenterYInViewport() + progress * scrollDistance + yOffset;
+      return roadStateAtLocalY(localY);
+    }
+
+    function roadStateAtLocalY(localY) {
       const theta = 2 * Math.PI * WAVES * (localY / H) + PHASE;
 
       return {
@@ -656,17 +667,22 @@
         desiredTop = Math.max(desiredTop, Math.min(lastCardRect.bottom + 8, aboveFooterTop));
       }
 
-      return desiredTop - rvRect.top;
+      const correction = Math.max(0, desiredTop - rvRect.top);
+      return correction * smoothstep(0.86, 0.96, progress);
     }
 
     function setJourneyRv(progress) {
-      const state = roadStateAtProgress(progress);
-
       // Keep the RV visible through the last-card reveal on all screen sizes.
       const wrapOpacity = launchHandoffAlpha;
+      gsap.set(rvWrap, { y: 0 });
 
-      gsap.set(rvWrap, { x: state.x, y: 0, rotation: state.slope * 4, opacity: wrapOpacity });
-      gsap.set(rvWrap, { y: finalRevealY(progress) });
+      const revealY = finalRevealY(progress);
+      const rvRect = rvWrap.getBoundingClientRect();
+      const journeyRect = journey.getBoundingClientRect();
+      const localY = rvRect.top + revealY + rvRect.height / 2 - journeyRect.top;
+      const state = roadStateAtLocalY(localY);
+
+      gsap.set(rvWrap, { x: state.x, y: revealY, rotation: state.slope * 4, opacity: wrapOpacity });
 
       // Keep one PNG dominant while the RV is moving clearly left or right.
       // Only crossfade near the turning point, where the RV changes direction.
