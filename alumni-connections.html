@@ -15,9 +15,9 @@
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Humboldt The Magazine of Cal Poly Humboldt | Fall 2026</title>
+  <title>The Power of a Humboldt Connection | Humboldt The Magazine of Cal Poly Humboldt | Fall 2026</title>
 
-    <!-- Adobe Typekit fonts -->
+  <!-- Adobe Typekit fonts -->
   <link rel="stylesheet" href="https://use.typekit.net/fxx7vks.css">
 
   <link rel="stylesheet" href="css/main.css">
@@ -32,31 +32,609 @@
   <meta name="theme-color" content="#ffffff">
   <!-- Facebook Meta Tags -->
   <meta property="og:type" content="article">
-  <meta property="og:url"
-    content="https://now.humboldt.edu/magazine/index.html">
-  <meta property="og:title"
-    content="Humboldt The Magazine of Cal Poly Humboldt | Fall 2026">
-  <meta property="og:description"
-    content="Humboldt The Magazine of Cal Poly Humboldt">
+  <meta property="og:url" content="https://now.humboldt.edu/magazine/alumni-connections.html">
+  <meta property="og:title" content="The Power of a Humboldt Connection | Humboldt The Magazine of Cal Poly Humboldt | Fall 2026">
+  <meta property="og:description" content="A new mentorship program brings students and alumni together for low-pressure conversations about careers, purpose, and possibility.">
 
+  <style>
+    :root {
+      --connection-ink: #15221d;
+      --connection-green: #174d3a;
+      --connection-gold: #f0b323;
+      --connection-blue: #426f88;
+      --connection-clay: #a55233;
+      --connection-paper: #fffdf8;
+      --connection-wash: #f1efe6;
+      --connection-mist: #e7f0ed;
+      --connection-line: rgba(21, 34, 29, 0.16);
+      --connection-soft-line: rgba(21, 34, 29, 0.09);
+    }
+
+    body {
+      background: var(--connection-paper);
+      color: var(--connection-ink);
+      font-family: "freight-sans-pro", system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: var(--connection-green);
+      text-decoration-color: rgba(23, 77, 58, 0.35);
+      text-decoration-thickness: 0.08em;
+      text-underline-offset: 0.16em;
+    }
+
+    a:hover {
+      color: var(--connection-clay);
+      text-decoration-color: currentColor;
+    }
+
+    .connection-article {
+      background:
+        linear-gradient(180deg, rgba(231, 240, 237, 0.95) 0, rgba(255, 253, 248, 0.7) 490px, rgba(255, 253, 248, 0) 760px),
+        var(--connection-paper);
+      min-height: 100svh;
+      overflow-x: clip;
+    }
+
+    .connection-article .container-xl {
+      max-width: min(1160px, 100%);
+    }
+
+    .story-hero {
+      padding: 3.25rem 0 2.75rem;
+    }
+
+    .kicker,
+    .section-note,
+    .collab-label,
+    .photo-placeholder::after,
+    .byline,
+    .quote-panel cite {
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .kicker {
+      color: var(--connection-clay);
+      font-size: 0.86rem;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 1.1rem;
+    }
+
+    .story-hero h1 {
+      color: var(--connection-ink);
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: 0;
+      line-height: 0.98;
+      margin: 0 0 1.25rem;
+      max-width: 9.8em;
+    }
+
+    .story-deck {
+      border-left: 5px solid var(--connection-gold);
+      color: var(--connection-green);
+      font-size: 1.28rem;
+      font-weight: 600;
+      line-height: 1.35;
+      margin: 0 0 1.2rem;
+      max-width: 34rem;
+      padding-left: 1rem;
+    }
+
+    .byline {
+      color: rgba(21, 34, 29, 0.68);
+      font-size: 0.88rem;
+      font-weight: 800;
+      margin: 0 0 1.5rem;
+    }
+
+    .collab-strip {
+      align-items: center;
+      border-top: 1px solid var(--connection-line);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      max-width: 39rem;
+      padding-top: 1rem;
+    }
+
+    .collab-label {
+      color: rgba(21, 34, 29, 0.64);
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+
+    .collab-pill {
+      border: 1px solid var(--connection-line);
+      border-radius: 999px;
+      color: var(--connection-ink);
+      display: inline-flex;
+      font-size: 0.92rem;
+      font-weight: 700;
+      line-height: 1.2;
+      padding: 0.44rem 0.72rem;
+      text-decoration: none;
+    }
+
+    .hero-photo,
+    .story-photo {
+      margin: 0;
+    }
+
+    .hero-photo {
+      position: relative;
+    }
+
+    .hero-photo figcaption,
+    .story-photo figcaption {
+      color: rgba(21, 34, 29, 0.68);
+      font-size: 0.86rem;
+      line-height: 1.4;
+      margin-top: 0.7rem;
+    }
+
+    .photo-placeholder {
+      align-items: end;
+      aspect-ratio: 4 / 3;
+      background:
+        linear-gradient(135deg, var(--photo-a), var(--photo-b)),
+        linear-gradient(45deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0));
+      border: 1px solid rgba(21, 34, 29, 0.1);
+      border-radius: 8px;
+      color: #fff;
+      display: flex;
+      min-height: 220px;
+      overflow: hidden;
+      padding: 1rem;
+      position: relative;
+    }
+
+    .photo-placeholder::before {
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.18) 0 1px, transparent 1px 100%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.14) 0 1px, transparent 1px 100%);
+      background-size: 36px 36px;
+      content: "";
+      inset: 0;
+      opacity: 0.7;
+      position: absolute;
+    }
+
+    .photo-placeholder::after {
+      background: rgba(21, 34, 29, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 999px;
+      color: #fff;
+      content: attr(data-label);
+      font-size: 0.76rem;
+      font-weight: 800;
+      line-height: 1.2;
+      padding: 0.55rem 0.72rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .photo-placeholder.hero {
+      --photo-a: rgba(23, 77, 58, 0.94);
+      --photo-b: rgba(66, 111, 136, 0.86);
+      aspect-ratio: 5 / 4;
+      min-height: 340px;
+    }
+
+    .photo-placeholder.forum {
+      --photo-a: rgba(165, 82, 51, 0.9);
+      --photo-b: rgba(240, 179, 35, 0.72);
+      aspect-ratio: 16 / 7;
+      min-height: 250px;
+    }
+
+    .photo-placeholder.roundtable {
+      --photo-a: rgba(66, 111, 136, 0.92);
+      --photo-b: rgba(23, 77, 58, 0.82);
+    }
+
+    .photo-placeholder.mentor {
+      --photo-a: rgba(126, 121, 70, 0.9);
+      --photo-b: rgba(165, 82, 51, 0.76);
+    }
+
+    .photo-placeholder.student {
+      --photo-a: rgba(23, 77, 58, 0.92);
+      --photo-b: rgba(240, 179, 35, 0.72);
+    }
+
+    .intro-band {
+      border-top: 1px solid var(--connection-line);
+      padding: 2.4rem 0 1rem;
+    }
+
+    .article-lead {
+      color: var(--connection-green);
+      font-size: 1.22rem;
+      font-weight: 500;
+      line-height: 1.58;
+      margin-bottom: 1.1rem;
+    }
+
+    .story-body {
+      padding: 1rem 0 5rem;
+    }
+
+    .story-section {
+      border-top: 1px solid var(--connection-line);
+      padding: 3rem 0;
+    }
+
+    .story-section h2 {
+      color: var(--connection-green);
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: 0;
+      line-height: 1.08;
+      margin: 0 0 1.4rem;
+    }
+
+    .story-copy {
+      font-size: 1.08rem;
+      line-height: 1.74;
+    }
+
+    .story-copy p {
+      margin: 0 0 1.25rem;
+    }
+
+    .story-copy p:last-child {
+      margin-bottom: 0;
+    }
+
+    .section-note {
+      color: rgba(21, 34, 29, 0.62);
+      font-size: 0.82rem;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 0.85rem;
+    }
+
+    .collab-note {
+      background: var(--connection-wash);
+      border-left: 5px solid var(--connection-green);
+      border-radius: 0 8px 8px 0;
+      color: var(--connection-ink);
+      margin-top: 1.5rem;
+      padding: 1.15rem 1.2rem;
+    }
+
+    .collab-note strong {
+      color: var(--connection-green);
+      display: block;
+      font-size: 1rem;
+      line-height: 1.25;
+      margin-bottom: 0.35rem;
+    }
+
+    .collab-note p {
+      font-size: 0.98rem;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .photo-strip,
+    .photo-grid,
+    .voice-grid {
+      margin-top: 2rem;
+    }
+
+    .voice-grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: 1fr;
+    }
+
+    .quote-panel {
+      border: 1px solid var(--connection-line);
+      border-radius: 8px;
+      color: var(--connection-green);
+      margin: 0;
+      padding: 1.25rem;
+    }
+
+    .quote-panel.gold {
+      border-color: rgba(240, 179, 35, 0.55);
+      background: rgba(240, 179, 35, 0.09);
+    }
+
+    .quote-panel.blue {
+      border-color: rgba(66, 111, 136, 0.36);
+      background: rgba(66, 111, 136, 0.08);
+    }
+
+    .quote-panel p {
+      font-size: 1.3rem;
+      font-weight: 800;
+      letter-spacing: 0;
+      line-height: 1.18;
+      margin: 0;
+    }
+
+    .quote-panel cite {
+      color: rgba(21, 34, 29, 0.64);
+      display: block;
+      font-size: 0.8rem;
+      font-style: normal;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-top: 0.9rem;
+    }
+
+    .closing-panel {
+      background: var(--connection-green);
+      border-radius: 8px;
+      color: #fff;
+      padding: 1.6rem;
+    }
+
+    .closing-panel p {
+      font-size: 1.34rem;
+      font-weight: 800;
+      line-height: 1.25;
+      margin: 0;
+    }
+
+    .closing-panel cite {
+      color: rgba(255, 255, 255, 0.76);
+      display: block;
+      font-size: 0.84rem;
+      font-style: normal;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-top: 0.95rem;
+      text-transform: uppercase;
+    }
+
+    @media (min-width: 768px) {
+      .story-hero {
+        padding: 4.5rem 0 3.5rem;
+      }
+
+      .story-hero h1 {
+        font-size: 4.55rem;
+      }
+
+      .story-deck {
+        font-size: 1.5rem;
+      }
+
+      .voice-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .quote-panel p {
+        font-size: 1.55rem;
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .story-hero h1 {
+        font-size: 5.25rem;
+      }
+
+      .story-section h2 {
+        font-size: 2.45rem;
+      }
+
+      .story-copy {
+        font-size: 1.13rem;
+      }
+    }
+
+    @media (max-width: 767.98px) {
+      .story-hero {
+        padding-top: 2.5rem;
+      }
+
+      .story-hero h1 {
+        max-width: none;
+      }
+
+      .collab-strip {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .story-section {
+        padding: 2.3rem 0;
+      }
+
+      .photo-placeholder.hero,
+      .photo-placeholder.forum {
+        aspect-ratio: 4 / 3;
+        min-height: 240px;
+      }
+    }
+  </style>
 </head>
 
 <body>
-  <h1>Hello, world!</h1>
-  <h3>
-    Fancy display heading
-    <small class="text-body-secondary">With faded secondary text</small>
-  </h3>
-  <ul>
-    <li>List item 1</li>
-    <li>List item 2</li>
-    <li>List item 3</li>
-  </ul>
+  <main class="connection-article">
+    <section class="story-hero" aria-labelledby="story-title">
+      <div class="container-xl">
+        <div class="row align-items-end g-5">
+          <div class="col-lg-6">
+            <div class="kicker">Alumni Connections</div>
+            <h1 id="story-title">The Power of a Humboldt Connection</h1>
+            <p class="story-deck">A new mentorship program brings students and alumni together for low-pressure conversations about careers, purpose, and possibility.</p>
+            <p class="byline">By Iridian Casarez</p>
+            <div class="collab-strip" aria-label="Program collaborators">
+              <span class="collab-label">A collaboration between</span>
+              <a class="collab-pill" href="https://www.humboldt.edu/forever">Alumni Relations</a>
+              <a class="collab-pill" href="https://www.humboldt.edu/career-development">Career Development Center</a>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <figure class="hero-photo">
+              <div class="photo-placeholder hero" role="img" aria-label="Placeholder for a photo of students and alumni meeting in the Goodwin Forum." data-label="Photo TBD: Goodwin Forum"></div>
+              <figcaption>Placeholder for a lead photo of students and alumni meeting for Alumni Connections.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="intro-band">
+      <div class="container-xl">
+        <div class="row justify-content-center">
+          <div class="col-lg-9 story-copy">
+            <p class="article-lead">On a partly sunny afternoon inside the Goodwin Forum, students settled into chairs across from Cal Poly Humboldt alumni, ready for conversations that could shape what comes next.</p>
+            <p>The event, called Alumni Connections, felt a little like speed dating. But instead of romance, students were seeking advice, encouragement, and a clearer sense of life after college. Around the room, alumni from different decades and career paths shared stories about first jobs, unexpected turns, transferable skills, and the lessons they wished they had known as students.</p>
+            <p>Created through a partnership between <a href="https://www.humboldt.edu/forever">Alumni Relations</a> and the <a href="https://www.humboldt.edu/career-development">Career Development Center</a>, Alumni Connections is Cal Poly Humboldt&rsquo;s newest mentorship program. It is designed to bring students and alumni together for meaningful, low-pressure conversations about careers, purpose, and possibility.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <article class="story-body">
+      <div class="container-xl">
+        <section class="story-section">
+          <div class="row g-5">
+            <div class="col-lg-4">
+              <div class="section-note">Partnership</div>
+              <h2>More Than an Event</h2>
+              <aside class="collab-note">
+                <strong>Forever Humboldt brings the alumni. Career Development brings the students.</strong>
+                <p>Together, the teams created a room built for practical advice, warm introductions, and conversations students can carry forward.</p>
+              </aside>
+            </div>
+            <div class="col-lg-8 story-copy">
+              <p>&ldquo;We wanted something authentic to Humboldt, relationship-based, organic, and sustainable,&rdquo; says J.D. Garza-Valencia, director of the Career Development Center.</p>
+              <p>The idea grew from conversations happening across the California State University as Graduation Initiative 2025 neared its conclusion. CSU campuses were offered funding to develop mentorship programs, but Stephanie Lane, director of Alumni Relations, knew Humboldt needed more than a single event.</p>
+              <p>&ldquo;We wanted to build something meaningful, not rushed,&rdquo; Lane says.</p>
+              <p>That intention became the foundation for Alumni Connections. Lane, Garza-Valencia, and Dan Sealy, the CSU alumni representative for Cal Poly Humboldt, began shaping a program that would reflect Humboldt&rsquo;s strengths: close relationships, practical advice, and alumni eager to give back.</p>
+              <p>The formula was simple. Forever Humboldt would bring the alumni. Career Development would bring the students. Together, they would create space for conversation.</p>
+
+              <figure class="story-photo photo-strip">
+                <div class="photo-placeholder forum" role="img" aria-label="Placeholder for a wide room photo of the Alumni Connections event." data-label="Photo TBD: Room Setup"></div>
+                <figcaption>Suggested placement for a wide room photo showing the event setting and student-alumni conversations.</figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+        <section class="story-section">
+          <div class="row g-5 align-items-start">
+            <div class="col-lg-4">
+              <div class="section-note">How It Works</div>
+              <h2>An Evening Built for Conversation</h2>
+            </div>
+            <div class="col-lg-5 story-copy">
+              <p>Each semester, students are invited to meet alumni for an evening of connection. Alumni introduce themselves, share their fields and areas of expertise, then rotate into smaller conversations with students.</p>
+              <p>Some students arrive with focused career questions. Others come simply curious about what is possible with their degree.</p>
+              <p>&ldquo;Some students are brand new and still figuring things out,&rdquo; Garza-Valencia says. &ldquo;Others are very focused and already know exactly what they want. But both groups are showing initiative by walking into the room and choosing to engage.&rdquo;</p>
+            </div>
+            <aside class="col-lg-3">
+              <blockquote class="quote-panel gold">
+                <p>&ldquo;They are showing initiative by walking into the room and choosing to engage.&rdquo;</p>
+                <cite>J.D. Garza-Valencia</cite>
+              </blockquote>
+            </aside>
+          </div>
+        </section>
+
+        <section class="story-section">
+          <div class="row g-5">
+            <div class="col-lg-4">
+              <div class="section-note">Alumni Voices</div>
+              <h2>Returning as Guides</h2>
+            </div>
+            <div class="col-lg-8 story-copy">
+              <p>For alumni, the program offers something equally meaningful: a chance to return to Humboldt not just as graduates but as guides.</p>
+              <p>Walter Herzog (&rsquo;90, Forestry) participated because he valued his own Humboldt experience and wanted to share what he has learned since. Herzog says mentorship does not have to be formal to be powerful. Sometimes, it begins with listening.</p>
+              <p>&ldquo;Mentorship can be someone who is a good listener and knows how to give advice or guidance as needed,&rdquo; Herzog says.</p>
+              <p>His hope is that students leave with advice that helps steer them toward work they care about. During the event, he was struck by how engaged students were.</p>
+              <p>&ldquo;The students who participated seemed genuinely interested in pursuing careers in natural resources,&rdquo; Herzog says. &ldquo;They asked thoughtful questions, and the event was a great way to share experiences with future Humboldt alumni.&rdquo;</p>
+              <p>Angelic Sorenson signed up with a spirit of generosity. She says she is happy to share information she would have liked to have had at the beginning of her career.</p>
+              <p>For Sorenson, mentorship is about offering support while encouraging students to grow beyond what their mentors can teach them. Her advice to students is to stay flexible and be open to opportunities, even when those opportunities do not seem directly connected to a goal. That kind of openness, Sorenson says, can shape a career in unexpected and meaningful ways.</p>
+
+              <div class="row g-3 photo-grid">
+                <div class="col-md-6">
+                  <figure class="story-photo">
+                    <div class="photo-placeholder roundtable" role="img" aria-label="Placeholder for a photo of an alumni mentor talking with students." data-label="Photo TBD: Alumni Mentor"></div>
+                    <figcaption>Future photo slot for an alumni mentor in conversation with students.</figcaption>
+                  </figure>
+                </div>
+                <div class="col-md-6">
+                  <figure class="story-photo">
+                    <div class="photo-placeholder mentor" role="img" aria-label="Placeholder for a portrait or conversation photo of a participating alum." data-label="Photo TBD: Alumni Voice"></div>
+                    <figcaption>Future photo slot for a participating alum or small-group discussion.</figcaption>
+                  </figure>
+                </div>
+              </div>
+
+              <div class="voice-grid">
+                <blockquote class="quote-panel blue">
+                  <p>&ldquo;My philosophy is to give what I can when I can.&rdquo;</p>
+                  <cite>Angelic Sorenson (&rsquo;00, Environmental Resources Engineering)</cite>
+                </blockquote>
+                <blockquote class="quote-panel">
+                  <p>&ldquo;Mentorship is providing supportive guidance with the ultimate goal of the student outperforming the teacher.&rdquo;</p>
+                  <cite>Angelic Sorenson</cite>
+                </blockquote>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="story-section">
+          <div class="row g-5">
+            <div class="col-lg-4">
+              <div class="section-note">Student Perspective</div>
+              <h2>What Students Take With Them</h2>
+            </div>
+            <div class="col-lg-8 story-copy">
+              <p>For Jared Kawanami, a Forestry major, Alumni Connections offered something he deeply values: intergenerational information sharing.</p>
+              <p>Kawanami attended because he wanted to meet people who had already moved beyond college and into the workforce. He also wanted to hear from alumni whose paths were not always linear.</p>
+              <p>&ldquo;It was interesting to see the different ways that people have made their careers work,&rdquo; Kawanami says.</p>
+              <p>One conversation led him to an alum connected with the Trinidad Rancheria, who offered to introduce him to their natural resources department. Though the alum&rsquo;s expertise was not directly tied to his field, Kawanami saw the value in the exchange.</p>
+              <p>&ldquo;You never know who they&rsquo;re going to be, and what you might hear about,&rdquo; Kawanami says.</p>
+
+              <figure class="story-photo photo-strip">
+                <div class="photo-placeholder student" role="img" aria-label="Placeholder for a photo of a student speaking with an alum at Alumni Connections." data-label="Photo TBD: Student Conversation"></div>
+                <figcaption>Suggested placement for a student-focused conversation photo from Alumni Connections.</figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+        <section class="story-section">
+          <div class="row g-5 align-items-start">
+            <div class="col-lg-4">
+              <div class="section-note">What Comes Next</div>
+              <h2>Beyond Job Titles</h2>
+            </div>
+            <div class="col-lg-5 story-copy">
+              <p>That idea is central to Alumni Connections. Students may arrive expecting advice from someone in their exact field, but the program encourages them to see beyond job titles.</p>
+              <p>Communication, collaboration, leadership, project management, and adaptability matter across all careers.</p>
+              <p>&ldquo;Every alum has something to offer, and every student can gain something from these conversations,&rdquo; Lane says.</p>
+              <p>The program is already evolving. Early events were broad, but future gatherings may focus on specific colleges, disciplines, or career fields. For now, the program&rsquo;s power lies in the room itself: in students choosing to show up, in alumni choosing to return, and in conversations that remind both groups they are part of something larger.</p>
+              <p>Kawanami says he would encourage other students to attend.</p>
+            </div>
+            <aside class="col-lg-3">
+              <blockquote class="closing-panel">
+                <p>&ldquo;They have that sort of experience of what you&rsquo;ve been through, and they care enough to come back and help you.&rdquo;</p>
+                <cite>Jared Kawanami</cite>
+              </blockquote>
+            </aside>
+          </div>
+        </section>
+      </div>
+    </article>
+  </main>
 
   <!-- Bootstrap JavaScript -->
- <script src="js/bootstrap.bundle.min.js"></script>
- <script src="js/gsap.min.js"></script>
- <script src="js/main.js"></script>
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="js/main.js"></script>
 </body>
 
 </html>
