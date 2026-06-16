@@ -220,6 +220,7 @@
       background:
         linear-gradient(145deg, rgba(75, 135, 151, 0.84), rgba(37, 77, 61, 0.76)),
         linear-gradient(45deg, rgba(217, 201, 165, 0.7), rgba(255, 253, 247, 0.1));
+      border: 1px solid rgba(23, 37, 31, 0.1);
       border-radius: 8px;
       color: #fff;
       display: flex;
@@ -236,21 +237,21 @@
       background-size: 34px 34px;
       content: "";
       inset: 0;
-      opacity: 0.42;
+      opacity: 0.7;
       position: absolute;
     }
 
     .photo-placeholder::after {
-      background: rgba(23, 37, 31, 0.72);
-      border-radius: 999px;
       color: #fff;
       content: attr(data-label);
-      font-size: 0.76rem;
+      font-size: 0.9rem;
       font-weight: 800;
-      letter-spacing: 0.08em;
+      letter-spacing: 0;
       line-height: 1.2;
-      padding: 0.55rem 0.7rem;
+      opacity: 0.72;
+      padding: 0;
       position: relative;
+      text-shadow: 0 2px 16px rgba(23, 37, 31, 0.55);
       text-transform: uppercase;
       z-index: 1;
     }
