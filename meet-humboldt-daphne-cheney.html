@@ -15,7 +15,7 @@
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Humboldt The Magazine of Cal Poly Humboldt | Fall 2026</title>
+  <title>Daphne Cheney | Humboldt The Magazine of Cal Poly Humboldt | Fall 2026</title>
 
     <!-- Adobe Typekit fonts -->
   <link rel="stylesheet" href="https://use.typekit.net/fxx7vks.css">
@@ -35,28 +35,538 @@
   <meta property="og:url"
     content="https://now.humboldt.edu/magazine/index.html">
   <meta property="og:title"
-    content="Humboldt The Magazine of Cal Poly Humboldt | Fall 2026">
+    content="Daphne Cheney | Humboldt The Magazine of Cal Poly Humboldt | Fall 2026">
   <meta property="og:description"
-    content="Humboldt The Magazine of Cal Poly Humboldt">
+    content="Finding Her Current: How One Fisheries Student Turned a Rural Upbringing, Mentorship, and a Love of Rivers into Purpose">
+  <style>
+    :root {
+      --daphne-ink: #17251f;
+      --daphne-forest: #254d3d;
+      --daphne-river: #4b8797;
+      --daphne-mist: #edf5f4;
+      --daphne-paper: #fffdf7;
+      --daphne-silt: #d9c9a5;
+      --daphne-clay: #9b5b3d;
+      --daphne-line: rgba(23, 37, 31, 0.14);
+    }
+
+    body {
+      background: var(--daphne-paper);
+      color: var(--daphne-ink);
+      font-family: "freight-sans-pro", system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+
+    .meet-article {
+      background:
+        linear-gradient(180deg, rgba(237, 245, 244, 0.9) 0, rgba(255, 253, 247, 0) 520px),
+        var(--daphne-paper);
+      min-height: 100svh;
+      overflow-x: clip;
+    }
+
+    .meet-article .container-xl {
+      max-width: min(1140px, 100%);
+    }
+
+    .story-hero {
+      padding: 4rem 0 3rem;
+    }
+
+    .kicker {
+      color: var(--daphne-clay);
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      line-height: 1.2;
+      margin-bottom: 1.4rem;
+      text-transform: uppercase;
+    }
+
+    .story-hero h1 {
+      color: var(--daphne-ink);
+      font-size: 2.8rem;
+      font-weight: 800;
+      letter-spacing: 0;
+      line-height: 0.96;
+      margin: 0 0 1.25rem;
+      max-width: 9.5em;
+    }
+
+    .story-deck {
+      border-left: 5px solid var(--daphne-river);
+      color: var(--daphne-forest);
+      font-size: 1.32rem;
+      font-weight: 600;
+      line-height: 1.28;
+      margin: 0;
+      max-width: 34rem;
+      padding-left: 1rem;
+    }
+
+    .hero-photo {
+      margin: 0;
+      position: relative;
+    }
+
+    .hero-photo img {
+      aspect-ratio: 1 / 1;
+      border-radius: 8px;
+      height: auto;
+      object-fit: cover;
+      width: 100%;
+    }
+
+    .hero-photo figcaption,
+    .story-photo figcaption {
+      color: rgba(23, 37, 31, 0.68);
+      font-size: 0.86rem;
+      line-height: 1.4;
+      margin-top: 0.7rem;
+    }
+
+    .intro-band {
+      border-top: 1px solid var(--daphne-line);
+      padding: 2.5rem 0 1rem;
+    }
+
+    .article-lead {
+      color: var(--daphne-forest);
+      font-size: 1.22rem;
+      font-weight: 500;
+      line-height: 1.58;
+      margin-bottom: 1.1rem;
+    }
+
+    .story-body {
+      padding: 1rem 0 5rem;
+    }
+
+    .story-section {
+      border-top: 1px solid var(--daphne-line);
+      padding: 3rem 0;
+    }
+
+    .story-section h2 {
+      color: var(--daphne-forest);
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: 0;
+      line-height: 1.08;
+      margin: 0 0 1.4rem;
+    }
+
+    .story-copy {
+      font-size: 1.08rem;
+      line-height: 1.74;
+    }
+
+    .story-copy p {
+      margin: 0 0 1.25rem;
+    }
+
+    .story-copy p:last-child {
+      margin-bottom: 0;
+    }
+
+    .section-note {
+      color: rgba(23, 37, 31, 0.64);
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.85rem;
+      text-transform: uppercase;
+    }
+
+    .pull-quote {
+      border-bottom: 1px solid var(--daphne-line);
+      border-top: 1px solid var(--daphne-line);
+      color: var(--daphne-forest);
+      margin: 0;
+      padding: 1.6rem 0;
+    }
+
+    .pull-quote p {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: 0;
+      line-height: 1.13;
+      margin: 0;
+    }
+
+    .pull-quote cite {
+      color: rgba(23, 37, 31, 0.64);
+      display: block;
+      font-size: 0.86rem;
+      font-style: normal;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      margin-top: 1rem;
+      text-transform: uppercase;
+    }
+
+    .photo-strip,
+    .photo-grid {
+      margin-top: 2rem;
+    }
+
+    .story-photo {
+      margin: 0;
+    }
+
+    .photo-placeholder {
+      align-items: end;
+      aspect-ratio: 4 / 3;
+      background:
+        linear-gradient(145deg, rgba(75, 135, 151, 0.84), rgba(37, 77, 61, 0.76)),
+        linear-gradient(45deg, rgba(217, 201, 165, 0.7), rgba(255, 253, 247, 0.1));
+      border-radius: 8px;
+      color: #fff;
+      display: flex;
+      min-height: 220px;
+      overflow: hidden;
+      padding: 1rem;
+      position: relative;
+    }
+
+    .photo-placeholder::before {
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.16) 0 1px, transparent 1px 100%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0 1px, transparent 1px 100%);
+      background-size: 34px 34px;
+      content: "";
+      inset: 0;
+      opacity: 0.42;
+      position: absolute;
+    }
+
+    .photo-placeholder::after {
+      background: rgba(23, 37, 31, 0.72);
+      border-radius: 999px;
+      color: #fff;
+      content: attr(data-label);
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      line-height: 1.2;
+      padding: 0.55rem 0.7rem;
+      position: relative;
+      text-transform: uppercase;
+      z-index: 1;
+    }
+
+    .photo-placeholder.wide {
+      aspect-ratio: 16 / 7;
+      min-height: 250px;
+    }
+
+    .photo-placeholder.river {
+      background:
+        linear-gradient(145deg, rgba(66, 117, 143, 0.88), rgba(37, 77, 61, 0.72)),
+        linear-gradient(45deg, rgba(236, 245, 244, 0.5), rgba(255, 253, 247, 0.1));
+    }
+
+    .photo-placeholder.fire {
+      background:
+        linear-gradient(145deg, rgba(155, 91, 61, 0.88), rgba(37, 77, 61, 0.74)),
+        linear-gradient(45deg, rgba(217, 201, 165, 0.7), rgba(255, 253, 247, 0.1));
+    }
+
+    .photo-placeholder.field {
+      background:
+        linear-gradient(145deg, rgba(37, 77, 61, 0.9), rgba(123, 133, 86, 0.76)),
+        linear-gradient(45deg, rgba(237, 245, 244, 0.38), rgba(255, 253, 247, 0.1));
+    }
+
+    @media (min-width: 768px) {
+      .story-hero {
+        padding: 5rem 0 4rem;
+      }
+
+      .story-hero h1 {
+        font-size: 4.4rem;
+      }
+
+      .story-deck {
+        font-size: 1.55rem;
+      }
+
+      .pull-quote p {
+        font-size: 2.35rem;
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .story-hero h1 {
+        font-size: 5.35rem;
+      }
+
+      .story-section h2 {
+        font-size: 2.45rem;
+      }
+
+      .story-copy {
+        font-size: 1.13rem;
+      }
+    }
+
+    @media (max-width: 767.98px) {
+      .story-hero {
+        padding-top: 2.5rem;
+      }
+
+      .story-hero h1 {
+        max-width: none;
+      }
+
+      .story-section {
+        padding: 2.3rem 0;
+      }
+
+      .photo-placeholder.wide {
+        aspect-ratio: 4 / 3;
+      }
+    }
+  </style>
 
 </head>
 
 <body>
-  <h1>Hello, world!</h1>
-  <h3>
-    Fancy display heading
-    <small class="text-body-secondary">With faded secondary text</small>
-  </h3>
-  <ul>
-    <li>List item 1</li>
-    <li>List item 2</li>
-    <li>List item 3</li>
-  </ul>
+  <main class="meet-article">
+    <section class="story-hero" aria-labelledby="story-title">
+      <div class="container-xl">
+        <div class="row align-items-end g-5">
+          <div class="col-lg-6" data-reveal>
+            <div class="kicker">Meet Humboldt</div>
+            <h1 id="story-title">Daphne Cheney (&#8217;28, Fisheries Biology)</h1>
+            <p class="story-deck">Finding Her Current: How One Fisheries Student Turned a Rural Upbringing, Mentorship, and a Love of Rivers into Purpose</p>
+          </div>
+          <div class="col-lg-6" data-reveal>
+            <figure class="hero-photo">
+              <img src="images/meet_humboldt/daphne-little-river.jpg" alt="Daphne Cheney sits beside a river with a fly rod and tackle box.">
+              <figcaption>Daphne Cheney brings a lifelong connection to rivers into her Fisheries Biology work at Cal Poly Humboldt.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="intro-band">
+      <div class="container-xl">
+        <div class="row justify-content-center">
+          <div class="col-lg-9 story-copy" data-reveal>
+            <p class="article-lead">Daphne Cheney grew up in Kettenpom, California, a small rural community in Southern Trinity County, where her connection to the outdoors influenced her life. She rode horses, learned to fly fish, and spent her childhood amid forests and rivers.</p>
+            <p>Now a Fisheries Biology major at Cal Poly Humboldt, Cheney is channeling her love for water into conservation and community work. As a first-generation college student, she serves as a Retention through Academic Mentoring Program (RAMP) mentor, an Educational Opportunity Program (EOP) student, the Fish Club treasurer, and a seasonal firefighter, all while helping fellow students navigate their college experience.</p>
+            <p>Her passion for fisheries began with a fishing trip with her father, leading her to focus on protecting fish populations and their habitats.</p>
+            <p>&ldquo;I have a certain reverence for fish,&rdquo; Cheney says. &ldquo;Even if I can only help protect a few tributaries or streams, that feels really important.&rdquo;</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <article class="story-body">
+      <div class="container-xl">
+        <section class="story-section">
+          <div class="row g-5">
+            <div class="col-lg-4" data-reveal>
+              <div class="section-note">Origin Point</div>
+              <h2>Finding Fisheries</h2>
+            </div>
+            <div class="col-lg-8 story-copy" data-reveal>
+              <p>&ldquo;I was steelhead fishing with my dad on the Cowlitz River in Washington, and when we got back to the truck, there was a pamphlet on it about hatchery fish. I didn&rsquo;t really know what it was talking about, but I wanted to understand why people were so angry about it.</p>
+              <p>On the 12-hour drive home, I started looking things up. I was trying to read peer-reviewed articles, even though I had no idea what was going on. But I started learning that fisheries science was a real field and that there were biologists studying questions about hatchery fish, wild fish, and how they affect each other.</p>
+              <p>I realized Humboldt had Fisheries Biology, with a freshwater concentration. I have always been interested in why fish do what they do&mdash;why they are there, why they come back up rivers, how their bodies work. Once I realized fisheries science was a real thing, it seemed really clear I could study this.&rdquo;</p>
+
+              <figure class="story-photo photo-strip">
+                <div class="photo-placeholder wide river" role="img" aria-label="Placeholder for a future river or hatchery context photo." data-label="Photo TBD: River Context"></div>
+                <figcaption>Suggested placement for a future river, hatchery, or fisheries-context image.</figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+        <section class="story-section">
+          <div class="row g-5">
+            <div class="col-lg-4" data-reveal>
+              <div class="section-note">Watershed</div>
+              <h2>A Reverence for Rivers</h2>
+            </div>
+            <div class="col-lg-8 story-copy" data-reveal>
+              <p>&ldquo;I feel a lot of peace when I&rsquo;m near water. One experience that stayed with me happened when I was steelhead fishing on a remote stretch of the Eel River. I was holding this hen steelhead, and I had this moment of realizing how old these fish are and how much bigger their life history is than mine.</p>
+              <p>She was in this canyon, and I was looking at her spots and fins and thinking about how everything is connected. There wasn&rsquo;t a clear line where I started and where that fish ended. It was this feeling of interconnectedness.</p>
+              <p>I think fish have a kind of majesty. I can&rsquo;t always explain it, but I have a lot of love for them. With climate change, it feels really important that we don&rsquo;t just let these populations disappear. I know some of that is out of my hands, but if I can help protect a few streams or tributaries for future generations, I want to do that.&rdquo;</p>
+
+              <div class="row g-3 photo-grid">
+                <div class="col-md-6">
+                  <figure class="story-photo">
+                    <div class="photo-placeholder river" role="img" aria-label="Placeholder for a future Eel River image." data-label="Photo TBD: Eel River"></div>
+                    <figcaption>Future image slot for river landscape or field observation.</figcaption>
+                  </figure>
+                </div>
+                <div class="col-md-6">
+                  <figure class="story-photo">
+                    <div class="photo-placeholder field" role="img" aria-label="Placeholder for a future fish or habitat detail image." data-label="Photo TBD: Habitat Detail"></div>
+                    <figcaption>Future image slot for fish, habitat, or watershed detail.</figcaption>
+                  </figure>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="story-section">
+          <div class="row g-5">
+            <div class="col-lg-4" data-reveal>
+              <div class="section-note">Belonging</div>
+              <h2>First-Generation, Not the Last</h2>
+            </div>
+            <div class="col-lg-8 story-copy" data-reveal>
+              <p>&ldquo;Being first-generation has meant recognizing the things that other people just kind of know that I don&rsquo;t know, or the things they can ask their parents about that maybe I can&rsquo;t. My parents are incredible in other ways, but college has its own language.</p>
+              <p>EOP has been really helpful because it&rsquo;s a community of people who are also first-generation. You don&rsquo;t feel quite as alone. I&rsquo;m going to be the first person with my last name to graduate from a four-year university, which is crazy to think about.&rdquo;</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="story-section">
+          <div class="row g-5 align-items-start">
+            <div class="col-lg-4" data-reveal>
+              <div class="section-note">Mentorship</div>
+              <h2>Mentoring Others</h2>
+            </div>
+            <div class="col-lg-5 story-copy" data-reveal>
+              <p>&ldquo;My RAMP mentor in my first year was also in EOP and a natural resources student. I met with her a few weeks into my freshman year, and I remember feeling like, &lsquo;This person gets it.&rsquo; She helped me understand where things were on campus, how to find resources, and how to navigate things I didn&rsquo;t know yet.</p>
+              <p>That made me want to become a RAMP mentor.</p>
+              <p>With my first-generation mentees, I like to hold space for them and say, &lsquo;Good job. The fact that you&rsquo;re here is enough.&rsquo; You don&rsquo;t have to get everything right all the time. You&rsquo;re probably going to fail sometimes, and that&rsquo;s part of it.</p>
+              <p>It&rsquo;s easy to feel imposter syndrome, especially when you&rsquo;re first-generation. I want my mentees to know that what they&rsquo;re going through is normal, and also that it is extraordinary that they are here.</p>
+              <p>One of the most rewarding parts has been watching students find their agency. It&rsquo;s incredible what people can do when they feel validated.&rdquo;</p>
+            </div>
+            <aside class="col-lg-3" data-reveal>
+              <blockquote class="pull-quote">
+                <p>&ldquo;Good job. The fact that you&rsquo;re here is enough.&rdquo;</p>
+                <cite>Daphne Cheney</cite>
+              </blockquote>
+            </aside>
+          </div>
+        </section>
+
+        <section class="story-section">
+          <div class="row g-5">
+            <div class="col-lg-4" data-reveal>
+              <div class="section-note">In the Field</div>
+              <h2>Fire, Fieldwork, and Resilience</h2>
+            </div>
+            <div class="col-lg-8 story-copy" data-reveal>
+              <p>&ldquo;I started firefighting when I was 18, right before I came to Humboldt. I work as a contractor volunteer firefighter with the U.S. Forest Service out of Kettenpom, where I grew up.</p>
+              <p>The funny part is that I don&rsquo;t really like firefighting. I&rsquo;m sensitive, and fire can be loud and scary. But California is so fire-prone, and it&rsquo;s getting worse. During the 2020 August Complex Fire, my mom and I were evacuated for about nine weeks total, and the fire got really close to our house. That experience made me want to understand how fire works.</p>
+              <p>I&rsquo;ve learned about fire behavior, weather, safety, and prescribed burning since becoming a firefighter. I was part of a five-day prescribed fire class, and putting good fire on the ground was an incredible experience. It made fire feel less like a monster and more like something with a scientific basis.</p>
+              <p>Firefighting has also helped me build skills for work in natural resources. Many field jobs ask whether you can be uncomfortable and still keep going. Fire has taught me that I can do hard things, even when I&rsquo;m scared.&rdquo;</p>
+
+              <figure class="story-photo photo-strip">
+                <div class="photo-placeholder wide fire" role="img" aria-label="Placeholder for a future prescribed fire or fieldwork photo." data-label="Photo TBD: Fieldwork"></div>
+                <figcaption>Suggested placement for a future fieldwork, prescribed fire, or natural resources image.</figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+        <section class="story-section">
+          <div class="row g-5">
+            <div class="col-lg-4" data-reveal>
+              <div class="section-note">Next Current</div>
+              <h2>Looking Ahead</h2>
+            </div>
+            <div class="col-lg-8 story-copy" data-reveal>
+              <p>&ldquo;This summer, I&rsquo;ll be working as a field intern with the Mattole Restoration Council, an organization focused on watershed restoration. I&rsquo;ll be doing things like fuel reduction, invasive plant removal, and possibly redd surveys.</p>
+              <p>I&rsquo;m excited because I haven&rsquo;t had much hands-on experience in my major yet, and this feels like a real step toward that work. I&rsquo;m also excited because the Mattole Restoration Council takes a holistic approach. They work with different agencies, incorporate Indigenous voices, and don&rsquo;t just focus on one part of restoration.</p>
+              <p>At Humboldt, I feel like I can go in any direction. I could go into the workforce, pursue a master&rsquo;s degree, or work toward a Ph.D. The field component of the fisheries program is really valuable. You&rsquo;re not just in a classroom or a lab&mdash;you&rsquo;re going out and doing these things.</p>
+              <p>By the time I graduate, I&rsquo;ll be prepared for whatever direction I choose. I feel empowered by that.&rdquo;</p>
+
+              <div class="row g-3 photo-grid">
+                <div class="col-md-4">
+                  <figure class="story-photo">
+                    <div class="photo-placeholder field" role="img" aria-label="Placeholder for a future restoration council photo." data-label="Photo TBD: Restoration"></div>
+                    <figcaption>Watershed restoration.</figcaption>
+                  </figure>
+                </div>
+                <div class="col-md-4">
+                  <figure class="story-photo">
+                    <div class="photo-placeholder river" role="img" aria-label="Placeholder for a future fisheries program photo." data-label="Photo TBD: Fisheries"></div>
+                    <figcaption>Fisheries program fieldwork.</figcaption>
+                  </figure>
+                </div>
+                <div class="col-md-4">
+                  <figure class="story-photo">
+                    <div class="photo-placeholder" role="img" aria-label="Placeholder for a future student community photo." data-label="Photo TBD: Community"></div>
+                    <figcaption>Student community.</figcaption>
+                  </figure>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </article>
+  </main>
+
+  <!-- GSAP -->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/Draggable.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/DrawSVGPlugin.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/EaselPlugin.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/Flip.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/GSDevTools.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/InertiaPlugin.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/MotionPathHelper.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/MotionPathPlugin.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/MorphSVGPlugin.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/Observer.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/Physics2DPlugin.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/PhysicsPropsPlugin.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/PixiPlugin.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrambleTextPlugin.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollTrigger.min.js"></script>-->
+  <!-- ScrollSmoother requires ScrollTrigger -->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollSmoother.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollToPlugin.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/SplitText.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/TextPlugin.min.js"></script>-->
+  <!-- RoughEase, ExpoScaleEase and SlowMo are all included in the EasePack file -->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/EasePack.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/CustomEase.min.js"></script>-->
+  <!-- CustomBounce requires CustomEase -->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/CustomBounce.min.js"></script>-->
+  <!-- CustomWiggle requires CustomEase -->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/CustomWiggle.min.js"></script>-->
 
   <!-- Bootstrap JavaScript -->
- <script src="js/bootstrap.bundle.min.js"></script>
- <script src="js/gsap.min.js"></script>
- <script src="js/main.js"></script>
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="js/gsap.min.js"></script>
+  <script>
+    if (window.gsap && "IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const revealItems = gsap.utils.toArray("[data-reveal]");
+
+      revealItems.forEach((item) => {
+        gsap.set(item, { autoAlpha: 0, y: 24 });
+      });
+
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+
+          gsap.to(entry.target, {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.7,
+            ease: "power2.out"
+          });
+          observer.unobserve(entry.target);
+        });
+      }, { rootMargin: "0px 0px -12% 0px", threshold: 0.12 });
+
+      revealItems.forEach((item) => revealObserver.observe(item));
+    }
+  </script>
+  <script src="js/main.js"></script>
 </body>
 
 </html>
