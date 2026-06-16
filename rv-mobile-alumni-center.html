@@ -643,17 +643,12 @@
 
       const stickyTop = parseFloat(getComputedStyle(rvWrap).top) || rvCenterYInViewport() - rvWrap.offsetHeight / 2;
       const rvRect = rvWrap.getBoundingClientRect();
-      const lastCardRect = stopCards[stopCards.length - 1].getBoundingClientRect();
       const outroRect = roadOutro.getBoundingClientRect();
       const aboveFooterTop = outroRect.top - rvRect.height - 24;
-      let desiredTop = Math.min(stickyTop, aboveFooterTop);
+      const revealTop = Math.min(stickyTop + rvRect.height * 1.4, aboveFooterTop);
 
-      if (lastCardRect.bottom < stickyTop + rvRect.height) {
-        desiredTop = Math.max(desiredTop, Math.min(lastCardRect.bottom + 8, aboveFooterTop));
-      }
-
-      const correction = Math.max(0, desiredTop - rvRect.top);
-      return correction * smoothstep(0.86, 0.96, progress);
+      const correction = Math.max(0, revealTop - rvRect.top);
+      return correction * smoothstep(0.86, 1, progress);
     }
 
     function setJourneyRv(progress) {
