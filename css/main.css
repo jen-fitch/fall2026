@@ -35,8 +35,8 @@
 @layer base {
   :root {
     /* Custom Design Tokens */
-    --brand-primary: #6f42c1;
-    --brand-secondary: #e83e8c;
+    --brand-primary: #000;
+    --brand-secondary: #333;
 
     /* Overriding Bootstrap 5 variables natively, must be withing :root */
     --bs-primary: var(--brand-primary);
