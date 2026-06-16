@@ -616,8 +616,63 @@
     </article>
   </main>
 
-  <!-- Bootstrap JavaScript -->
+  <!-- Bootstrap -->
   <script src="js/bootstrap.bundle.min.js"></script>
+  <!-- GSAP -->
+  <script src="js/gsap.min.js"></script>
+  <!-- GSAP Extras -->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/Draggable.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/DrawSVGPlugin.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/EaselPlugin.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/Flip.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/GSDevTools.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/InertiaPlugin.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/MotionPathHelper.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/MotionPathPlugin.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/MorphSVGPlugin.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/Observer.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/Physics2DPlugin.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/PhysicsPropsPlugin.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/PixiPlugin.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrambleTextPlugin.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollTrigger.min.js"></script>-->
+  <!-- ScrollSmoother requires ScrollTrigger -->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollSmoother.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollToPlugin.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/SplitText.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/TextPlugin.min.js"></script>-->
+  <!-- RoughEase, ExpoScaleEase and SlowMo are all included in the EasePack file -->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/EasePack.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/CustomEase.min.js"></script>-->
+  <!-- CustomBounce requires CustomEase -->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/CustomBounce.min.js"></script>-->
+  <!-- CustomWiggle requires CustomEase -->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/CustomWiggle.min.js"></script>-->
+  <script>
+    if (window.gsap && "IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const revealItems = gsap.utils.toArray("[data-reveal]");
+
+      revealItems.forEach((item) => {
+        gsap.set(item, { autoAlpha: 0, y: 24 });
+      });
+
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+
+          gsap.to(entry.target, {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.7,
+            ease: "power2.out"
+          });
+          observer.unobserve(entry.target);
+        });
+      }, { rootMargin: "0px 0px -12% 0px", threshold: 0.12 });
+
+      revealItems.forEach((item) => revealObserver.observe(item));
+    }
+  </script>
   <script src="js/main.js"></script>
 </body>
 
