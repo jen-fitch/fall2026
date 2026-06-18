@@ -15,11 +15,12 @@
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Humboldt The Magazine of Cal Poly Humboldt | Fall 2026</title>
+  <title>Campus Scene: Jenkins Hall | Humboldt The Magazine of Cal Poly Humboldt | Fall 2026</title>
 
-    <!-- Adobe Typekit fonts -->
+  <!-- Adobe Typekit fonts -->
   <link rel="stylesheet" href="https://use.typekit.net/fxx7vks.css">
 
+  <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/main.css">
 
   <!-- custom favicon code -->
@@ -32,65 +33,688 @@
   <meta name="theme-color" content="#ffffff">
   <!-- Facebook Meta Tags -->
   <meta property="og:type" content="article">
-  <meta property="og:url"
-    content="https://now.humboldt.edu/magazine/index.html">
-  <meta property="og:title"
-    content="Humboldt The Magazine of Cal Poly Humboldt | Fall 2026">
-  <meta property="og:description"
-    content="Humboldt The Magazine of Cal Poly Humboldt">
+  <meta property="og:url" content="https://now.humboldt.edu/magazine/campus-scene-jenkins-hall-renovation.html">
+  <meta property="og:title" content="Campus Scene: Jenkins Hall | Humboldt The Magazine of Cal Poly Humboldt | Fall 2026">
+  <meta property="og:description" content="The renovated Jenkins Hall gives Sculpture and Ceramics a modern home while honoring 75 years of hands-on learning.">
   <style>
-    /* place styles here
+    :root {
+      --jenkins-ink: #24211f;
+      --jenkins-paper: #f5efe5;
+      --jenkins-paper-light: #fffaf1;
+      --jenkins-steam: #dfd5c8;
+      --jenkins-clay: #a66043;
+      --jenkins-terracotta: #c57850;
+      --jenkins-ochre: #c99d45;
+      --jenkins-glaze: #4d7d78;
+      --jenkins-moss: #7d8f62;
+      --jenkins-slate: #626b6a;
+      --jenkins-line: rgba(36, 33, 31, 0.16);
+      --jenkins-soft-line: rgba(36, 33, 31, 0.08);
+      --jenkins-shadow: 0 26px 60px rgba(36, 33, 31, 0.16);
+    }
+
+    body {
+      background: var(--jenkins-paper);
+      color: var(--jenkins-ink);
+      font-family: "freight-sans-pro", system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: var(--jenkins-glaze);
+      text-decoration-color: rgba(77, 125, 120, 0.35);
+      text-decoration-thickness: 0.08em;
+      text-underline-offset: 0.16em;
+    }
+
+    .jenkins-article {
+      background:
+        linear-gradient(115deg, rgba(166, 96, 67, 0.13), transparent 24rem),
+        linear-gradient(245deg, rgba(77, 125, 120, 0.14), transparent 26rem),
+        repeating-linear-gradient(0deg, rgba(36, 33, 31, 0.025) 0 1px, transparent 1px 7px),
+        var(--jenkins-paper);
+      min-height: 100svh;
+      overflow-x: clip;
+      position: relative;
+    }
+
+    .jenkins-article::before {
+      background:
+        linear-gradient(104deg, transparent 0 12%, rgba(201, 157, 69, 0.22) 12% 21%, transparent 21% 100%),
+        linear-gradient(168deg, transparent 0 66%, rgba(77, 125, 120, 0.13) 66% 76%, transparent 76% 100%);
+      content: "";
+      inset: 0;
+      opacity: 0.8;
+      pointer-events: none;
+      position: fixed;
+    }
+
+    .jenkins-article .container-xl {
+      max-width: min(1180px, 100%);
+      position: relative;
+      z-index: 1;
+    }
+
+    .story-hero {
+      padding: clamp(3rem, 8vw, 6.4rem) 0 clamp(3rem, 7vw, 5.5rem);
+    }
+
+    .kicker,
+    .byline,
+    .eyebrow,
+    .photo-label {
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .kicker {
+      color: var(--jenkins-clay);
+      font-size: 0.8rem;
+      font-weight: 900;
+      margin-bottom: 1rem;
+    }
+
+    .story-hero h1 {
+      color: var(--jenkins-ink);
+      font-size: clamp(4rem, 10vw, 7rem);
+      font-weight: 900;
+      letter-spacing: 0;
+      line-height: 0.82;
+      margin: 0 0 1.3rem;
+      max-width: 5.8ch;
+      text-transform: uppercase;
+    }
+
+    .hero-deck {
+      color: rgba(36, 33, 31, 0.78);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.24rem, 2vw, 1.72rem);
+      line-height: 1.35;
+      margin: 0;
+      max-width: 38rem;
+    }
+
+    .byline {
+      color: rgba(36, 33, 31, 0.58);
+      font-size: 0.76rem;
+      font-weight: 900;
+      margin-top: 1.5rem;
+    }
+
+    .intro-collage {
+      min-height: 660px;
+      margin-left: auto;
+      max-width: 760px;
+      position: relative;
+    }
+
+    .intro-collage .story-photo {
+      position: absolute;
+    }
+
+    .intro-collage .photo-main {
+      left: 4%;
+      top: 2%;
+      width: min(78%, 455px);
+      z-index: 2;
+    }
+
+    .intro-collage .photo-tall {
+      right: 0;
+      top: 22%;
+      width: min(48%, 285px);
+      z-index: 3;
+    }
+
+    .intro-collage .photo-small {
+      bottom: 0;
+      left: 0;
+      width: min(55%, 320px);
+      z-index: 4;
+    }
+
+    .story-photo {
+      margin: 0;
+    }
+
+    .photo-frame {
+      --photo-position: center;
+      background: var(--jenkins-paper-light);
+      border: 1px solid rgba(36, 33, 31, 0.2);
+      border-radius: 6px;
+      box-shadow: var(--jenkins-shadow);
+      display: block;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .photo-frame::after {
+      background:
+        linear-gradient(180deg, transparent 56%, rgba(36, 33, 31, 0.45)),
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.1) 0 1px, transparent 1px 70px);
+      content: "";
+      inset: 0;
+      mix-blend-mode: soft-light;
+      opacity: 0.72;
+      pointer-events: none;
+      position: absolute;
+    }
+
+    .photo-frame img {
+      aspect-ratio: 4 / 3;
+      display: block;
+      height: auto;
+      object-fit: cover;
+      object-position: var(--photo-position);
+      width: 100%;
+    }
+
+    .photo-frame.tall img {
+      aspect-ratio: 3 / 4;
+    }
+
+    .photo-frame.wide img {
+      aspect-ratio: 16 / 9;
+    }
+
+    .photo-label {
+      background: rgba(245, 239, 229, 0.9);
+      border: 1px solid rgba(36, 33, 31, 0.18);
+      border-radius: 999px;
+      bottom: 0.8rem;
+      color: var(--jenkins-ink);
+      font-size: 0.66rem;
+      font-weight: 900;
+      left: 0.8rem;
+      line-height: 1;
+      padding: 0.45rem 0.6rem;
+      position: absolute;
+      z-index: 2;
+    }
+
+    .story-photo figcaption {
+      color: rgba(36, 33, 31, 0.6);
+      font-size: 0.88rem;
+      font-weight: 650;
+      line-height: 1.4;
+      margin-top: 0.78rem;
+    }
+
+    .article-flow {
+      padding: 1rem 0 5.5rem;
+    }
+
+    .story-block {
+      border-top: 1px solid var(--jenkins-line);
+      padding: clamp(3rem, 8vw, 6rem) 0;
+      position: relative;
+    }
+
+    .story-block:first-child {
+      border-top: 0;
+      padding-top: clamp(2rem, 5vw, 3.5rem);
+    }
+
+    .story-block::before {
+      background: linear-gradient(90deg, var(--accent, var(--jenkins-clay)), transparent);
+      border-radius: 999px;
+      content: "";
+      height: 0.4rem;
+      left: 0;
+      opacity: 0.7;
+      position: absolute;
+      top: -0.2rem;
+      width: min(16rem, 48vw);
+    }
+
+    .story-block:first-child::before {
+      display: none;
+    }
+
+    .eyebrow {
+      color: var(--accent, var(--jenkins-clay));
+      font-size: 0.78rem;
+      font-weight: 900;
+      margin-bottom: 0.85rem;
+    }
+
+    .story-block h2 {
+      color: var(--jenkins-ink);
+      font-size: clamp(2.25rem, 5.5vw, 5.1rem);
+      font-weight: 900;
+      letter-spacing: 0;
+      line-height: 0.92;
+      margin: 0;
+      text-transform: uppercase;
+    }
+
+    .article-copy {
+      color: rgba(36, 33, 31, 0.82);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.08rem, 1.55vw, 1.28rem);
+      line-height: 1.68;
+      margin: 0;
+    }
+
+    .photo-pair {
+      display: grid;
+      gap: 1.2rem;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 0.75fr);
+    }
+
+    .photo-pair .story-photo:nth-child(2) {
+      align-self: end;
+      transform: translateY(1.5rem);
+    }
+
+    .quiet-stat {
+      background: rgba(255, 250, 241, 0.68);
+      border: 1px solid var(--jenkins-soft-line);
+      border-radius: 6px;
+      margin-top: 1.5rem;
+      padding: 1.1rem 1.2rem;
+    }
+
+    .quiet-stat strong {
+      color: var(--accent, var(--jenkins-clay));
+      display: block;
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 900;
+      line-height: 0.9;
+    }
+
+    .quiet-stat span {
+      color: rgba(36, 33, 31, 0.62);
+      display: block;
+      font-size: 0.86rem;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-top: 0.45rem;
+    }
+
+    [data-reveal],
+    [data-photo-reveal] {
+      will-change: opacity, transform;
+    }
+
+    @media (min-width: 992px) {
+      .story-hero {
+        align-items: center;
+        display: flex;
+        min-height: 92svh;
+      }
+
+      .story-hero h1 {
+        font-size: clamp(4.2rem, 7.3vw, 6.6rem);
+      }
+
+      .story-block.image-left .row {
+        flex-direction: row-reverse;
+      }
+    }
+
+    @media (max-width: 991.98px) {
+      .intro-collage {
+        margin-top: 3rem;
+        min-height: 620px;
+      }
+
+      .article-copy {
+        margin-top: 1.5rem;
+      }
+
+      .story-block h2 {
+        max-width: 11em;
+      }
+    }
+
+    @media (max-width: 767.98px) {
+      .story-hero {
+        padding-top: 2.6rem;
+      }
+
+      .story-hero h1 {
+        font-size: clamp(3.5rem, 19vw, 5.8rem);
+      }
+
+      .intro-collage {
+        display: grid;
+        gap: 1.2rem;
+        min-height: 0;
+      }
+
+      .intro-collage .story-photo {
+        position: relative;
+        width: 100%;
+      }
+
+      .intro-collage .photo-main,
+      .intro-collage .photo-tall,
+      .intro-collage .photo-small {
+        inset: auto;
+        width: 100%;
+      }
+
+      .photo-pair {
+        grid-template-columns: 1fr;
+      }
+
+      .photo-pair .story-photo:nth-child(2) {
+        transform: none;
+      }
+
+      .story-block {
+        padding: 3rem 0;
+      }
+
+      .story-block h2 {
+        font-size: clamp(2rem, 13vw, 3.8rem);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
   </style>
 
 </head>
 
 <body>
-  <h1>Hello, world!</h1>
-  <h3>
-    Fancy display heading
-    <small class="text-body-secondary">With faded secondary text</small>
-  </h3>
-  <ul>
-    <li>List item 1</li>
-    <li>List item 2</li>
-    <li>List item 3</li>
-  </ul>
+  <main class="jenkins-article">
+    <section class="story-hero" aria-labelledby="story-title">
+      <div class="container-xl">
+        <div class="row align-items-center g-5">
+          <div class="col-lg-5" data-reveal>
+            <p class="kicker">Campus Scene</p>
+            <h1 id="story-title">Jenkins Hall</h1>
+            <p class="hero-deck">The renovated Jenkins Hall gives Sculpture and Ceramics a modern home while honoring 75 years of hands-on learning.</p>
+            <p class="byline">Cal Poly Humboldt &middot; Fall 2026</p>
+          </div>
+          <div class="col-lg-7">
+            <div class="intro-collage" aria-label="Jenkins Hall photo collage">
+              <figure class="story-photo photo-main" data-photo-reveal data-float data-speed="-7">
+                <div class="photo-frame wide">
+                  <img src="images/jenkins_hall/artf040826_00347-HDR.jpg" alt="Evening exterior of the renovated Jenkins Hall with light glowing through the studio windows" loading="eager" decoding="async" fetchpriority="high">
+                  <span class="photo-label">Exterior</span>
+                </div>
+                <figcaption>Jenkins Hall after renovation.</figcaption>
+              </figure>
+              <figure class="story-photo photo-tall" data-photo-reveal data-float data-speed="-12">
+                <div class="photo-frame tall" style="--photo-position: 70% 50%;">
+                  <img src="images/jenkins_hall/artf110425_00052.jpg" alt="Student shaping clay in a busy studio classroom" loading="lazy" decoding="async">
+                  <span class="photo-label">Studio</span>
+                </div>
+                <figcaption>Hands-on learning continues inside the renovated studios.</figcaption>
+              </figure>
+              <figure class="story-photo photo-small" data-photo-reveal data-float data-speed="5">
+                <div class="photo-frame">
+                  <img src="images/jenkins_hall/jenkins-hall-archive.jpg" alt="Historic black-and-white image of Jenkins Hall" loading="lazy" decoding="async">
+                  <span class="photo-label">Archive</span>
+                </div>
+                <figcaption>Archival imagery connects the building to its Industrial Arts roots.</figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="article-flow">
+      <div class="container-xl">
+        <article class="story-block" id="industrial-arts-roots" style="--accent: var(--jenkins-clay);" data-reveal>
+          <div class="row g-5 align-items-start">
+            <div class="col-lg-4">
+              <p class="eyebrow">1950</p>
+              <h2>Industrial Arts Roots</h2>
+              <div class="quiet-stat">
+                <strong>75</strong>
+                <span>years of hands-on learning in Jenkins Hall</span>
+              </div>
+            </div>
+            <div class="col-lg-8">
+              <p class="article-copy">Originally opened in 1950 as the home of Humboldt&rsquo;s Industrial Arts program, the building was named for Horace &ldquo;Pop&rdquo; Jenkins, a ceramicist and faculty member who championed hands-on learning.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="story-block image-left" id="a-modern-home" style="--accent: var(--jenkins-moss);" data-reveal>
+          <div class="row g-5 align-items-center">
+            <div class="col-lg-5">
+              <p class="eyebrow">Renovation</p>
+              <h2>A Modern Home</h2>
+              <p class="article-copy">Following a &#36;12 million renovation funded by the California State University&rsquo;s Chancellor&rsquo;s Office, Jenkins Hall re-opened in Fall 2025 as a modern home for the Sculpture and Ceramics programs.</p>
+            </div>
+            <div class="col-lg-7">
+              <figure class="story-photo" data-photo-reveal>
+                <div class="photo-frame wide">
+                  <img src="images/jenkins_hall/artf040826_00095-HDR.jpg" alt="Renovated Jenkins Hall gallery and display space with student artwork" loading="lazy" decoding="async">
+                  <span class="photo-label">Renovated Facility</span>
+                </div>
+                <figcaption>Fresh finishes and open display areas show the building's renewed role for student work.</figcaption>
+              </figure>
+            </div>
+          </div>
+        </article>
+
+        <article class="story-block" id="concept-to-finished-work" style="--accent: var(--jenkins-glaze);" data-reveal>
+          <div class="row g-5 align-items-center">
+            <div class="col-lg-5">
+              <p class="eyebrow">Studios</p>
+              <h2>Concept to Finished Work</h2>
+              <p class="article-copy">The renovated facility now features studios, fabrication spaces, kiln rooms, and a 3D printing room where students can work with wood, metal, or clay, continuing Jenkins&rsquo; legacy of craftsmanship. The complementary facilities allow students to move seamlessly from concept to finished work.</p>
+            </div>
+            <div class="col-lg-7">
+              <div class="photo-pair">
+                <figure class="story-photo" data-photo-reveal>
+                  <div class="photo-frame">
+                    <img src="images/jenkins_hall/artf040826_00114.jpg" alt="Student working near fabrication equipment in Jenkins Hall" loading="lazy" decoding="async">
+                    <span class="photo-label">Fabrication</span>
+                  </div>
+                  <figcaption>Equipment and tools support work in wood, metal, clay, and digital fabrication.</figcaption>
+                </figure>
+                <figure class="story-photo" data-photo-reveal>
+                  <div class="photo-frame">
+                    <img src="images/jenkins_hall/artf040826_00175.jpg" alt="Students and an instructor working in the renovated Sculpture Lab" loading="lazy" decoding="async">
+                    <span class="photo-label">Studio Work</span>
+                  </div>
+                  <figcaption>Flexible studios give students room to move from idea to object.</figcaption>
+                </figure>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="story-block image-left" id="metal-casting" style="--accent: var(--jenkins-ochre);" data-reveal>
+          <div class="row g-5 align-items-center">
+            <div class="col-lg-5">
+              <p class="eyebrow">The Foundry</p>
+              <h2>Metal Casting</h2>
+              <p class="article-copy">One of the building's most distinctive spaces is The Foundry. Here, students learn the art of metal casting&mdash;pouring molten metal into molds and transforming them into sculptures&mdash;an ancient process that remains central to contemporary sculpture.</p>
+            </div>
+            <div class="col-lg-7">
+              <div class="photo-pair">
+                <figure class="story-photo" data-photo-reveal>
+                  <div class="photo-frame wide">
+                    <img src="images/jenkins_hall/artf030926_00246.jpg" alt="Students in protective gear pour molten metal into molds in The Foundry" loading="lazy" decoding="async">
+                    <span class="photo-label">Casting Action</span>
+                  </div>
+                  <figcaption>Students pour molten metal with careful coordination and protective gear.</figcaption>
+                </figure>
+                <figure class="story-photo" data-photo-reveal>
+                  <div class="photo-frame">
+                    <img src="images/jenkins_hall/artf040826_00318.jpg" alt="Large sculptural form staged beside kilns in Jenkins Hall" loading="lazy" decoding="async">
+                    <span class="photo-label">Object Detail</span>
+                  </div>
+                  <figcaption>Finished forms sit close to the tools and heat that make scale possible.</figcaption>
+                </figure>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="story-block" id="sculpture-lab" style="--accent: var(--jenkins-slate);" data-reveal>
+          <div class="row g-5 align-items-center">
+            <div class="col-lg-5">
+              <p class="eyebrow">First Floor</p>
+              <h2>Sculpture Lab</h2>
+              <p class="article-copy">On the first floor of Jenkins Hall is the Sculpture Lab. It includes areas for metalworking, woodworking, mold-making, mixed-media projects, and digital fabrication, so students can explore a wide range of artistic processes from concept to completion.</p>
+            </div>
+            <div class="col-lg-7">
+              <figure class="story-photo" data-photo-reveal>
+                <div class="photo-frame wide">
+                  <img src="images/jenkins_hall/artf040826_00175.jpg" alt="Students and an instructor working in the renovated Sculpture Lab" loading="lazy" decoding="async">
+                  <span class="photo-label">Sculpture Lab</span>
+                </div>
+                <figcaption>Students and faculty work among the tools, materials, and worktables of the renovated lab.</figcaption>
+              </figure>
+            </div>
+          </div>
+        </article>
+
+        <article class="story-block image-left" id="ceramics-studio" style="--accent: var(--jenkins-glaze);" data-reveal>
+          <div class="row g-5 align-items-center">
+            <div class="col-lg-5">
+              <p class="eyebrow">Second Floor</p>
+              <h2>Ceramics Studio</h2>
+              <p class="article-copy">The Ceramics Studio on the second floor of Jenkins Hall supports every stage of the ceramic-making process. The studio includes a variety of facilities for students to explore both wheel throwing and handbuilding, developing their work from raw clay to finished pieces.</p>
+            </div>
+            <div class="col-lg-7">
+              <div class="photo-pair">
+                <figure class="story-photo" data-photo-reveal>
+                  <div class="photo-frame wide">
+                    <img src="images/jenkins_hall/artf040826_00462.jpg" alt="Wide view of the renovated Ceramics Studio with pottery wheels and students working" loading="lazy" decoding="async">
+                    <span class="photo-label">Ceramics Studio</span>
+                  </div>
+                  <figcaption>Rows of wheels and open workstations support the full ceramic-making process.</figcaption>
+                </figure>
+                <figure class="story-photo" data-photo-reveal>
+                  <div class="photo-frame">
+                    <img src="images/jenkins_hall/artf110425_00127.jpg" alt="Hands shaping clay on a pottery wheel in the Ceramics Studio" loading="lazy" decoding="async">
+                    <span class="photo-label">Wheel Throwing</span>
+                  </div>
+                  <figcaption>Wheel throwing turns raw clay into a finished form.</figcaption>
+                </figure>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="story-block" id="surface-design" style="--accent: var(--jenkins-terracotta);" data-reveal>
+          <div class="row g-5 align-items-center">
+            <div class="col-lg-5">
+              <p class="eyebrow">Clay, Glaze, and Fire</p>
+              <h2>Surface Design</h2>
+              <p class="article-copy">The studio has dedicated spaces for clay preparation, glazing, firing, and mold-making. Low- and high-fire facilities allow students to learn a variety of firing techniques, while the glaze room serves as a place for experimentation with color, texture, and surface design. Together, these spaces create an environment where craftsmanship, creativity, and self-expression thrive.</p>
+            </div>
+            <div class="col-lg-7">
+              <div class="photo-pair">
+                <figure class="story-photo" data-photo-reveal>
+                  <div class="photo-frame">
+                    <img src="images/jenkins_hall/artf020926_00028.jpg" alt="Glaze test tiles arranged on the wall of the glaze room" loading="lazy" decoding="async">
+                    <span class="photo-label">Glaze Tests</span>
+                  </div>
+                  <figcaption>Glaze tests record color, texture, and surface choices.</figcaption>
+                </figure>
+                <figure class="story-photo" data-photo-reveal>
+                  <div class="photo-frame">
+                    <img src="images/jenkins_hall/artf020926_00035.jpg" alt="Ceramic pieces, tools, and glaze materials on a work surface" loading="lazy" decoding="async">
+                    <span class="photo-label">Glaze Room</span>
+                  </div>
+                  <figcaption>Work surfaces carry the evidence of experimentation.</figcaption>
+                </figure>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+  </main>
 
   <!-- Bootstrap JavaScript -->
   <script src="js/bootstrap.bundle.min.js"></script>
+  <!-- GSAP -->
   <script src="js/gsap.min.js"></script>
-  <!-- GSAP Extras -->
-  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/Draggable.min.js"></script>-->
-  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/DrawSVGPlugin.min.js"></script>-->
-  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/EaselPlugin.min.js"></script>-->
-  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/Flip.min.js"></script>-->
-  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/GSDevTools.min.js"></script>-->
-  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/InertiaPlugin.min.js"></script>-->
-  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/MotionPathHelper.min.js"></script>-->
-  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/MotionPathPlugin.min.js"></script>-->
-  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/MorphSVGPlugin.min.js"></script>-->
-  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/Observer.min.js"></script>-->
-  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/Physics2DPlugin.min.js"></script>-->
-  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/PhysicsPropsPlugin.min.js"></script>-->
-  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/PixiPlugin.min.js"></script>-->
-  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrambleTextPlugin.min.js"></script>-->
-  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollTrigger.min.js"></script>-->
-  <!-- ScrollSmoother requires ScrollTrigger -->
-  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollSmoother.min.js"></script>-->
-  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollToPlugin.min.js"></script>-->
-  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/SplitText.min.js"></script>-->
-  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/TextPlugin.min.js"></script>-->
-  <!-- RoughEase, ExpoScaleEase and SlowMo are all included in the EasePack file -->
-  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/EasePack.min.js"></script>-->
-  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/CustomEase.min.js"></script>-->
-  <!-- CustomBounce requires CustomEase -->
-  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/CustomBounce.min.js"></script>-->
-  <!-- CustomWiggle requires CustomEase -->
-  <!--  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/CustomWiggle.min.js"></script>-->
   <script>
-    // Place GSAP scripts here
+    (function () {
+      const canAnimate = window.gsap && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (!canAnimate) return;
+
+      gsap.set("[data-reveal]", { autoAlpha: 0, y: 28 });
+      gsap.set("[data-photo-reveal]", { autoAlpha: 0, y: 36, scale: 0.98 });
+
+      gsap.to(".story-hero [data-reveal]", {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.85,
+        ease: "power3.out"
+      });
+
+      gsap.to(".intro-collage [data-photo-reveal]", {
+        autoAlpha: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.9,
+        ease: "power3.out",
+        stagger: 0.14,
+        delay: 0.15
+      });
+
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting || entry.target.closest(".story-hero")) return;
+
+          gsap.to(entry.target, {
+            autoAlpha: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.78,
+            ease: "power2.out"
+          });
+
+          observer.unobserve(entry.target);
+        });
+      }, { rootMargin: "0px 0px -12% 0px", threshold: 0.1 });
+
+      gsap.utils.toArray("[data-reveal], [data-photo-reveal]").forEach((item) => revealObserver.observe(item));
+
+      const floatItems = gsap.utils.toArray("[data-float]");
+      const clamp = (min, max, value) => Math.min(max, Math.max(min, value));
+      let ticking = false;
+
+      function updateFloat() {
+        ticking = false;
+
+        floatItems.forEach((item) => {
+          const rect = item.getBoundingClientRect();
+          const progress = clamp(0, 1, (window.innerHeight - rect.top) / (window.innerHeight + rect.height));
+          const speed = Number(item.dataset.speed || -6);
+
+          gsap.set(item, {
+            yPercent: (progress - 0.5) * speed
+          });
+        });
+      }
+
+      function requestFloat() {
+        if (ticking) return;
+        ticking = true;
+        window.requestAnimationFrame(updateFloat);
+      }
+
+      window.addEventListener("scroll", requestFloat, { passive: true });
+      window.addEventListener("resize", requestFloat);
+      window.addEventListener("load", requestFloat);
+    })();
   </script>
- <script src="js/main.js"></script>
 </body>
 
 </html>
