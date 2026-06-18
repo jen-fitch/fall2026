@@ -100,16 +100,14 @@
     }
 
     .kicker,
-    .byline,
-    .eyebrow,
-    .photo-label {
+    .eyebrow {
       letter-spacing: 0.06em;
       text-transform: uppercase;
     }
 
     .kicker {
       color: var(--jenkins-clay);
-      font-size: 0.8rem;
+      font-size: 1.3rem;
       font-weight: 900;
       margin-bottom: 1rem;
     }
@@ -132,13 +130,6 @@
       line-height: 1.35;
       margin: 0;
       max-width: 38rem;
-    }
-
-    .byline {
-      color: rgba(36, 33, 31, 0.58);
-      font-size: 0.76rem;
-      font-weight: 900;
-      margin-top: 1.5rem;
     }
 
     .intro-collage {
@@ -217,21 +208,6 @@
       aspect-ratio: 16 / 9;
     }
 
-    .photo-label {
-      background: rgba(245, 239, 229, 0.9);
-      border: 1px solid rgba(36, 33, 31, 0.18);
-      border-radius: 999px;
-      bottom: 0.8rem;
-      color: var(--jenkins-ink);
-      font-size: 0.66rem;
-      font-weight: 900;
-      left: 0.8rem;
-      line-height: 1;
-      padding: 0.45rem 0.6rem;
-      position: absolute;
-      z-index: 2;
-    }
-
     .story-photo figcaption {
       color: rgba(36, 33, 31, 0.6);
       font-size: 0.88rem;
@@ -273,17 +249,27 @@
 
     .eyebrow {
       color: var(--accent, var(--jenkins-clay));
-      font-size: 0.78rem;
+      font-size: 1.3rem;
       font-weight: 900;
       margin-bottom: 0.85rem;
     }
 
     .story-block h2 {
       color: var(--jenkins-ink);
-      font-size: clamp(2.25rem, 5.5vw, 5.1rem);
+      font-size: clamp(2.25rem, 5.5vw, 4.1rem);
       font-weight: 900;
       letter-spacing: 0;
       line-height: 0.92;
+      margin: 0 0 10px;
+      text-transform: uppercase;
+    }
+
+    .story-block h3 {
+      color: var(--jenkins-ink);
+      font-size: clamp(1.25rem, 5.5vw, 3.1rem);
+      font-weight: 900;
+      letter-spacing: 0;
+      line-height: 1;
       margin: 0;
       text-transform: uppercase;
     }
@@ -305,31 +291,6 @@
     .photo-pair .story-photo:nth-child(2) {
       align-self: end;
       transform: translateY(1.5rem);
-    }
-
-    .quiet-stat {
-      background: rgba(255, 250, 241, 0.68);
-      border: 1px solid var(--jenkins-soft-line);
-      border-radius: 6px;
-      margin-top: 1.5rem;
-      padding: 1.1rem 1.2rem;
-    }
-
-    .quiet-stat strong {
-      color: var(--accent, var(--jenkins-clay));
-      display: block;
-      font-size: clamp(2rem, 5vw, 4rem);
-      font-weight: 900;
-      line-height: 0.9;
-    }
-
-    .quiet-stat span {
-      color: rgba(36, 33, 31, 0.62);
-      display: block;
-      font-size: 0.86rem;
-      font-weight: 800;
-      line-height: 1.25;
-      margin-top: 0.45rem;
     }
 
     [data-reveal],
@@ -366,7 +327,12 @@
       .story-block h2 {
         max-width: 11em;
       }
+
+      .story-block h3 {
+        max-width: 11em;
+      }
     }
+
 
     @media (max-width: 767.98px) {
       .story-hero {
@@ -410,6 +376,7 @@
       .story-block h2 {
         font-size: clamp(2rem, 13vw, 3.8rem);
       }
+
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -435,7 +402,6 @@
             <p class="kicker">Campus Scene</p>
             <h1 id="story-title">Jenkins Hall</h1>
             <p class="hero-deck">The renovated Jenkins Hall gives Sculpture and Ceramics a modern home while honoring 75 years of hands-on learning.</p>
-            <p class="byline">Cal Poly Humboldt &middot; Fall 2026</p>
           </div>
           <div class="col-lg-7">
             <div class="intro-collage" aria-label="Jenkins Hall photo collage">
@@ -465,38 +431,20 @@
 
     <section class="article-flow">
       <div class="container-xl">
-        <article class="story-block" id="industrial-arts-roots" style="--accent: var(--jenkins-clay);" data-reveal>
-          <div class="row g-5 align-items-start">
-            <div class="col-12">
+        <article class="story-block intro-block" id="industrial-arts-roots" style="--accent: var(--jenkins-clay);" data-reveal>
+          <div class="row g-5 align-items-center">
+            <div class="col-lg-4 col-xl-5">
+              <figure class="story-photo photo-small" data-photo-reveal data-float data-speed="5">
+                <div class="photo-frame">
+                  <img src="images/jenkins_hall/jenkins-hall-archive.jpg" alt="Historic black-and-white image of Jenkins Hall" loading="lazy" decoding="async">
+                </div>
+                <figcaption>Archival imagery connects the building to its Industrial Arts roots.</figcaption>
+              </figure>
+            </div>
+            <div class="col-lg-8 col-xl-7">
               <p class="eyebrow">1950</p>
               <h2>Industrial Arts Roots</h2>
-            </div>
-            <div class="col-lg-4">
-              <div class="quiet-stat">
-                <strong>75</strong>
-                <span>years of hands-on learning in Jenkins Hall</span>
-              </div>
-            </div>
-            <div class="col-lg-8">
-              <p class="article-copy">Originally opened in 1950 as the home of Humboldt&rsquo;s Industrial Arts program, the building was named for Horace &ldquo;Pop&rdquo; Jenkins, a ceramicist and faculty member who championed hands-on learning.</p>
-            </div>
-          </div>
-        </article>
-
-        <article class="story-block image-left" id="a-modern-home" style="--accent: var(--jenkins-moss);" data-reveal>
-          <div class="row g-5 align-items-center">
-            <div class="col-lg-5">
-              <p class="eyebrow">Renovation</p>
-              <h2>A Modern Home</h2>
-              <p class="article-copy">Following a &#36;12 million renovation funded by the California State University&rsquo;s Chancellor&rsquo;s Office, Jenkins Hall re-opened in Fall 2025 as a modern home for the Sculpture and Ceramics programs.</p>
-            </div>
-            <div class="col-lg-7">
-              <figure class="story-photo" data-photo-reveal>
-                <div class="photo-frame wide">
-                  <img src="images/jenkins_hall/artf040826_00095-HDR.jpg" alt="Renovated Jenkins Hall gallery and display space with student artwork" loading="lazy" decoding="async">
-                </div>
-                <figcaption>Fresh finishes and open display areas show the building's renewed role for student work.</figcaption>
-              </figure>
+              <p class="article-copy">For 75 years, Jenkins Hall has been a space for creators. Originally opened in 1950 as the home of Humboldt&rsquo;s Industrial Arts program, <a href="https://now.humboldt.edu/news/space-makers-again-jenkins-hall-reopens-after-12m-renovation?utm_source=now_weekly_newsletter&amp;utm_medium=email&amp;utm_campaign=hnow-2025-12-01&amp;_gl=1*7wb0z3*_gcl_au*ODE5NjAyMDExLjE3NzczMTM5NTM.*_ga*OGQyNzA0NGYtYmIzNS00NzA5LWFmYzktMDg4NTg1ODcxNjM3*_ga_JL6J7P9CG9*czE3ODExOTQ4NjkkbzEwNzIkZzEkdDE3ODExOTU4ODQkajYwJGwwJGgw">the building was named for Horace &ldquo;Pop&rdquo; Jenkins</a>, a ceramicist and faculty member who championed hands-on learning. Following a &#36;12 million renovation funded by the California State University&rsquo;s Chancellor&rsquo;s Office, the building re-opened in Fall 2025 as a modern home for the <a href="https://www.humboldt.edu/academics/programs/art">Sculpture and Ceramics programs</a>, thoughtfully designed to support the next generation of artists while honoring the building&rsquo;s history.</p>
             </div>
           </div>
         </article>
@@ -504,8 +452,8 @@
         <article class="story-block" id="concept-to-finished-work" style="--accent: var(--jenkins-glaze);" data-reveal>
           <div class="row g-5 align-items-center">
             <div class="col-lg-5">
-              <p class="eyebrow">Studios</p>
-              <h2>Concept to Finished Work</h2>
+              <p class="eyebrow">Today</p>
+              <h2>A Modern Home</h2>
               <p class="article-copy">The renovated facility now features studios, fabrication spaces, kiln rooms, and a 3D printing room where students can work with wood, metal, or clay, continuing Jenkins&rsquo; legacy of craftsmanship. The complementary facilities allow students to move seamlessly from concept to finished work.</p>
             </div>
             <div class="col-lg-7">
@@ -527,11 +475,29 @@
           </div>
         </article>
 
-        <article class="story-block image-left" id="metal-casting" style="--accent: var(--jenkins-ochre);" data-reveal>
+        <article class="story-block image-left" id="sculpture-lab" style="--accent: var(--jenkins-slate);" data-reveal>
           <div class="row g-5 align-items-center">
             <div class="col-lg-5">
-              <p class="eyebrow">The Foundry</p>
-              <h2>Metal Casting</h2>
+              <p class="eyebrow">First Floor</p>
+              <h2>Sculpture Lab</h2>
+              <p class="article-copy">On the first floor of Jenkins Hall is the Sculpture Lab. It includes areas for metalworking, woodworking, mold-making, mixed-media projects, and digital fabrication, so students can explore a wide range of artistic processes from concept to completion.</p>
+            </div>
+            <div class="col-lg-7">
+              <figure class="story-photo" data-photo-reveal>
+                <div class="photo-frame wide">
+                  <img src="images/jenkins_hall/artf040826_00175.jpg" alt="Students and an instructor working in the renovated Sculpture Lab" loading="lazy" decoding="async">
+                </div>
+                <figcaption>Students and faculty work among the tools, materials, and worktables of the renovated lab.</figcaption>
+              </figure>
+            </div>
+          </div>
+        </article>
+
+        <article class="story-block" id="metal-casting" style="--accent: var(--jenkins-ochre);" data-reveal>
+          <div class="row g-5 align-items-center">
+            <div class="col-lg-5">
+              <p class="eyebrow">Spaces</p>
+              <h2>The Foundry</h2>
               <p class="article-copy">One of the building's most distinctive spaces is The Foundry. Here, students learn the art of metal casting&mdash;pouring molten metal into molds and transforming them into sculptures&mdash;an ancient process that remains central to contemporary sculpture.</p>
             </div>
             <div class="col-lg-7">
@@ -549,24 +515,6 @@
                   <figcaption>Finished forms sit close to the tools and heat that make scale possible.</figcaption>
                 </figure>
               </div>
-            </div>
-          </div>
-        </article>
-
-        <article class="story-block" id="sculpture-lab" style="--accent: var(--jenkins-slate);" data-reveal>
-          <div class="row g-5 align-items-center">
-            <div class="col-lg-5">
-              <p class="eyebrow">First Floor</p>
-              <h2>Sculpture Lab</h2>
-              <p class="article-copy">On the first floor of Jenkins Hall is the Sculpture Lab. It includes areas for metalworking, woodworking, mold-making, mixed-media projects, and digital fabrication, so students can explore a wide range of artistic processes from concept to completion.</p>
-            </div>
-            <div class="col-lg-7">
-              <figure class="story-photo" data-photo-reveal>
-                <div class="photo-frame wide">
-                  <img src="images/jenkins_hall/artf040826_00175.jpg" alt="Students and an instructor working in the renovated Sculpture Lab" loading="lazy" decoding="async">
-                </div>
-                <figcaption>Students and faculty work among the tools, materials, and worktables of the renovated lab.</figcaption>
-              </figure>
             </div>
           </div>
         </article>
@@ -600,9 +548,9 @@
         <article class="story-block" id="surface-design" style="--accent: var(--jenkins-terracotta);" data-reveal>
           <div class="row g-5 align-items-center">
             <div class="col-lg-5">
-              <p class="eyebrow">Clay, Glaze, and Fire</p>
-              <h2>Surface Design</h2>
-              <p class="article-copy">The studio has dedicated spaces for clay preparation, glazing, firing, and mold-making. Low- and high-fire facilities allow students to learn a variety of firing techniques, while the glaze room serves as a place for experimentation with color, texture, and surface design. Together, these spaces create an environment where craftsmanship, creativity, and self-expression thrive.</p>
+              <p class="eyebrow">Spaces</p>
+              <h2>Technique & Exploration</h2>
+              <p class="article-copy">The studio has dedicated spaces for clay preparation, glazing, firing, and mold-making. Low- and high-fire facilities allow students to learn a variety of firing techniques, while the glaze room serves as a place for experimentation with color, texture, and surface design.</p>
             </div>
             <div class="col-lg-7">
               <div class="photo-pair">
@@ -621,6 +569,9 @@
               </div>
             </div>
           </div>
+        </article>
+        <article class="story-block" id="ending" style="--accent: var(--jenkins-terracotta);" data-reveal>
+        <h3>Together, these spaces create an environment where craftsmanship, creativity, and self-expression thrive.</h3>
         </article>
       </div>
     </section>
