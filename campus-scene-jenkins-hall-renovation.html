@@ -96,7 +96,61 @@
     }
 
     .story-hero {
-      padding: clamp(3rem, 8vw, 6.4rem) 0 clamp(3rem, 7vw, 5.5rem);
+      background: #171412;
+      display: grid;
+      isolation: isolate;
+      min-height: 100svh;
+      overflow: hidden;
+      padding: 0;
+      position: relative;
+    }
+
+    .story-hero::before {
+      background:
+        linear-gradient(90deg, rgba(18, 15, 13, 0.88) 0%, rgba(18, 15, 13, 0.68) 34%, rgba(18, 15, 13, 0.24) 68%, rgba(18, 15, 13, 0.08) 100%),
+        linear-gradient(0deg, rgba(18, 15, 13, 0.78) 0%, rgba(18, 15, 13, 0.28) 46%, rgba(18, 15, 13, 0.14) 100%);
+      content: "";
+      inset: 0;
+      pointer-events: none;
+      position: absolute;
+      z-index: -1;
+    }
+
+    .story-hero .container-xl {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      min-height: 100svh;
+      padding-bottom: clamp(2rem, 6vw, 5.5rem);
+      padding-top: clamp(4rem, 8vw, 6.5rem);
+    }
+
+    .hero-cover-image {
+      height: 100%;
+      inset: 0;
+      object-fit: cover;
+      object-position: 56% center;
+      position: absolute;
+      transform-origin: center;
+      width: 100%;
+      z-index: -2;
+    }
+
+    .hero-cover-copy {
+      max-width: 49rem;
+      position: relative;
+    }
+
+    .hero-cover-copy::before {
+      background: var(--jenkins-ochre);
+      border-radius: 999px;
+      content: "";
+      height: 0.35rem;
+      left: 0;
+      opacity: 0.95;
+      position: absolute;
+      top: -1.15rem;
+      width: min(18rem, 48vw);
     }
 
     .kicker,
@@ -106,62 +160,45 @@
     }
 
     .kicker {
-      color: var(--jenkins-clay);
+      color: #f1c463;
       font-size: 1.3rem;
       font-weight: 900;
       margin-bottom: 1rem;
+      text-shadow: 0 2px 18px rgba(0, 0, 0, 0.42);
     }
 
     .story-hero h1 {
-      color: var(--jenkins-ink);
-      font-size: clamp(4rem, 10vw, 7rem);
+      color: var(--jenkins-paper-light);
+      font-size: clamp(4.2rem, 13vw, 11rem);
       font-weight: 900;
       letter-spacing: 0;
       line-height: 0.82;
       margin: 0 0 1.3rem;
-      max-width: 5.8ch;
+      max-width: 7ch;
+      text-shadow: 0 0.08em 0.35em rgba(0, 0, 0, 0.58);
       text-transform: uppercase;
     }
 
     .hero-deck {
-      color: rgba(36, 33, 31, 0.78);
+      color: rgba(255, 250, 241, 0.94);
       font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(1.24rem, 2vw, 1.72rem);
+      font-size: clamp(1.24rem, 2.15vw, 1.9rem);
       line-height: 1.35;
       margin: 0;
-      max-width: 38rem;
+      max-width: 42rem;
+      text-shadow: 0 2px 18px rgba(0, 0, 0, 0.58);
     }
 
-    .intro-collage {
-      min-height: 660px;
-      margin-left: auto;
-      max-width: 760px;
-      position: relative;
-    }
-
-    .intro-collage .story-photo {
-      position: absolute;
-    }
-
-    .intro-collage .photo-main {
-      left: 4%;
-      top: 2%;
-      width: min(78%, 455px);
-      z-index: 2;
-    }
-
-    .intro-collage .photo-tall {
-      right: 0;
-      top: 22%;
-      width: min(48%, 285px);
-      z-index: 3;
-    }
-
-    .intro-collage .photo-small {
-      bottom: 0;
-      left: 0;
-      width: min(55%, 320px);
-      z-index: 4;
+    .hero-photo-caption {
+      align-self: flex-end;
+      color: rgba(255, 250, 241, 0.72);
+      font-size: 0.84rem;
+      font-weight: 700;
+      line-height: 1.35;
+      margin: clamp(1.5rem, 4vw, 3rem) 0 0;
+      max-width: 18rem;
+      text-align: right;
+      text-shadow: 0 2px 16px rgba(0, 0, 0, 0.7);
     }
 
     .story-photo {
@@ -299,14 +336,8 @@
     }
 
     @media (min-width: 992px) {
-      .story-hero {
-        align-items: center;
-        display: flex;
-        min-height: 92svh;
-      }
-
       .story-hero h1 {
-        font-size: clamp(4.2rem, 7.3vw, 6.6rem);
+        font-size: clamp(5.6rem, 12vw, 11rem);
       }
 
       .story-block.image-left .row {
@@ -315,9 +346,10 @@
     }
 
     @media (max-width: 991.98px) {
-      .intro-collage {
-        margin-top: 3rem;
-        min-height: 620px;
+      .story-hero::before {
+        background:
+          linear-gradient(90deg, rgba(18, 15, 13, 0.9) 0%, rgba(18, 15, 13, 0.72) 46%, rgba(18, 15, 13, 0.18) 100%),
+          linear-gradient(0deg, rgba(18, 15, 13, 0.82) 0%, rgba(18, 15, 13, 0.38) 58%, rgba(18, 15, 13, 0.16) 100%);
       }
 
       .article-copy {
@@ -335,30 +367,24 @@
 
 
     @media (max-width: 767.98px) {
-      .story-hero {
-        padding-top: 2.6rem;
+      .story-hero .container-xl {
+        padding-bottom: 2rem;
+        padding-top: 4rem;
       }
 
       .story-hero h1 {
-        font-size: clamp(3.5rem, 19vw, 5.8rem);
+        font-size: clamp(3.5rem, 20vw, 5.4rem);
       }
 
-      .intro-collage {
-        display: grid;
-        gap: 1.2rem;
-        min-height: 0;
+      .hero-deck {
+        font-size: clamp(1.08rem, 5vw, 1.34rem);
+        max-width: 26rem;
       }
 
-      .intro-collage .story-photo {
-        position: relative;
-        width: 100%;
-      }
-
-      .intro-collage .photo-main,
-      .intro-collage .photo-tall,
-      .intro-collage .photo-small {
-        inset: auto;
-        width: 100%;
+      .hero-photo-caption {
+        align-self: flex-start;
+        font-size: 0.78rem;
+        text-align: left;
       }
 
       .photo-pair {
@@ -396,36 +422,18 @@
 <body>
   <main class="jenkins-article">
     <section class="story-hero" aria-labelledby="story-title">
+      <img class="hero-cover-image" src="images/jenkins_hall/artf040826_00347-HDR.jpg" alt="Evening exterior of the renovated Jenkins Hall with light glowing through the studio windows" loading="eager" decoding="async" fetchpriority="high">
       <div class="container-xl">
-        <div class="row align-items-center g-5">
-          <div class="col-lg-5" data-reveal>
-            <p class="kicker">Campus Scene</p>
-            <h1 id="story-title">Jenkins Hall</h1>
-            <p class="hero-deck">The renovated Jenkins Hall gives Sculpture and Ceramics a modern home while honoring 75 years of hands-on learning.</p>
-          </div>
-          <div class="col-lg-7">
-            <div class="intro-collage" aria-label="Jenkins Hall photo collage">
-              <figure class="story-photo photo-main" data-photo-reveal data-float data-speed="-7">
-                <div class="photo-frame wide">
-                  <img src="images/jenkins_hall/artf040826_00347-HDR.jpg" alt="Evening exterior of the renovated Jenkins Hall with light glowing through the studio windows" loading="eager" decoding="async" fetchpriority="high">
-                </div>
-                <figcaption>Jenkins Hall after renovation.</figcaption>
-              </figure>
-              <figure class="story-photo photo-tall" data-photo-reveal data-float data-speed="-12">
-                <div class="photo-frame tall" style="--photo-position: 70% 50%;">
-                  <img src="images/jenkins_hall/artf110425_00052.jpg" alt="Student shaping clay in a busy studio classroom" loading="lazy" decoding="async">
-                </div>
-                <figcaption>Hands-on learning continues inside the renovated studios.</figcaption>
-              </figure>
-              <figure class="story-photo photo-small" data-photo-reveal data-float data-speed="5">
-                <div class="photo-frame">
-                  <img src="images/jenkins_hall/jenkins-hall-archive.jpg" alt="Historic black-and-white image of Jenkins Hall" loading="lazy" decoding="async">
-                </div>
-                <figcaption>Archival imagery connects the building to its Industrial Arts roots.</figcaption>
-              </figure>
+        <div class="row">
+          <div class="col-lg-7 col-xl-6">
+            <div class="hero-cover-copy" data-reveal>
+              <p class="kicker">Campus Scene</p>
+              <h1 id="story-title">Jenkins Hall</h1>
+              <p class="hero-deck">The renovated Jenkins Hall gives Sculpture and Ceramics a modern home while honoring 75 years of hands-on learning.</p>
             </div>
           </div>
         </div>
+        <p class="hero-photo-caption" data-reveal>Jenkins Hall after renovation.</p>
       </div>
     </section>
 
@@ -590,22 +598,20 @@
 
       gsap.set("[data-reveal]", { autoAlpha: 0, y: 28 });
       gsap.set("[data-photo-reveal]", { autoAlpha: 0, y: 36, scale: 0.98 });
+      gsap.set(".hero-cover-image", { scale: 1.045 });
 
       gsap.to(".story-hero [data-reveal]", {
         autoAlpha: 1,
         y: 0,
         duration: 0.85,
-        ease: "power3.out"
+        ease: "power3.out",
+        stagger: 0.14
       });
 
-      gsap.to(".intro-collage [data-photo-reveal]", {
-        autoAlpha: 1,
-        y: 0,
+      gsap.to(".hero-cover-image", {
         scale: 1,
-        duration: 0.9,
-        ease: "power3.out",
-        stagger: 0.14,
-        delay: 0.15
+        duration: 1.4,
+        ease: "power2.out"
       });
 
       const revealObserver = new IntersectionObserver((entries, observer) => {
