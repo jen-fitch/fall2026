@@ -53,18 +53,20 @@
 
     /* ---------- Intro / hero ---------- */
     .road-hero {
-      max-width: 1320px;
-      margin: 0 auto 4rem;
+      max-width: 1480px;
+      margin: 0 auto 0;
       padding: 4rem 1.5rem 0;
+      overflow: visible;
     }
     .road-hero-inner {
       display: grid;
-      grid-template-columns: minmax(0, 590px) minmax(500px, 1fr);
-      align-items: center;
+      grid-template-columns: minmax(0, 560px) minmax(620px, 1fr);
+      align-items: start;
       gap: clamp(2rem, 5vw, 5.5rem);
     }
     .road-hero-copy {
-      max-width: 590px;
+      max-width: 560px;
+      padding-top: clamp(0rem, 2vw, 2rem);
     }
     .road-hero h1 {
       color: #333;
@@ -84,14 +86,17 @@
     }
     .road-hero-map {
       display: block;
-      width: min(100%, 620px);
+      width: min(100%, 760px);
+      margin-bottom: clamp(-16rem, -16vw, -8rem);
       margin-left: auto;
+      transform: translateY(clamp(1rem, 4vw, 4.5rem));
       filter: drop-shadow(0 22px 34px rgba(0,0,0,0.18));
     }
 
     @media (max-width: 1120px) {
       .road-hero {
         max-width: 760px;
+        margin-bottom: 4rem;
       }
       .road-hero-inner {
         grid-template-columns: 1fr;
@@ -100,6 +105,7 @@
       .road-hero-map {
         width: min(100%, 520px);
         margin: 0 auto;
+        transform: none;
       }
     }
 
@@ -115,6 +121,9 @@
       max-width: 1140px;
       margin: 0 auto;
       padding: 0 1.5rem 20rem;
+      --stop-offset-y: 8rem;
+      --road-start-y: 72px;
+      --rv-start-y: 109px;
     }
 
     /* the winding road is an SVG that we draw with JavaScript so it can
@@ -170,6 +179,7 @@
     /* ---------- Stop cards ---------- */
     .stop {
       position: relative;
+      top: var(--stop-offset-y);
       z-index: 2;              /* in front of the RV (1) and road (0) */
       max-width: 420px;
       margin: -4rem 0 14rem;     /* big gaps so the RV has room to "travel" */
@@ -209,6 +219,11 @@
     }
 
     @media (max-width: 640px) {
+      .journey {
+        --road-start-y: 60px;
+        --rv-start-y: 60px;
+      }
+
       .road-hero {
         margin: 0 auto 2.5rem;
         padding-top: 2.5rem;
@@ -230,6 +245,7 @@
       }
 
       .stop {
+        top: 0;
         z-index: 3;
         margin: 4rem 0 18rem;
       }
@@ -506,12 +522,11 @@
     gsap.registerPlugin(ScrollTrigger);
 
     // ----- tuning knobs you can play with -----
-    const WAVES = 4;          // how many full left-right swings down the page
+    const WAVES = 4.5;          // how many full left-right swings down the page
     const PHASE = Math.PI;    // start on the LEFT and curve toward the RIGHT first
                               // (PHASE = 0 would start on the right instead)
     const TURN_BLEND = 0.22;   // lower = quicker PNG swap, higher = softer swap
     const INITIAL_DIRECTION_BLEND = 0.025;
-    const RV_ENTRY_PROGRESS = 0.08;
     const JOURNEY_END_EXTRA = 320;
 
     const journey = document.querySelector(".journey");
@@ -538,11 +553,20 @@
       return centerX + amp * Math.cos(2 * Math.PI * WAVES * (y / H) + PHASE);
     }
 
-    function roadStartY() {
-      return Math.max(0, stopCards[0].offsetTop);
+    function configuredJourneyY(propertyName) {
+      const configuredStart = parseFloat(getComputedStyle(journey).getPropertyValue(propertyName));
+      return Number.isFinite(configuredStart) ? configuredStart : Math.max(0, stopCards[0].offsetTop);
     }
 
-    /* Draw the road from the top of the first stop card down through the page. */
+    function roadStartY() {
+      return configuredJourneyY("--road-start-y");
+    }
+
+    function rvStartY() {
+      return configuredJourneyY("--rv-start-y");
+    }
+
+    /* Draw the road from a configurable start point so card spacing can be tuned independently. */
     function buildRoad() {
       const W = journey.clientWidth;
       H = journey.clientHeight;
@@ -633,10 +657,8 @@
       const rvRect = rvWrap.getBoundingClientRect();
       const journeyRect = journey.getBoundingClientRect();
       const baseLocalY = rvRect.top + rvRect.height / 2 - journeyRect.top;
-      const verticalEntryProgress = smoothstep(RV_ENTRY_PROGRESS * 0.7, RV_ENTRY_PROGRESS * 1.7, progress);
-      const entryY = gsap.utils.interpolate(roadStartY() - baseLocalY, 0, verticalEntryProgress);
-      const totalY = revealY + entryY;
-      const localY = baseLocalY + totalY;
+      const localY = Math.max(rvStartY(), baseLocalY + revealY);
+      const totalY = localY - baseLocalY;
       const state = roadStateAtLocalY(localY);
 
       gsap.set(rvWrap, {
