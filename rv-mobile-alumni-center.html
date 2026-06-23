@@ -201,10 +201,12 @@
     .stop.left  { margin-right: auto; }   /* card on the left side of the road */
     .stop.right { margin-left: auto; }    /* card on the right side of the road */
 
-    .stop img {
+    .stop img,
+    .stop video {
       width: 100%;
       height: 220px;
       object-fit: cover;
+      display: block;
     }
     .stop .stop-body { padding: 1.5rem 1.75rem 0.50rem; }
     .stop .stop-tag {
@@ -379,7 +381,10 @@
 
     <!-- STOP 3 -->
     <article class="stop left" data-stop>
-      <img src="images/rv/stop-holiday-parade.jpg" alt="The Mobile Alumni Center decorated with holiday lights in a truck parade">
+      <video autoplay loop muted playsinline preload="metadata" poster="images/rv/stop-holiday-parade.jpg" aria-label="The Mobile Alumni Center decorated with holiday lights in a truck parade">
+        <source src="images/rv/stop-holiday-parade-loop.mp4" type="video/mp4">
+        <img src="images/rv/stop-holiday-parade.jpg" alt="The Mobile Alumni Center decorated with holiday lights in a truck parade">
+      </video>
       <div class="stop-body">
         <span class="stop-tag">Truckers Parade</span>
         <h2>Spreading the Cal Poly Humboldt Holiday Cheer</h2>
