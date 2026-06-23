@@ -53,10 +53,18 @@
 
     /* ---------- Intro / hero ---------- */
     .road-hero {
-      max-width: 800px;
-      margin: 0 auto -120px;
-      padding: 4rem 1.5rem 2rem;
-      text-align: center;
+      max-width: 1320px;
+      margin: 0 auto 4rem;
+      padding: 4rem 1.5rem 0;
+    }
+    .road-hero-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 590px) minmax(500px, 1fr);
+      align-items: center;
+      gap: clamp(2rem, 5vw, 5.5rem);
+    }
+    .road-hero-copy {
+      max-width: 590px;
     }
     .road-hero h1 {
       color: #333;
@@ -68,42 +76,31 @@
     .road-hero p {
       font-size: 1.125rem;
       line-height: 1.6;
-      margin: 0 auto 1.25rem;
+      margin: 0 0 1.25rem;
     }
     .road-hero .byline {
       font-style: italic;
-      margin: 0 auto 30px;
+      margin: 0 0 30px;
     }
-    /* ------------------------------------------------------------------
-       LAUNCH SCENE
-       A tall section whose inner wrapper is sticky, so the big RV stays
-       centered on screen while we scroll through it. The scrubbed scale +
-       fade lives in JavaScript. 200vh gives the shrink room to breathe.
-    ------------------------------------------------------------------ */
-    .rv-launch {
-      position: relative;
-      height: 200vh;
-      margin-bottom: -100vh;
-      z-index: 2;
-    }
-    .rv-launch-inner {
-      position: sticky;
-      top: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
-    /* the large "launch" RV that scales down into the driving RV. It is
-       roughly 4x the size of the driving RV (which is 230px). We set the
-       transform origin to the centre so it shrinks toward the road. */
-    .rv-launch .hero-rv {
+    .road-hero-map {
       display: block;
-      width: 720px;
-      max-width: 92vw;
-      transform-origin: center center;
-      will-change: transform, opacity;
-      filter: drop-shadow(0 18px 28px rgba(0,0,0,0.22));
+      width: min(100%, 620px);
+      margin-left: auto;
+      filter: drop-shadow(0 22px 34px rgba(0,0,0,0.18));
+    }
+
+    @media (max-width: 1120px) {
+      .road-hero {
+        max-width: 760px;
+      }
+      .road-hero-inner {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .road-hero-map {
+        width: min(100%, 520px);
+        margin: 0 auto;
+      }
     }
 
     /* ------------------------------------------------------------------
@@ -213,18 +210,23 @@
 
     @media (max-width: 640px) {
       .road-hero {
-        margin: 0 auto -30px;
+        margin: 0 auto 2.5rem;
+        padding-top: 2.5rem;
+      }
+      .road-hero-inner {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+      }
+      .road-hero-map {
+        width: min(100%, 340px);
+        margin: 0 auto;
       }
       .rv-wrap {
         top: 56vh;
         z-index: 1;
         width: 200px;
-      }
-
-      .rv-launch-inner {
-        align-items: flex-start;
-        box-sizing: border-box;
-        padding-top: 2rem;
       }
 
       .stop {
@@ -260,40 +262,32 @@
        HERO / INTRO
        ============================================================ -->
   <header class="road-hero">
-<!--    <p class="kicker">Cal Poly Humboldt &middot; Fall 2026</p>-->
-    <h1>Humboldt Spirit Hits the Road</h1>
-    <p class="byline">By Iridian Casarez</p>
-    <p>
-      The Forever Humboldt Mobile Alumni Center is impossible to miss. Big,
-      bold, and decked out in Cal Poly Humboldt tributes, the vehicle has
-      become a rolling celebration of connection, community, and Humboldt
-      spirit.
-    </p>
-    <p>
-      The Mobile Alumni Center was designed to take the Humboldt spirit on
-      the road, allowing alumni, families, and friends to gather and stay
-      connected wherever they are. From Seattle to San Diego, the vehicle
-      brings alumni, families, students, and supporters together through
-      gatherings big and small&mdash;all with a little Lumberjack flair.
-      Whether it&apos;s tailgates, parades, river days, mixers, or campus
-      celebrations, the Mobile Alumni Center turns every stop into a chance to
-      reconnect and celebrate what it means to be part of the Humboldt family.
-    </p>
-  </header>
-
-  <!-- ============================================================
-       LAUNCH SCENE
-       The big hero RV lives in its own tall section. The inner wrapper is
-       sticky, so the RV stays centered on screen while you scroll. A
-       scrubbed ScrollTrigger shrinks it down to driving size and fades it
-       out, handing off to the small RV that starts the journey below.
-       ============================================================ -->
-  <section class="rv-launch">
-    <div class="rv-launch-inner">
-      <img class="hero-rv" id="heroRv" src="images/rv/rv.png"
-           alt="Illustrated Cal Poly Humboldt motorhome, ready to start its journey">
+    <div class="road-hero-inner">
+      <div class="road-hero-copy">
+  <!--    <p class="kicker">Cal Poly Humboldt &middot; Fall 2026</p>-->
+        <h1>Humboldt Spirit Hits the Road</h1>
+        <p class="byline">By Iridian Casarez</p>
+        <p>
+          The Forever Humboldt Mobile Alumni Center is impossible to miss. Big,
+          bold, and decked out in Cal Poly Humboldt tributes, the vehicle has
+          become a rolling celebration of connection, community, and Humboldt
+          spirit.
+        </p>
+        <p>
+          The Mobile Alumni Center was designed to take the Humboldt spirit on
+          the road, allowing alumni, families, and friends to gather and stay
+          connected wherever they are. From Seattle to San Diego, the vehicle
+          brings alumni, families, students, and supporters together through
+          gatherings big and small&mdash;all with a little Lumberjack flair.
+          Whether it&apos;s tailgates, parades, river days, mixers, or campus
+          celebrations, the Mobile Alumni Center turns every stop into a chance to
+          reconnect and celebrate what it means to be part of the Humboldt family.
+        </p>
+      </div>
+      <img class="road-hero-map" src="images/rv/rv-map.png"
+           alt="Illustrated map showing the Forever Humboldt Mobile Alumni Center route">
     </div>
-  </section>
+  </header>
 
   <!-- ============================================================
        THE JOURNEY
@@ -517,10 +511,9 @@
                               // (PHASE = 0 would start on the right instead)
     const TURN_BLEND = 0.22;   // lower = quicker PNG swap, higher = softer swap
     const INITIAL_DIRECTION_BLEND = 0.025;
+    const RV_ENTRY_PROGRESS = 0.08;
     const JOURNEY_END_EXTRA = 320;
-    const HANDOFF_FADE_START = 0.92;
 
-    const heroRv = document.getElementById("heroRv");
     const journey = document.querySelector(".journey");
     const roadOutro = document.querySelector(".road-outro");
     const roadSvg = document.querySelector(".road");
@@ -534,7 +527,6 @@
     let amp = 0;       // how far the RV swings from the middle (pixels)
     let H = 0;         // total height of the journey section
     let vh = 0;        // viewport height
-    let launchHandoffAlpha = 0;
     let journeyProgress = 0;
 
     /* The road is a cosine curve based on how far DOWN the road you are
@@ -546,7 +538,11 @@
       return centerX + amp * Math.cos(2 * Math.PI * WAVES * (y / H) + PHASE);
     }
 
-    /* Draw the road from the RV handoff line down through the page. */
+    function roadStartY() {
+      return Math.max(0, stopCards[0].offsetTop);
+    }
+
+    /* Draw the road from the top of the first stop card down through the page. */
     function buildRoad() {
       const W = journey.clientWidth;
       H = journey.clientHeight;
@@ -559,7 +555,7 @@
 
       let d = "";
       const STEP = 12;
-      const startY = rvCenterYInViewport() + rvWrap.offsetHeight * 0.28;
+      const startY = roadStartY();
       let lastY = startY;
       for (let y = startY; y <= H; y += STEP) {
         const x = roadXAt(y);
@@ -589,12 +585,6 @@
       return top + rvWrap.offsetHeight / 2;
     }
 
-    function roadStateAtProgress(progress, yOffset = 0) {
-      const scrollDistance = H + JOURNEY_END_EXTRA - vh;
-      const localY = rvCenterYInViewport() + progress * scrollDistance + yOffset;
-      return roadStateAtLocalY(localY);
-    }
-
     function roadStateAtLocalY(localY) {
       const theta = 2 * Math.PI * WAVES * (localY / H) + PHASE;
 
@@ -602,22 +592,6 @@
         x: amp * Math.cos(theta),
         slope: -Math.sin(theta)
       };
-    }
-
-    function heroHandoffScale() {
-      return rvWrap.offsetWidth / heroRv.offsetWidth;
-    }
-
-    function heroStartCenterYInViewport() {
-      const inner = heroRv.parentElement;
-      const innerStyle = getComputedStyle(inner);
-
-      if (innerStyle.alignItems === "flex-start") {
-        const paddingTop = parseFloat(innerStyle.paddingTop) || 0;
-        return paddingTop + heroRv.offsetHeight / 2;
-      }
-
-      return vh / 2;
     }
 
     function mobileCardCoverAmount() {
@@ -651,18 +625,26 @@
       return correction * smoothstep(0.86, 1, progress);
     }
 
-    function setJourneyRv(progress) {
+    function setJourneyRv(progress, isInJourney) {
       // Keep the RV visible through the last-card reveal on all screen sizes.
-      const wrapOpacity = launchHandoffAlpha;
       gsap.set(rvWrap, { y: 0 });
 
       const revealY = finalRevealY(progress);
       const rvRect = rvWrap.getBoundingClientRect();
       const journeyRect = journey.getBoundingClientRect();
-      const localY = rvRect.top + revealY + rvRect.height / 2 - journeyRect.top;
+      const baseLocalY = rvRect.top + rvRect.height / 2 - journeyRect.top;
+      const verticalEntryProgress = smoothstep(RV_ENTRY_PROGRESS * 0.7, RV_ENTRY_PROGRESS * 1.7, progress);
+      const entryY = gsap.utils.interpolate(roadStartY() - baseLocalY, 0, verticalEntryProgress);
+      const totalY = revealY + entryY;
+      const localY = baseLocalY + totalY;
       const state = roadStateAtLocalY(localY);
 
-      gsap.set(rvWrap, { x: state.x, y: revealY, rotation: state.slope * 4, opacity: wrapOpacity });
+      gsap.set(rvWrap, {
+        x: state.x,
+        y: totalY,
+        rotation: state.slope * 4,
+        opacity: isInJourney ? 1 : 0
+      });
 
       // Keep one PNG dominant while the RV is moving clearly left or right.
       // Only crossfade near the turning point, where the RV changes direction.
@@ -676,49 +658,12 @@
       gsap.set("#rvRight", { opacity: 1 - leftOpacity });
     }
 
-    function updateHandoffAlpha(self) {
-      launchHandoffAlpha = smoothstep(HANDOFF_FADE_START, 1, self.progress);
-      setJourneyRv(journeyProgress);
-    }
-
-    /* ---------- LAUNCH HANDOFF ----------
-       The big hero RV shrinks, slides, and tilts into the same road point
-       used by the sticky journey RV at progress 0. The journey section now
-       reaches the top of the viewport when this timeline completes, so the
-       two RVs crossfade at the same size and same point on the curve. */
     buildRoad();
-    gsap.timeline({
-      scrollTrigger: {
-        trigger: ".rv-launch",
-        start: "top top",
-        end: "bottom bottom",
-        scrub: true,
-        invalidateOnRefresh: true,
-        onUpdate: updateHandoffAlpha,
-        onRefresh: updateHandoffAlpha
-      }
-    })
-            .fromTo(heroRv,
-                    { scale: 1, x: 0, y: 0, rotation: 0, autoAlpha: 1 },
-                    {
-                      scale: heroHandoffScale,
-                      x: () => roadStateAtProgress(0).x,
-                      y: () => rvCenterYInViewport() - heroStartCenterYInViewport(),
-                      rotation: () => roadStateAtProgress(0).slope * 4,
-                      ease: "power1.inOut",
-                      duration: 0.88
-                    }
-            )
-            .to(heroRv,
-                    { autoAlpha: 1, ease: "none", duration: 0.04 }
-            )
-            .to(heroRv,
-                    { autoAlpha: 0, ease: "none", duration: 0.03 }
-            );
 
     function updateJourneyRv(self) {
       journeyProgress = self.progress;   // 0 at the top of the journey, 1 at the bottom
-      setJourneyRv(journeyProgress);
+      const isInJourney = self.isActive || self.progress > 0;
+      setJourneyRv(journeyProgress, isInJourney);
     }
 
     /* ---------- THE DRIVING RV ----------
@@ -728,7 +673,7 @@
        so it reverses cleanly instead of drifting. */
     ScrollTrigger.create({
       trigger: ".journey",
-      start: "top top",
+      start: "top bottom",
       end: () => `bottom+=${JOURNEY_END_EXTRA} bottom`,
       scrub: true,
       onUpdate: updateJourneyRv,
