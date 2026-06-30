@@ -249,6 +249,177 @@
       aspect-ratio: 16 / 9;
     }
 
+    .container-video {
+      background: #171412;
+      margin: clamp(3rem, 8vw, 6rem) 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .container-video .row {
+      margin-left: 0;
+      margin-right: 0;
+    }
+
+    .container-video [class*="col-"] {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .story-video {
+      margin: 0;
+    }
+
+    .foundry-video {
+      aspect-ratio: 16 / 9;
+      background: #171412;
+      min-height: clamp(22rem, 58vw, 52rem);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .foundry-video::before,
+    .foundry-video::after,
+    .foundry-depth,
+    .foundry-heat,
+    .foundry-sparks {
+      content: "";
+      inset: 0;
+      pointer-events: none;
+      position: absolute;
+    }
+
+    /*.foundry-video::before {*/
+    /*  background:*/
+    /*    radial-gradient(circle at 30% 62%, rgba(236, 143, 57, 0.5), transparent 22%),*/
+    /*    radial-gradient(circle at 18% 72%, rgba(255, 223, 153, 0.22), transparent 17%),*/
+    /*    linear-gradient(104deg, transparent 0 12%, rgba(201, 157, 69, 0.24) 12% 21%, transparent 21% 100%),*/
+    /*    linear-gradient(168deg, transparent 0 12%, rgba(77, 125, 120, 0.13) 66% 76%, transparent 76% 100%);*/
+    /*  mix-blend-mode: screen;*/
+    /*  opacity: 0.72;*/
+    /*  z-index: 4;*/
+    /*  animation: foundryGlow 4.8s ease-in-out infinite alternate;*/
+    /*}*/
+
+    .foundry-video::after {
+      background:
+        repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 5px),
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 7px);
+      mix-blend-mode: overlay;
+      opacity: 0.22;
+      z-index: 6;
+      animation: foundryGrain 0.9s steps(2, end) infinite;
+    }
+
+    .foundry-media-slot {
+      inset: 0;
+      overflow: hidden;
+      position: absolute;
+      z-index: 1;
+    }
+
+    .foundry-media-slot > img,
+    .foundry-media-slot > video {
+      display: block;
+      filter: saturate(1.08) contrast(1.07) brightness(0.82);
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transform: scale(1.06);
+      width: 100%;
+      animation: foundryDrift 12s ease-in-out infinite alternate;
+    }
+
+    .foundry-depth {
+      background:
+        linear-gradient(90deg, rgba(18, 15, 13, 0.64), transparent 28%, rgba(18, 15, 13, 0.28)),
+        linear-gradient(0deg, rgba(18, 15, 13, 0.82), transparent 40%, rgba(18, 15, 13, 0.22));
+      z-index: 2;
+    }
+
+    .foundry-heat {
+      background:
+        radial-gradient(ellipse at 50% 50%, rgba(255, 192, 89, 0.3) 25%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(255, 157, 58, 0.34) 25%, transparent 50%);
+      filter: blur(10px);
+      mix-blend-mode: screen;
+      opacity: 0.6;
+      transform: translateX(-6%) skewX(-8deg);
+      z-index: 3;
+      animation: foundryGlow 3.2s ease-in-out infinite alternate;
+    }
+
+    .foundry-sparks {
+      background:
+        radial-gradient(circle, rgba(255, 224, 150, 0.75) 0 .5px, transparent 3px) 22% 62% / 11rem 10rem,
+        radial-gradient(circle, rgba(255, 152, 80, 0.9) 0 .5px, transparent 3px) 39% 52% / 8rem 20rem,
+        radial-gradient(circle, rgba(255, 236, 178, 0.75) 0 .25px, transparent 2.5px) 58% 72% / 13rem 13rem;
+      mix-blend-mode: screen;
+      opacity: 0.3;
+      z-index: 5;
+      animation: foundrySparks 4.5s linear infinite;
+    }
+
+    @keyframes foundryDrift {
+      from {
+        transform: scale(1.06) translate3d(-0.6%, 0, 0);
+      }
+
+      to {
+        transform: scale(1.12) translate3d(1.1%, -1.2%, 0);
+      }
+    }
+
+    @keyframes foundryGlow {
+      from {
+        opacity: 0.54;
+        transform: translate3d(-1.5%, 1%, 0);
+      }
+
+      to {
+        opacity: 0.86;
+        transform: translate3d(1.5%, -1%, 0);
+      }
+    }
+
+    @keyframes foundryHeat {
+      from {
+        opacity: 0.42;
+        transform: translateX(-8%) skewX(-10deg) scaleX(0.96);
+      }
+
+      to {
+        opacity: 0.72;
+        transform: translateX(5%) skewX(-6deg) scaleX(1.05);
+      }
+    }
+
+    @keyframes foundrySparks {
+      from {
+        background-position: 22% 70%, 39% 62%, 58% 80%;
+        opacity: 0.18;
+      }
+
+      42% {
+        opacity: 0.42;
+      }
+
+      to {
+        background-position: 25% 28%, 43% 24%, 61% 34%;
+        opacity: 0.1;
+      }
+    }
+
+    @keyframes foundryGrain {
+      from {
+        transform: translate3d(0, 0, 0);
+      }
+
+      to {
+        transform: translate3d(-1.5%, 1%, 0);
+      }
+    }
+
     .story-photo figcaption {
       color: rgba(36, 33, 31, 0.6);
       font-size: 0.88rem;
@@ -269,7 +440,7 @@
 
     .story-block:first-child {
       border-top: 0;
-      padding-top: clamp(2rem, 5vw, 3.5rem);
+      /*padding-top: clamp(2rem, 5vw, 3.5rem);*/
     }
 
     .story-block::before {
@@ -286,6 +457,13 @@
 
     .story-block:first-child::before {
       display: none;
+    }
+
+    .story-block.photos-left::before,
+    .story-block.image-left::before {
+      background: linear-gradient(270deg, var(--accent, var(--jenkins-clay)), transparent);
+      left: auto;
+      right: 0;
     }
 
     .eyebrow {
@@ -444,6 +622,11 @@
       <div class="container-xl">
         <article class="story-block intro-block" id="industrial-arts-roots" style="--accent: var(--jenkins-clay);" data-reveal>
           <div class="row g-5 align-items-top">
+            <div class="col-lg-8 col-xl-7">
+              <p class="eyebrow">Creative Spaces</p>
+              <h2>Legacy of Craftsmanship</h2>
+              <p class="article-copy">Originally opened in 1950 as the home of Humboldt&rsquo;s Industrial Arts program, <a href="https://now.humboldt.edu/news/space-makers-again-jenkins-hall-reopens-after-12m-renovation?utm_source=now_weekly_newsletter&amp;utm_medium=email&amp;utm_campaign=hnow-2025-12-01&amp;_gl=1*7wb0z3*_gcl_au*ODE5NjAyMDExLjE3NzczMTM5NTM.*_ga*OGQyNzA0NGYtYmIzNS00NzA5LWFmYzktMDg4NTg1ODcxNjM3*_ga_JL6J7P9CG9*czE3ODExOTQ4NjkkbzEwNzIkZzEkdDE3ODExOTU4ODQkajYwJGwwJGgw">the building was named for Horace &ldquo;Pop&rdquo; Jenkins</a>, a ceramicist and faculty member who championed hands-on learning. Following a &#36;12 million renovation funded by the California State University&rsquo;s Chancellor&rsquo;s Office, the building re-opened in Fall 2025 as a modern home for the <a href="https://www.humboldt.edu/academics/programs/art">Sculpture and Ceramics programs</a>, thoughtfully designed to support the next generation of artists.</p>
+            </div>
             <div class="col-lg-4 col-xl-5">
               <figure class="story-photo photo-small" data-photo-reveal data-float data-speed="5">
                 <div class="photo-frame">
@@ -452,41 +635,36 @@
                 <figcaption>Archival imagery connects the building to its Industrial Arts roots.</figcaption>
               </figure>
             </div>
-            <div class="col-lg-8 col-xl-7">
-              <p class="eyebrow">Creative Spaces</p>
-              <h2>Legacy of Craftsmanship</h2>
-              <p class="article-copy">Originally opened in 1950 as the home of Humboldt&rsquo;s Industrial Arts program, <a href="https://now.humboldt.edu/news/space-makers-again-jenkins-hall-reopens-after-12m-renovation?utm_source=now_weekly_newsletter&amp;utm_medium=email&amp;utm_campaign=hnow-2025-12-01&amp;_gl=1*7wb0z3*_gcl_au*ODE5NjAyMDExLjE3NzczMTM5NTM.*_ga*OGQyNzA0NGYtYmIzNS00NzA5LWFmYzktMDg4NTg1ODcxNjM3*_ga_JL6J7P9CG9*czE3ODExOTQ4NjkkbzEwNzIkZzEkdDE3ODExOTU4ODQkajYwJGwwJGgw">the building was named for Horace &ldquo;Pop&rdquo; Jenkins</a>, a ceramicist and faculty member who championed hands-on learning. Following a &#36;12 million renovation funded by the California State University&rsquo;s Chancellor&rsquo;s Office, the building re-opened in Fall 2025 as a modern home for the <a href="https://www.humboldt.edu/academics/programs/art">Sculpture and Ceramics programs</a>, thoughtfully designed to support the next generation of artists.</p>
-            </div>
           </div>
         </article>
 
-        <article class="story-block" id="concept-to-finished-work" style="--accent: var(--jenkins-glaze);" data-reveal>
+        <article class="story-block photos-left" id="concept-to-finished-work" style="--accent: var(--jenkins-glaze);" data-reveal>
           <div class="row g-5 align-items-top">
-            <div class="col-lg-5">
-              <p class="eyebrow">Where Inspiration Begins</p>
-              <h2>Forged, Fired, and Formed</h2>
-              <p class="article-copy">The renovated facility now features studios, fabrication spaces, kiln rooms, and a 3D printing room where students can work with wood, metal, or clay. The complementary facilities allow students to move seamlessly from concept to finished work.</p>
-            </div>
             <div class="col-lg-7">
               <div class="photo-pair">
                 <figure class="story-photo" data-photo-reveal>
-                  <div class="photo-frame">
+                  <div class="photo-frame wide">
                     <img src="images/jenkins_hall/artf040826_00114.jpg" alt="Student working near fabrication equipment in Jenkins Hall" loading="lazy" decoding="async">
                   </div>
                   <figcaption>Equipment and tools support work in wood, metal, clay, and digital fabrication.</figcaption>
                 </figure>
                 <figure class="story-photo" data-photo-reveal>
                   <div class="photo-frame">
-                    <img src="images/jenkins_hall/artf040826_00175.jpg" alt="Students and an instructor working in the renovated Sculpture Lab" loading="lazy" decoding="async">
+                    <img src="images/jenkins_hall/artf040826_00318.jpg" alt="Large sculptural form staged beside kilns in Jenkins Hall" loading="lazy" decoding="async">
                   </div>
-                  <figcaption>Flexible studios give students room to move from idea to object.</figcaption>
+                  <figcaption>Finished forms sit close to the tools and heat that make scale possible.</figcaption>
                 </figure>
               </div>
+            </div>
+            <div class="col-lg-5">
+              <p class="eyebrow">Where Inspiration Begins</p>
+              <h2>Forged, Fired, and Formed</h2>
+              <p class="article-copy">The renovated facility now features studios, fabrication spaces, kiln rooms, and a 3D printing room where students can work with wood, metal, or clay. The complementary facilities allow students to move seamlessly from concept to finished work.</p>
             </div>
           </div>
         </article>
 
-        <article class="story-block image-left" id="sculpture-lab" style="--accent: var(--jenkins-slate);" data-reveal>
+        <article class="story-block image-right" id="sculpture-lab" style="--accent: var(--jenkins-slate);" data-reveal>
           <div class="row g-5 align-items-top">
             <div class="col-lg-5">
               <p class="eyebrow">First Floor</p>
@@ -502,32 +680,27 @@
               </figure>
             </div>
           </div>
-
-          <div class="row g-5 align-items-top pt-5">
-            <div class="col-lg-7">
-              <div class="photo-pair">
-                <figure class="story-photo" data-photo-reveal>
-                  <div class="photo-frame wide">
-                    <img src="images/jenkins_hall/artf030926_00246.jpg" alt="Students in protective gear pour molten metal into molds in The Foundry" loading="lazy" decoding="async">
+        </article>
+      </div>
+      <div class="container-video">
+          <div class="row align-items-top">
+            <div class="col-lg-12">
+                <figure class="story-video" data-photo-reveal>
+                  <div class="foundry-video" aria-label="Looping preview of students pouring molten metal in The Foundry">
+                    <!-- Replace only the media inside this slot when the real video is ready. -->
+                    <div class="foundry-media-slot">
+                      <img src="images/jenkins_hall/artf030926_00246.jpg" alt="Students in protective gear pour molten metal into molds in The Foundry" loading="lazy" decoding="async">
+                    </div>
+                    <span class="foundry-depth" aria-hidden="true"></span>
+                    <span class="foundry-heat" aria-hidden="true"></span>
+                    <span class="foundry-sparks" aria-hidden="true"></span>
                   </div>
-                  <figcaption>Students pour molten metal with careful coordination and protective gear.</figcaption>
                 </figure>
-                <figure class="story-photo" data-photo-reveal>
-                  <div class="photo-frame">
-                    <img src="images/jenkins_hall/artf040826_00318.jpg" alt="Large sculptural form staged beside kilns in Jenkins Hall" loading="lazy" decoding="async">
-                  </div>
-                  <figcaption>Finished forms sit close to the tools and heat that make scale possible.</figcaption>
-                </figure>
-              </div>
-            </div>
-            <div class="col-lg-5">
-              <h3 class="pb-2">The Foundry</h3>
-              <p class="article-copy">One of the building's most distinctive spaces is The Foundry. Here, students learn the art of metal casting&mdash;pouring molten metal into molds and transforming them into sculptures&mdash;an ancient process that remains central to contemporary sculpture.</p>
             </div>
           </div>
-        </article>
-
-        <article class="story-block image-left" id="ceramics-studio" style="--accent: var(--jenkins-glaze);" data-reveal>
+      </div>
+      <div class="container-xl">
+        <article class="story-block image-right" id="ceramics-studio" style="--accent: var(--jenkins-glaze);" data-reveal>
           <div class="row g-5 align-items-top">
             <div class="col-lg-5">
               <p class="eyebrow">Second Floor</p>
@@ -538,7 +711,7 @@
             <div class="col-lg-7">
               <div class="photo-pair">
                 <figure class="story-photo" data-photo-reveal>
-                  <div class="photo-frame wide">
+                  <div class="photo-frame">
                     <img src="images/jenkins_hall/artf040826_00462.jpg" alt="Wide view of the renovated Ceramics Studio with pottery wheels and students working" loading="lazy" decoding="async">
                   </div>
                   <figcaption>Rows of wheels and open workstations support the full ceramic-making process.</figcaption>
@@ -550,17 +723,18 @@
                   <figcaption>Wheel throwing turns raw clay into a finished form.</figcaption>
                 </figure>
                 <figure class="story-photo" data-photo-reveal>
+                  <div class="photo-frame wide">
+                    <img src="images/jenkins_hall/artf020926_00035.jpg" alt="Ceramic pieces, tools, and glaze materials on a work surface" loading="lazy" decoding="async">
+                  </div>
+                  <figcaption>Work surfaces carry the evidence of experimentation.</figcaption>
+                </figure>
+                <figure class="story-photo" data-photo-reveal>
                   <div class="photo-frame">
                     <img src="images/jenkins_hall/artf020926_00028.jpg" alt="Glaze test tiles arranged on the wall of the glaze room" loading="lazy" decoding="async">
                   </div>
                   <figcaption>Glaze tests record color, texture, and surface choices.</figcaption>
                 </figure>
-                <figure class="story-photo" data-photo-reveal>
-                  <div class="photo-frame">
-                    <img src="images/jenkins_hall/artf020926_00035.jpg" alt="Ceramic pieces, tools, and glaze materials on a work surface" loading="lazy" decoding="async">
-                  </div>
-                  <figcaption>Work surfaces carry the evidence of experimentation.</figcaption>
-                </figure>
+
               </div>
             </div>
           </div>
