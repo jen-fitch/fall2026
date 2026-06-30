@@ -66,6 +66,9 @@
       text-decoration-thickness: 0.08em;
       text-underline-offset: 0.16em;
     }
+    p {
+      margin-bottom: 16px;
+    }
 
     .jenkins-article {
       background:
@@ -317,7 +320,6 @@
       font-family: Georgia, "Times New Roman", serif;
       font-size: clamp(1.08rem, 1.55vw, 1.28rem);
       line-height: 1.68;
-      margin: 0;
     }
 
     .photo-pair {
@@ -327,7 +329,7 @@
     }
 
     .photo-pair .story-photo:nth-child(2) {
-      align-self: end;
+      /*align-self: end;*/
       transform: translateY(1.5rem);
     }
 
@@ -441,7 +443,7 @@
     <section class="article-flow jenkins-article">
       <div class="container-xl">
         <article class="story-block intro-block" id="industrial-arts-roots" style="--accent: var(--jenkins-clay);" data-reveal>
-          <div class="row g-5 align-items-center">
+          <div class="row g-5 align-items-top">
             <div class="col-lg-4 col-xl-5">
               <figure class="story-photo photo-small" data-photo-reveal data-float data-speed="5">
                 <div class="photo-frame">
@@ -459,7 +461,7 @@
         </article>
 
         <article class="story-block" id="concept-to-finished-work" style="--accent: var(--jenkins-glaze);" data-reveal>
-          <div class="row g-5 align-items-center">
+          <div class="row g-5 align-items-top">
             <div class="col-lg-5">
               <p class="eyebrow">Where Inspiration Begins</p>
               <h2>Forged, Fired, and Formed</h2>
@@ -485,7 +487,7 @@
         </article>
 
         <article class="story-block image-left" id="sculpture-lab" style="--accent: var(--jenkins-slate);" data-reveal>
-          <div class="row g-5 align-items-center">
+          <div class="row g-5 align-items-top">
             <div class="col-lg-5">
               <p class="eyebrow">First Floor</p>
               <h2>Sculpture Lab</h2>
@@ -501,7 +503,7 @@
             </div>
           </div>
 
-          <div class="row g-5 align-items-center pt-5">
+          <div class="row g-5 align-items-top pt-5">
             <div class="col-lg-7">
               <div class="photo-pair">
                 <figure class="story-photo" data-photo-reveal>
@@ -526,11 +528,12 @@
         </article>
 
         <article class="story-block image-left" id="ceramics-studio" style="--accent: var(--jenkins-glaze);" data-reveal>
-          <div class="row g-5 align-items-center">
+          <div class="row g-5 align-items-top">
             <div class="col-lg-5">
               <p class="eyebrow">Second Floor</p>
               <h2>Ceramics Studio</h2>
               <p class="article-copy">The Ceramics Studio supports every stage of the ceramic-making process. The studio includes a variety of facilities for students to explore both wheel throwing and handbuilding, developing their work from raw clay to finished pieces.</p>
+              <p class="article-copy">The studio has dedicated spaces for clay preparation, glazing, firing, and mold-making. Low- and high-fire facilities allow students to learn a variety of firing techniques, while the glaze room serves as a place for experimentation with color, texture, and surface design.</p>
             </div>
             <div class="col-lg-7">
               <div class="photo-pair">
@@ -546,12 +549,6 @@
                   </div>
                   <figcaption>Wheel throwing turns raw clay into a finished form.</figcaption>
                 </figure>
-              </div>
-            </div>
-          </div>
-          <div class="row g-5 align-items-center pt-5">
-            <div class="col-lg-7">
-              <div class="photo-pair">
                 <figure class="story-photo" data-photo-reveal>
                   <div class="photo-frame">
                     <img src="images/jenkins_hall/artf020926_00028.jpg" alt="Glaze test tiles arranged on the wall of the glaze room" loading="lazy" decoding="async">
@@ -565,9 +562,6 @@
                   <figcaption>Work surfaces carry the evidence of experimentation.</figcaption>
                 </figure>
               </div>
-            </div>
-            <div class="col-lg-5">
-              <p class="article-copy">The studio has dedicated spaces for clay preparation, glazing, firing, and mold-making. Low- and high-fire facilities allow students to learn a variety of firing techniques, while the glaze room serves as a place for experimentation with color, texture, and surface design.</p>
             </div>
           </div>
         </article>
