@@ -19,6 +19,9 @@
 
   <!-- Adobe Typekit fonts -->
   <link rel="stylesheet" href="https://use.typekit.net/fxx7vks.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Londrina+Sketch&display=swap">
 
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/main.css">
@@ -74,10 +77,7 @@
     .jenkins-article {
       background:
         linear-gradient(115deg, rgba(166, 96, 67, 0.13), transparent 24rem),
-        linear-gradient(245deg, rgba(77, 125, 120, 0.14), transparent 26rem),
-        repeating-linear-gradient(0deg, rgba(36, 33, 31, 0.025) 0 1px, transparent 1px 7px),
-        repeating-linear-gradient(90deg, rgba(36, 33, 31, 0.025) 0 1px, transparent 1px 7px),
-        var(--jenkins-paper);
+        linear-gradient(245deg, rgba(77, 125, 120, 0.14), transparent 26rem);
       min-height: 100svh;
       overflow-x: clip;
       position: relative;
@@ -214,11 +214,11 @@
 
     .photo-frame {
       --photo-position: center;
-      background: var(--jenkins-paper-light);
       border: 1px solid rgba(36, 33, 31, 0.13);
       border-bottom: 0;
-      border-radius: 6px 6px 0 0;
+      border-radius: 6px;
       box-shadow: none;
+      container-type: inline-size;
       display: block;
       overflow: hidden;
       position: relative;
@@ -226,24 +226,30 @@
 
     .photo-frame::after {
       background:
-        linear-gradient(180deg, transparent 58%, rgba(36, 33, 31, 0.32)),
-        radial-gradient(ellipse at 50% 50%, transparent 60%, rgba(36, 33, 31, 0.16) 100%),
-        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.1) 0 1px, transparent 1px 70px);
+              linear-gradient(180deg, transparent 58%, rgba(36, 33, 31, 0.32)),
+              radial-gradient(ellipse at 50% 50%, transparent 60%, rgba(36, 33, 31, 0.16) 100%),
+              repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.1) 0 1px, transparent 1px 70px);
       content: "";
       inset: 0;
       mix-blend-mode: soft-light;
-      opacity: 0.64;
+      opacity: 1;
       pointer-events: none;
       position: absolute;
+      z-index: 4;
     }
-
+    .photo-frame.top-gradient::after {
+      background:
+              linear-gradient(0deg, transparent 0, rgba(0, 0, 0, 1));
+    }
     .photo-frame img {
       aspect-ratio: 4 / 3;
       display: block;
       height: auto;
       object-fit: cover;
       object-position: var(--photo-position);
+      position: relative;
       width: 100%;
+      z-index: 1;
     }
 
     .photo-frame.tall img {
@@ -252,6 +258,46 @@
 
     .photo-frame.wide img {
       aspect-ratio: 16 / 9;
+    }
+
+    .section-photo-title {
+      -webkit-text-stroke-color: #FFF;
+      -webkit-text-stroke-width: clamp(0.8px, 0.14cqw, 2.2px);
+      color: #F2A900;
+      filter:
+        drop-shadow(0 0 0.025em rgba(255, 235, 172, 0.58))
+        drop-shadow(0 0.065em 0.075em rgba(18, 12, 8, 0.34));
+      font-family: "Londrina Sketch", "freight-sans-pro", system-ui, sans-serif;
+      font-size: clamp(3.5rem, 16cqw, 15rem);
+      font-weight: 400;
+      left: 50%;
+      line-height: 0.72;
+      mix-blend-mode: normal;
+      opacity: 0.92;
+      paint-order: stroke fill;
+      pointer-events: none;
+      position: absolute;
+      text-align: center;
+      text-shadow:
+        0 0.012em 0 rgba(255, 247, 218, 0.58),
+        0 0 0.22em rgba(180, 96, 42, 0.34);
+      text-transform: uppercase;
+      top: clamp(0.7rem, 2.2cqw, 1.8rem);
+      transform: translateX(-50%);
+      white-space: nowrap;
+      width: min-content;
+      z-index: 5;
+    }
+
+    .section-photo-title::after {
+      color: rgba(255, 221, 135, 0.25);
+      content: attr(data-title);
+      inset: 0;
+      mix-blend-mode: overlay;
+      position: absolute;
+      text-shadow: none;
+      transform: translate(-0.014em, -0.018em);
+      z-index: -1;
     }
 
     .container-video {
@@ -278,6 +324,7 @@
     .foundry-video {
       aspect-ratio: 16 / 9;
       background: #171412;
+      container-type: inline-size;
       min-height: clamp(22rem, 58vw, 52rem);
       overflow: hidden;
       position: relative;
@@ -295,17 +342,15 @@
       position: absolute;
     }
 
-    /*.foundry-video::before {*/
-    /*  background:*/
-    /*    radial-gradient(circle at 30% 62%, rgba(236, 143, 57, 0.5), transparent 22%),*/
-    /*    radial-gradient(circle at 18% 72%, rgba(255, 223, 153, 0.22), transparent 17%),*/
-    /*    linear-gradient(104deg, transparent 0 12%, rgba(201, 157, 69, 0.24) 12% 21%, transparent 21% 100%),*/
-    /*    linear-gradient(168deg, transparent 0 12%, rgba(77, 125, 120, 0.13) 66% 76%, transparent 76% 100%);*/
-    /*  mix-blend-mode: screen;*/
-    /*  opacity: 0.72;*/
-    /*  z-index: 4;*/
-    /*  animation: foundryGlow 4.8s ease-in-out infinite alternate;*/
-    /*}*/
+    .foundry-video::before {
+      background:
+        linear-gradient(90deg, rgba(18, 15, 13, 0.78), rgba(18, 15, 13, 0.44) 42%, rgba(18, 15, 13, 0.08) 74%),
+        linear-gradient(0deg, rgba(18, 15, 13, 0.82), rgba(18, 15, 13, 0.18) 54%, rgba(18, 15, 13, 0.34)),
+        radial-gradient(circle at 29% 70%, rgba(236, 143, 57, 0.34), transparent 21%);
+      mix-blend-mode: multiply;
+      opacity: 0.94;
+      z-index: 2;
+    }
 
     .foundry-video::after {
       background:
@@ -344,53 +389,39 @@
     }
 
     .foundry-video-copy {
-      -webkit-backdrop-filter: blur(13px) saturate(1.05);
-      backdrop-filter: blur(13px) saturate(1.05);
-      background:
-        linear-gradient(135deg, rgba(255, 250, 241, 0.72), rgba(255, 250, 241, 0.5) 52%, rgba(223, 213, 200, 0.26)),
-        linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(36, 33, 31, 0.035));
-      border: 1px solid rgba(255, 250, 241, 0.42);
-      border-left: 0.42rem solid var(--jenkins-ochre);
-      border-radius: 6px;
-      bottom: clamp(1rem, 3vw, 2.25rem);
-      box-shadow: 0 10px 32px rgba(18, 15, 13, 0.18);
-      color: var(--jenkins-ink);
-      left: clamp(1rem, 4.5vw, 4rem);
-      max-width: 38rem;
-      padding: clamp(0.95rem, 2vw, 1.35rem);
+      bottom: clamp(1.1rem, 4cqw, 3.4rem);
+      color: var(--jenkins-paper-light);
+      left: clamp(1rem, 5cqw, 5rem);
+      max-width: min(38rem, 74cqw);
+      padding: 0;
       pointer-events: none;
       position: absolute;
-      right: clamp(1rem, 4.5vw, 4rem);
-      text-shadow: none;
+      right: clamp(1rem, 5cqw, 5rem);
+      text-shadow: 0 0.12em 0.28em rgba(18, 12, 8, 0.86);
       z-index: 7;
-    }
-
-    .foundry-video-copy::before {
-      background:
-        linear-gradient(90deg, var(--jenkins-ochre), rgba(166, 96, 67, 0.18) 72%, transparent),
-        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.38) 0 8px, transparent 8px 18px);
-      border-radius: 999px;
-      content: "";
-      display: block;
-      height: 0.26rem;
-      margin-bottom: 0.7rem;
-      width: min(10rem, 42vw);
+      background: transparent;
     }
 
     .foundry-video-copy h3 {
-      color: var(--jenkins-ink);
-      font-size: clamp(1.25rem, 2vw, 1.8rem);
-      font-weight: 900;
+      color: rgba(255, 221, 139, 0.94);
+      font-family: "Londrina Sketch", "freight-sans-pro", system-ui, sans-serif;
+      font-size: clamp(3.6rem, 11cqw, 9rem);
+      font-weight: 400;
       letter-spacing: 0;
-      line-height: 1;
+      line-height: 0.76;
       margin: 0 0 0.45rem;
+      text-shadow:
+        0 0.025em 0 rgba(48, 23, 14, 0.95),
+        0 0.08em 0.16em rgba(18, 12, 8, 0.88),
+        0 0 0.24em rgba(236, 143, 57, 0.52);
+      text-transform: uppercase;
     }
 
     .foundry-video-copy p {
-      color: rgba(36, 33, 31, 0.76);
+      color: rgba(255, 250, 241, 0.92);
       font-family: Georgia, "Times New Roman", serif;
       font-size: clamp(1rem, 1.22vw, 1.15rem);
-      line-height: 1.48;
+      line-height: 1.5;
       margin: 0;
       max-width: 35rem;
     }
@@ -477,24 +508,7 @@
     }
 
     .story-photo figcaption {
-      -webkit-backdrop-filter: blur(10px) saturate(1.08);
-      backdrop-filter: blur(10px) saturate(1.08);
-      background:
-        linear-gradient(135deg, rgba(255, 250, 241, 0.62), var(--jenkins-glass) 54%, rgba(223, 213, 200, 0.24)),
-        linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(36, 33, 31, 0.025));
-      border: 1px solid rgba(36, 33, 31, 0.1);
-      border-radius: 0 0 6px 6px;
-      border-top: 1px solid rgba(255, 255, 255, 0.34);
-      box-shadow: none;
-      color: rgba(36, 33, 31, 0.72);
-      display: block;
-      font-size: 0.88rem;
-      font-weight: 650;
-      line-height: 1.4;
-      margin-top: 0;
-      max-width: 100%;
-      padding: 0.6rem 0.72rem 0.68rem;
-      width: 100%;
+
     }
 
     .article-flow {
@@ -502,9 +516,9 @@
     }
 
     .story-block {
-      border-top: 1px solid var(--jenkins-line);
+      /*border-top: 1px solid var(--jenkins-line);*/
       isolation: isolate;
-      padding: clamp(3rem, 8vw, 6rem) 0;
+      padding: clamp(1rem, 2vw, 2rem) 0;
       position: relative;
     }
 
@@ -513,34 +527,34 @@
       /*padding-top: clamp(2rem, 5vw, 3.5rem);*/
     }
 
-    .story-block::before {
-      background:
-        linear-gradient(90deg, var(--accent, var(--jenkins-clay)), rgba(255, 250, 241, 0.16) 62%, transparent);
-      border-radius: 999px;
-      box-shadow: 0 4px 12px rgba(36, 33, 31, 0.08);
-      content: "";
-      height: 0.48rem;
-      left: 0;
-      opacity: 0.78;
-      position: absolute;
-      top: -0.2rem;
-      transform: rotate(-0.25deg);
-      width: min(16rem, 48vw);
-      z-index: 2;
-    }
+    /*.story-block::before {*/
+    /*  background:*/
+    /*    linear-gradient(90deg, var(--accent, var(--jenkins-clay)), rgba(255, 250, 241, 0.16) 62%, transparent);*/
+    /*  border-radius: 999px;*/
+    /*  box-shadow: 0 4px 12px rgba(36, 33, 31, 0.08);*/
+    /*  content: "";*/
+    /*  height: 0.48rem;*/
+    /*  left: 0;*/
+    /*  opacity: 0.78;*/
+    /*  position: absolute;*/
+    /*  top: -0.2rem;*/
+    /*  transform: rotate(-0.25deg);*/
+    /*  width: min(16rem, 48vw);*/
+    /*  z-index: 2;*/
+    /*}*/
 
-    .story-block::after {
-      background: var(--material-texture, none);
-      background-size: var(--texture-size, auto);
-      border-radius: 6px;
-      content: "";
-      inset: clamp(0.75rem, 2.5vw, 1.75rem) -0.75rem;
-      mix-blend-mode: multiply;
-      opacity: var(--texture-opacity, 0.38);
-      pointer-events: none;
-      position: absolute;
-      z-index: 0;
-    }
+    /*.story-block::after {*/
+    /*  background: var(--material-texture, none);*/
+    /*  background-size: var(--texture-size, auto);*/
+    /*  border-radius: 6px;*/
+    /*  content: "";*/
+    /*  inset: clamp(0.75rem, 2.5vw, 1.75rem) -0.75rem;*/
+    /*  mix-blend-mode: multiply;*/
+    /*  opacity: var(--texture-opacity, 0.38);*/
+    /*  pointer-events: none;*/
+    /*  position: absolute;*/
+    /*  z-index: 0;*/
+    /*}*/
 
     .story-block:first-child::before {
       display: none;
@@ -561,79 +575,14 @@
       z-index: 1;
     }
 
-    #industrial-arts-roots {
-      --material-texture:
-        radial-gradient(circle at 10% 18%, rgba(166, 96, 67, 0.13), transparent 18rem),
-        linear-gradient(102deg, transparent 0 12%, rgba(201, 157, 69, 0.09) 12% 19%, transparent 19% 100%),
-        repeating-linear-gradient(0deg, rgba(36, 33, 31, 0.045) 0 1px, transparent 1px 9px),
-        repeating-linear-gradient(90deg, rgba(36, 33, 31, 0.022) 0 1px, transparent 1px 17px);
-      --texture-opacity: 0.42;
-    }
-
-    #concept-to-finished-work {
-      --material-texture:
-        radial-gradient(circle at 82% 21%, rgba(201, 157, 69, 0.22), transparent 17rem),
-        radial-gradient(circle at 24% 78%, rgba(77, 125, 120, 0.12), transparent 18rem),
-        linear-gradient(108deg, transparent 0 14%, rgba(98, 107, 106, 0.095) 14% 15.5%, transparent 15.5% 100%),
-        repeating-linear-gradient(104deg, rgba(36, 33, 31, 0.058) 0 1px, transparent 1px 13px);
-      --texture-opacity: 0.4;
-    }
-
-    #sculpture-lab {
-      --material-texture:
-        radial-gradient(circle at 78% 15%, rgba(98, 107, 106, 0.18), transparent 16rem),
-        repeating-linear-gradient(116deg, rgba(36, 33, 31, 0.062) 0 1px, transparent 1px 17px),
-        repeating-linear-gradient(26deg, rgba(36, 33, 31, 0.028) 0 1px, transparent 1px 24px),
-        linear-gradient(8deg, transparent 0 62%, rgba(77, 125, 120, 0.08) 62% 67%, transparent 67% 100%);
-      --texture-opacity: 0.38;
-    }
-
-    #ceramics-studio {
-      --material-texture:
-        radial-gradient(circle at 13% 24%, transparent 0 3rem, rgba(77, 125, 120, 0.12) 3.05rem 3.14rem, transparent 3.2rem),
-        radial-gradient(circle at 13% 24%, transparent 0 6rem, rgba(166, 96, 67, 0.1) 6.05rem 6.16rem, transparent 6.24rem),
-        radial-gradient(circle at 82% 66%, rgba(197, 120, 80, 0.12), transparent 16rem),
-        radial-gradient(circle, rgba(166, 96, 67, 0.12) 0 1px, transparent 1.5px);
-      --texture-size: auto, auto, auto, 24px 24px;
-      --texture-opacity: 0.4;
-    }
-
-    #ending {
-      --material-texture:
-        radial-gradient(circle at 24% 30%, rgba(197, 120, 80, 0.16), transparent 16rem),
-        radial-gradient(circle at 86% 44%, rgba(77, 125, 120, 0.1), transparent 14rem),
-        linear-gradient(100deg, transparent 0 28%, rgba(201, 157, 69, 0.11) 28% 35%, transparent 35% 100%);
-      --texture-opacity: 0.38;
-    }
-
     .eyebrow {
       align-items: center;
-      background: rgba(255, 250, 241, 0.74);
-      border: 1px solid rgba(36, 33, 31, 0.11);
-      border-radius: 999px;
-      box-shadow: 0 8px 20px rgba(36, 33, 31, 0.05);
-      color: var(--accent, var(--jenkins-clay));
-      display: inline-flex;
       font-size: 0.82rem;
       font-weight: 900;
       line-height: 1;
       margin-bottom: 1rem;
-      padding: 0.44rem 0.72rem 0.38rem 0.62rem;
       width: 100%;
     }
-
-    /*.eyebrow::before {*/
-    /*  background:*/
-    /*    linear-gradient(90deg, var(--accent, var(--jenkins-clay)), rgba(255, 250, 241, 0.2));*/
-    /*  border-radius: 999px;*/
-    /*  box-shadow: 0 2px 8px rgba(36, 33, 31, 0.08);*/
-    /*  content: "";*/
-    /*  flex: 0 0 auto;*/
-    /*  height: 0.24rem;*/
-    /*  margin-right: 0.5rem;*/
-    /*  transform: rotate(-2deg);*/
-    /*  width: 1.05rem;*/
-    /*}*/
 
     .story-block h2 {
       color: var(--jenkins-ink);
@@ -659,7 +608,22 @@
       color: rgba(36, 33, 31, 0.82);
       font-family: Georgia, "Times New Roman", serif;
       font-size: clamp(1.08rem, 1.55vw, 1.28rem);
-      line-height: 1.68;
+      background: #fff;
+      padding: 3rem;
+      -webkit-backdrop-filter: blur(10px) saturate(1.08);
+      backdrop-filter: blur(10px) saturate(1.08);
+      background:
+              linear-gradient(135deg, rgba(255, 250, 241, 0.62), var(--jenkins-glass) 94%, rgba(223, 213, 200, 0.24)),
+              linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(36, 33, 31, 0.025));
+      border: 1px solid rgba(36, 33, 31, 0.1);
+      border-radius: 6px;
+      border-top: 1px solid rgba(255, 255, 255, 0.34);
+      box-shadow: none;
+      display: block;
+      line-height: 1.4;
+      margin-top: 0;
+      max-width: 100%;
+      width: 100%;
     }
 
     .photo-pair {
@@ -699,13 +663,12 @@
         margin-top: 1.5rem;
       }
 
-      .story-block h2 {
-        max-width: 11em;
+      .foundry-video-copy {
+        background: #000;
+        position: relative;
+        max-width: 100%;
       }
 
-      .story-block h3 {
-        max-width: 11em;
-      }
     }
 
 
@@ -751,46 +714,32 @@
       }
 
       .container-video {
-        margin-top: clamp(7rem, 30vw, 9rem);
-        overflow: visible;
-        scroll-margin-top: clamp(7rem, 30vw, 9rem);
+        margin-top: clamp(3rem, 10vw, 5rem);
+        overflow: hidden;
+        scroll-margin-top: 1rem;
       }
 
       .foundry-video {
-        overflow: visible;
+        overflow: hidden;
       }
 
       .foundry-video-copy {
-        background:
-          linear-gradient(135deg, rgba(255, 250, 241, 0.84), rgba(255, 250, 241, 0.68) 52%, rgba(223, 213, 200, 0.34)),
-          linear-gradient(180deg, rgba(255, 255, 255, 0.34), rgba(36, 33, 31, 0.03));
-        bottom: auto;
+        bottom: 1.05rem;
         left: 1rem;
         max-width: none;
-        padding: 0.9rem 0.95rem 0.95rem;
+        padding: 0;
         right: 1rem;
-        top: 0;
-        transform: translateY(-50%);
-      }
-
-      .foundry-video-copy::before {
-        height: 0.32rem;
-        margin-bottom: 0.7rem;
-        width: min(12rem, 58vw);
       }
 
       .foundry-video-copy h3 {
-        font-size: 1.25rem;
-        margin-bottom: 0.45rem;
+        font-size: clamp(3.4rem, 17cqw, 4.6rem);
+        margin-bottom: 0.35rem;
       }
 
       .foundry-video-copy p {
-        font-size: 1rem;
-        line-height: 1.38;
-      }
-
-      .story-block h2 {
-        font-size: clamp(2rem, 13vw, 3.8rem);
+        font-size: 0.94rem;
+        line-height: 1.36;
+        max-width: 25rem;
       }
 
     }
@@ -829,28 +778,28 @@
 
     <section class="article-flow jenkins-article">
       <div class="container-xl">
-        <article class="story-block intro-block" id="industrial-arts-roots" style="--accent: var(--jenkins-clay);" data-reveal>
-          <div class="row g-5 align-items-top">
+        <article class="story-block intro-block" style="--accent: var(--jenkins-clay);" data-reveal>
+          <div class="row g-5 align-items-center">
             <div class="col-lg-8 col-xl-7">
               <p class="eyebrow">Creative Spaces</p>
               <h2>Legacy of Craftsmanship</h2>
-              <p class="article-copy">Originally opened in 1950 as the home of Humboldt&rsquo;s Industrial Arts program, <a href="https://now.humboldt.edu/news/space-makers-again-jenkins-hall-reopens-after-12m-renovation?utm_source=now_weekly_newsletter&amp;utm_medium=email&amp;utm_campaign=hnow-2025-12-01&amp;_gl=1*7wb0z3*_gcl_au*ODE5NjAyMDExLjE3NzczMTM5NTM.*_ga*OGQyNzA0NGYtYmIzNS00NzA5LWFmYzktMDg4NTg1ODcxNjM3*_ga_JL6J7P9CG9*czE3ODExOTQ4NjkkbzEwNzIkZzEkdDE3ODExOTU4ODQkajYwJGwwJGgw">the building was named for Horace &ldquo;Pop&rdquo; Jenkins</a>, a ceramicist and faculty member who championed hands-on learning. Following a &#36;12 million renovation funded by the California State University&rsquo;s Chancellor&rsquo;s Office, the building re-opened in Fall 2025 as a modern home for the <a href="https://www.humboldt.edu/academics/programs/art">Sculpture and ceramics programs</a>, thoughtfully designed to support the next generation of artists.</p>
+              <p class="article-copy mt-5">Originally opened in 1950 as the home of Humboldt’s Industrial Arts program, <a href="https://now.humboldt.edu/news/space-makers-again-jenkins-hall-reopens-after-12m-renovation?utm_source=now_weekly_newsletter&amp;utm_medium=email&amp;utm_campaign=hnow-2025-12-01&amp;_gl=1*7wb0z3*_gcl_au*ODE5NjAyMDExLjE3NzczMTM5NTM.*_ga*OGQyNzA0NGYtYmIzNS00NzA5LWFmYzktMDg4NTg1ODcxNjM3*_ga_JL6J7P9CG9*czE3ODExOTQ4NjkkbzEwNzIkZzEkdDE3ODExOTU4ODQkajYwJGwwJGgw">the building was named for Horace &ldquo;Pop&rdquo; Jenkins</a>, a ceramicist and faculty member who championed hands-on learning. Following a $12 million renovation funded by the California State University’s Chancellor’s Office, the building re-opened in Fall 2025 as a modern home for the <a href="https://www.humboldt.edu/academics/programs/art">sculpture and ceramics programs</a>, thoughtfully designed to support the next generation of artists.</p>
             </div>
             <div class="col-lg-4 col-xl-5">
               <figure class="story-photo photo-small" data-photo-reveal data-float data-speed="5">
                 <div class="photo-frame">
                   <img src="images/jenkins_hall/jenkins-hall-archive.jpg" alt="Historic black-and-white image of Jenkins Hall" loading="lazy" decoding="async">
                 </div>
-                <figcaption>Archival imagery connects the building to its Industrial Arts roots.</figcaption>
+<!--                <figcaption>Archival imagery connects the building to its Industrial Arts roots.</figcaption>-->
               </figure>
             </div>
           </div>
         </article>
 
-        <article class="story-block photos-left" id="concept-to-finished-work" style="--accent: var(--jenkins-glaze);" data-reveal>
+        <article class="story-block photos-left" style="--accent: var(--jenkins-glaze);" data-reveal>
           <div class="row g-5 align-items-top">
-            <p class="eyebrow">Where Inspiration Begins</p>
-            <h2>Forged, Fired, and Formed</h2>
+<!--            <p class="eyebrow">Where Inspiration Begins</p>-->
+<!--            <h2>Forged, Fired, and Formed</h2>-->
             <div class="col-lg-12 order-md-1 order-2">
               <div class="photo-pair">
                 <figure class="story-photo" data-photo-reveal>
@@ -885,36 +834,35 @@
           </div>
         </article>
 
-        <article class="story-block image-right" id="sculpture-lab" style="--accent: var(--jenkins-slate);" data-reveal>
+        <article class="story-block image-right" style="--accent: var(--jenkins-slate);" data-reveal>
           <div class="row g-5 align-items-top">
-            <p class="eyebrow">First Floor</p>
-            <h2>Sculpture</h2>
+<!--            <p class="eyebrow">First Floor</p>-->
+<!--            <h2>Sculpture</h2>-->
             <div class="col-lg-12">
               <figure class="story-photo" data-photo-reveal>
-                <div class="photo-frame wide">
+                <div class="photo-frame top-gradient wide">
                   <img src="images/jenkins_hall/artf040826_00175.jpg" alt="Students and an instructor working in the renovated Sculpture Lab" loading="lazy" decoding="async">
+                  <span class="section-photo-title" data-title="SCULPTURE">SCULPTURE</span>
                 </div>
 <!--                <figcaption>Students work with metal tools and shared worktables in the renovated sculpture lab.</figcaption>-->
               </figure>
-              <div class="photo-pair pt-2">
+              <div class="photo-pair pt-3">
                 <figure class="story-photo" data-photo-reveal>
                   <div class="photo-frame wide">
+                    <img src="images/jenkins_hall/artf040826_00143.jpg" alt="Large sculptural form staged beside kilns in Jenkins Hall" loading="lazy" decoding="async">
+                  </div>
+                  <!--                  <figcaption>A large ceramic form stands beside open kilns in the renovated firing area.</figcaption>-->
+                </figure>
+                <figure class="story-photo" data-photo-reveal>
+                  <div class="photo-frame">
                     <img src="images/jenkins_hall/artf030926_00214.jpg" alt="Student in protective gear working at heated metalworking equipment in Jenkins Hall" loading="lazy" decoding="async">
                   </div>
 <!--                  <figcaption>A student works at heated metalworking equipment in the renovated fabrication space.</figcaption>-->
                 </figure>
-                <figure class="story-photo" data-photo-reveal>
-                  <div class="photo-frame">
-                    <img src="images/jenkins_hall/artf040826_00143.jpg" alt="Large sculptural form staged beside kilns in Jenkins Hall" loading="lazy" decoding="async">
-                  </div>
-<!--                  <figcaption>A large ceramic form stands beside open kilns in the renovated firing area.</figcaption>-->
-                </figure>
+
               </div>
               <div class="col-lg-12 pt-4">
-                <p class="article-copy">On the first floor is the sculpture lab. It includes areas for metalworking, woodworking, mold-making, mixed-media projects, and digital fabrication, so students can explore a wide range of artistic processes from concept to completion.</p>
-                <h3 class="pb-2 pt-2">The Foundry</h3>
-                <p class="article-copy">One of the building&rsquo;s most distinctive spaces is The Foundry. Here, students learn the art of metal casting&mdash;pouring molten metal into molds and transforming them into sculptures&mdash;an ancient process that remains central to contemporary sculpture.</p>
-
+                <p class="article-copy">The first floor houses areas for metalworking, woodworking, mold-making, mixed-media projects, and digital fabrication, so students can explore a wide range of artistic processes from concept to completion.</p>
               </div>
             </div>
           </div>
@@ -930,54 +878,53 @@
                         <source src="images/jenkins_hall/pour/jenkins-hall-pour-loop.mp4" type="video/mp4">
                       </video>
                     </div>
+                    <div class="foundry-video-copy">
+                      <h3 id="foundry-title">The Foundry</h3>
+                      <p>One of the building's most distinctive spaces is the foundry. Here, students learn the art of metal casting—pouring molten metal into molds and transforming them into sculptures—an ancient process that remains central to contemporary sculpture.</p>
+                    </div>
                   </div>
                 </figure>
             </div>
           </div>
       </div>
       <div class="container-xl">
-        <article class="story-block image-right" id="ceramics-studio" style="--accent: var(--jenkins-glaze);" data-reveal>
+        <article class="story-block image-right" style="--accent: var(--jenkins-glaze);" data-reveal>
           <div class="row g-5 align-items-top">
             <div class="col-lg-12">
-              <p class="eyebrow">Second Floor</p>
-              <h2>Ceramics</h2>
+<!--              <p class="eyebrow">Second Floor</p>-->
+<!--              <h2>Ceramics</h2>-->
               </div>
             <div class="col-lg-12">
-              <div class="photo-pair">
                 <figure class="story-photo" data-photo-reveal>
-                  <div class="photo-frame wide">
+                  <div class="photo-frame top-gradient wide">
                     <img src="images/jenkins_hall/artf040826_00462.jpg" alt="Wide view of the renovated Ceramics Studio with pottery wheels and students working" loading="lazy" decoding="async">
+                    <span class="section-photo-title ceramics-title" data-title="CERAMICS">CERAMICS</span>
                   </div>
 <!--                  <figcaption>Rows of pottery wheels and open workstations define the renovated Ceramics Studio.</figcaption>-->
                 </figure>
-                <figure class="story-photo" data-photo-reveal>
-                  <div class="photo-frame">
-                    <img src="images/jenkins_hall/artf110425_00127.jpg" alt="Hands shaping clay on a pottery wheel in the Ceramics Studio" loading="lazy" decoding="async">
-                  </div>
-<!--                  <figcaption>Hands shape a clay bowl on a pottery wheel.</figcaption>-->
-                </figure>
+              <div class="photo-pair pt-3">
                 <figure class="story-photo" data-photo-reveal>
                   <div class="photo-frame wide">
+                    <img src="images/jenkins_hall/artf020926_00028.jpg" alt="Glaze test tiles arranged on the wall of the glaze room" loading="lazy" decoding="async">
+                  </div>
+                  <!--                  <figcaption>Glaze tests record color, texture, and surface choices.</figcaption>-->
+                </figure>
+                <figure class="story-photo" data-photo-reveal>
+                  <div class="photo-frame">
                     <img src="images/jenkins_hall/artf020926_00035.jpg" alt="Glazed ceramic pieces and trimming tools on a studio work surface" loading="lazy" decoding="async">
                   </div>
 <!--                  <figcaption>Glazed pieces and hand tools collect on a ceramics work surface.</figcaption>-->
                 </figure>
-                <figure class="story-photo" data-photo-reveal>
-                  <div class="photo-frame">
-                    <img src="images/jenkins_hall/artf020926_00028.jpg" alt="Glaze test tiles arranged on the wall of the glaze room" loading="lazy" decoding="async">
-                  </div>
-<!--                  <figcaption>Glaze tests record color, texture, and surface choices.</figcaption>-->
-                </figure>
 
               </div>
               <div class="col-lg-12 pt-4">
-                <p class="article-copy">The Ceramics Studio supports every stage of the ceramic-making process. The studio includes a variety of facilities for students to explore both wheel throwing and handbuilding, developing their work from raw clay to finished pieces.</p>
-                <p class="article-copy">The studio has dedicated spaces for clay preparation, glazing, firing, and mold-making. Low- and high-fire facilities allow students to learn a variety of firing techniques, while the glaze room serves as a place for experimentation with color, texture, and surface design.</p>
+                <p class="article-copy">The ceramics studios supports every stage of the ceramic-making process. The studios include a variety of facilities for students to explore both wheel throwing and handbuilding, developing their work from raw clay to finished pieces.
+                  <br /><br />The studio has dedicated spaces for clay preparation, glazing, firing, and mold-making. Low- and high-fire facilities allow students to learn a variety of firing techniques, while the glaze room serves as a place for experimentation with color, texture, and surface design.</p>
               </div>
             </div>
           </div>
         </article>
-        <article class="story-block" id="ending" style="--accent: var(--jenkins-terracotta);" data-reveal>
+        <article class="story-block" style="--accent: var(--jenkins-terracotta);" data-reveal>
           <h3>Together, these spaces foster an environment where artistry, creativity, and self-expression thrive.</h3>
           <figure class="story-video ending-video" data-photo-reveal>
             <video autoplay muted loop playsinline preload="metadata" poster="images/jenkins_hall/outro/jenkins-hall-outro-loop-poster.jpg" aria-label="Looping video of a student working with a torch in Jenkins Hall">
@@ -1008,7 +955,7 @@
 
       if (!canAnimate) return;
 
-      gsap.set("[data-reveal]", { autoAlpha: 0, y: 28 });
+      gsap.set("[data-reveal]:not(.story-block)", { autoAlpha: 0, y: 28 });
       gsap.set("[data-photo-reveal]", { autoAlpha: 0, y: 36, scale: 0.98 });
       gsap.set(".hero-cover-image", { scale: 1.08, xPercent: -1, yPercent: 0.6 });
 
@@ -1044,7 +991,7 @@
         });
       }, { rootMargin: "0px 0px -12% 0px", threshold: 0.1 });
 
-      gsap.utils.toArray("[data-reveal], [data-photo-reveal]").forEach((item) => revealObserver.observe(item));
+      gsap.utils.toArray("[data-reveal]:not(.story-block), [data-photo-reveal]").forEach((item) => revealObserver.observe(item));
 
       const floatItems = gsap.utils.toArray("[data-float]");
       const clamp = (min, max, value) => Math.min(max, Math.max(min, value));
