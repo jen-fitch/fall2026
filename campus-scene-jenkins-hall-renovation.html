@@ -206,7 +206,7 @@
       text-shadow: 0 2px 16px rgba(0, 0, 0, 0.7);
     }
 
-    .story-photo {
+    .intro-photo {
       border-radius: 6px;
       filter: drop-shadow(0 18px 38px rgba(36, 33, 31, 0.12)) drop-shadow(0 4px 12px rgba(36, 33, 31, 0.08));
       margin: 0;
@@ -507,10 +507,6 @@
       }
     }
 
-    .story-photo figcaption {
-
-    }
-
     .article-flow {
       padding: 1rem 0 5.5rem;
     }
@@ -524,37 +520,7 @@
 
     .story-block:first-child {
       border-top: 0;
-      /*padding-top: clamp(2rem, 5vw, 3.5rem);*/
     }
-
-    /*.story-block::before {*/
-    /*  background:*/
-    /*    linear-gradient(90deg, var(--accent, var(--jenkins-clay)), rgba(255, 250, 241, 0.16) 62%, transparent);*/
-    /*  border-radius: 999px;*/
-    /*  box-shadow: 0 4px 12px rgba(36, 33, 31, 0.08);*/
-    /*  content: "";*/
-    /*  height: 0.48rem;*/
-    /*  left: 0;*/
-    /*  opacity: 0.78;*/
-    /*  position: absolute;*/
-    /*  top: -0.2rem;*/
-    /*  transform: rotate(-0.25deg);*/
-    /*  width: min(16rem, 48vw);*/
-    /*  z-index: 2;*/
-    /*}*/
-
-    /*.story-block::after {*/
-    /*  background: var(--material-texture, none);*/
-    /*  background-size: var(--texture-size, auto);*/
-    /*  border-radius: 6px;*/
-    /*  content: "";*/
-    /*  inset: clamp(0.75rem, 2.5vw, 1.75rem) -0.75rem;*/
-    /*  mix-blend-mode: multiply;*/
-    /*  opacity: var(--texture-opacity, 0.38);*/
-    /*  pointer-events: none;*/
-    /*  position: absolute;*/
-    /*  z-index: 0;*/
-    /*}*/
 
     .story-block:first-child::before {
       display: none;
@@ -603,7 +569,9 @@
       margin: 0;
       text-transform: uppercase;
     }
-
+    .article-copy-container {
+      margin-top: 1.2rem;
+    }
     .article-copy {
       color: rgba(36, 33, 31, 0.82);
       font-family: Georgia, "Times New Roman", serif;
@@ -616,7 +584,7 @@
               linear-gradient(135deg, rgba(255, 250, 241, 0.62), var(--jenkins-glass) 94%, rgba(223, 213, 200, 0.24)),
               linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(36, 33, 31, 0.025));
       border: 1px solid rgba(36, 33, 31, 0.1);
-      border-radius: 6px;
+      border-radius: 0 0 6px 6px;
       border-top: 1px solid rgba(255, 255, 255, 0.34);
       box-shadow: none;
       display: block;
@@ -632,9 +600,9 @@
       grid-template-columns: minmax(0, 1fr) minmax(0, 0.75fr);
     }
 
-    .photo-pair .story-photo:nth-child(2) {
-      /*align-self: end;*/
-      transform: translateY(1.5rem);
+    .story-photo {
+      filter: drop-shadow(0 18px 38px rgba(36, 33, 31, 0.12)) drop-shadow(0 4px 12px rgba(36, 33, 31, 0.08));
+      margin: 0;
     }
 
     [data-reveal],
@@ -719,20 +687,12 @@
         grid-template-columns: 1fr;
       }
 
-      .photo-pair .story-photo:nth-child(2) {
-        transform: none;
-      }
-
       .story-block {
         padding: 3rem 0;
       }
 
       .story-block::after {
         opacity: 0.24;
-      }
-
-      .story-photo figcaption {
-        display: block;
       }
 
       .container-video {
@@ -801,7 +761,7 @@
               <p class="article-copy mt-5">Originally opened in 1950 as the home of Humboldt’s Industrial Arts program, <a href="https://now.humboldt.edu/news/space-makers-again-jenkins-hall-reopens-after-12m-renovation?utm_source=now_weekly_newsletter&amp;utm_medium=email&amp;utm_campaign=hnow-2025-12-01&amp;_gl=1*7wb0z3*_gcl_au*ODE5NjAyMDExLjE3NzczMTM5NTM.*_ga*OGQyNzA0NGYtYmIzNS00NzA5LWFmYzktMDg4NTg1ODcxNjM3*_ga_JL6J7P9CG9*czE3ODExOTQ4NjkkbzEwNzIkZzEkdDE3ODExOTU4ODQkajYwJGwwJGgw">the building was named for Horace &ldquo;Pop&rdquo; Jenkins</a>, a ceramicist and faculty member who championed hands-on learning. Following a $12 million renovation funded by the California State University’s Chancellor’s Office, the building re-opened in Fall 2025 as a modern home for the <a href="https://www.humboldt.edu/academics/programs/art">sculpture and ceramics programs</a>, thoughtfully designed to support the next generation of artists.</p>
             </div>
             <div class="col-lg-4 col-xl-5">
-              <figure class="story-photo photo-small" data-photo-reveal data-float data-speed="5">
+              <figure class="intro-photo photo-small" data-photo-reveal data-float data-speed="5">
                 <div class="photo-frame">
                   <img src="images/jenkins_hall/jenkins-hall-archive.jpg" alt="Historic black-and-white image of Jenkins Hall" loading="lazy" decoding="async">
                 </div>
@@ -815,7 +775,7 @@
           <div class="row g-5 align-items-top">
 <!--            <p class="eyebrow">Where Inspiration Begins</p>-->
 <!--            <h2>Forged, Fired, and Formed</h2>-->
-            <div class="col-lg-12 order-md-1 order-2">
+
               <div class="photo-pair">
                 <figure class="story-photo" data-photo-reveal>
                   <div class="photo-frame wide">
@@ -842,11 +802,9 @@
 <!--                  <figcaption>Students practice wheel throwing side by side in the Ceramics Studio.</figcaption>-->
                 </figure>
               </div>
+              <div class="article-copy-container"><p class="article-copy">The renovated facility now features studios, fabrication spaces, kiln rooms, and a 3D printing room where students can work with wood, metal, or clay. The complementary facilities allow students to move seamlessly from concept to finished work.</p></div>
             </div>
-            <div class="col-lg-12 order-md-2 order-1">
-              <p class="article-copy">The renovated facility now features studios, fabrication spaces, kiln rooms, and a 3D printing room where students can work with wood, metal, or clay. The complementary facilities allow students to move seamlessly from concept to finished work.</p>
-            </div>
-          </div>
+
         </article>
 
         <article class="story-block image-right" style="--accent: var(--jenkins-slate);" data-reveal>
