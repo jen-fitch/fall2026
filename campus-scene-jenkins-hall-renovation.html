@@ -659,14 +659,36 @@
           linear-gradient(0deg, rgba(18, 15, 13, 0.82) 0%, rgba(18, 15, 13, 0.38) 58%, rgba(18, 15, 13, 0.16) 100%);
       }
 
-      .article-copy {
-        margin-top: 1.5rem;
-      }
-
       .foundry-video-copy {
         background: #000;
+        bottom: auto;
+        left: auto;
         position: relative;
+        right: auto;
         max-width: 100%;
+        padding: clamp(1rem, 4vw, 1.6rem);
+        text-shadow: none;
+      }
+
+      .foundry-video {
+        aspect-ratio: auto;
+        min-height: 0;
+      }
+
+      .foundry-video::before,
+      .foundry-video::after {
+        display: none;
+      }
+
+      .foundry-media-slot {
+        aspect-ratio: 16 / 9;
+        inset: auto;
+        position: relative;
+      }
+
+      .foundry-media-slot > img,
+      .foundry-media-slot > video {
+        height: 100%;
       }
 
     }
@@ -719,16 +741,9 @@
         scroll-margin-top: 1rem;
       }
 
-      .foundry-video {
-        overflow: hidden;
-      }
-
       .foundry-video-copy {
-        bottom: 1.05rem;
-        left: 1rem;
         max-width: none;
-        padding: 0;
-        right: 1rem;
+        padding: 1rem;
       }
 
       .foundry-video-copy h3 {
