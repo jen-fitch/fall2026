@@ -115,8 +115,8 @@
 
     .story-hero::before {
       background:
-        linear-gradient(90deg, rgba(18, 15, 13, 0.88) 0%, rgba(18, 15, 13, 0.68) 34%, rgba(18, 15, 13, 0.24) 68%, rgba(18, 15, 13, 0.08) 100%),
-        linear-gradient(0deg, rgba(18, 15, 13, 0.78) 0%, rgba(18, 15, 13, 0.28) 46%, rgba(18, 15, 13, 0.14) 100%);
+        linear-gradient(90deg, rgba(18, 15, 13, 0.88) 0%, rgba(18, 15, 13, 0.68) 10%, rgba(18, 15, 13, 0.24) 20%, rgba(18, 15, 13, 0.08) 30%),
+        linear-gradient(0deg, rgba(18, 15, 13, 0.78) 0%, rgba(18, 15, 13, 0.28) 15%, rgba(18, 15, 13, 0.14) 30%);
       content: "";
       inset: 0;
       pointer-events: none;
@@ -150,7 +150,7 @@
     }
 
     .kicker::before {
-      background: var(--jenkins-yellow);
+      background: var(--jenkins-paper);
       border-radius: 999px;
       content: "";
       height: 0.35rem;
@@ -177,12 +177,15 @@
 
     .story-hero h1 {
       color: var(--jenkins-yellow);
+      filter:
+              drop-shadow(0 0 0.025em rgba(0, 0, 0, 1))
+              drop-shadow(0 0.065em 0.075em rgba(18, 12, 8, 0.34));
       font-size: clamp(6.2rem, 13vw, 11rem);
       letter-spacing: 0;
       line-height: 0.82;
       margin: 0 0 1.3rem;
       max-width: 7ch;
-      text-shadow: 0 0.08em 0.35em rgba(0, 0, 0, 0.58);
+      /*text-shadow: 0 1em 2em rgba(0, 0, 0, 1);*/
       text-transform: uppercase;
       font-family: "lincoln-electric-regular", sans-serif;
 font-weight: 400;
@@ -266,27 +269,21 @@ font-style: normal;
     }
 
     .section-photo-title {
-      -webkit-text-stroke-color: #FFF;
-      -webkit-text-stroke-width: clamp(0.8px, 0.14cqw, 2.2px);
-      color: var(--jenkins-yellow);
+      color: var(--jenkins-paper);
       filter:
-        drop-shadow(0 0 0.025em rgba(0, 0, 0, 1))
-        drop-shadow(0 0.065em 0.075em rgba(18, 12, 8, 0.34));
+        drop-shadow(0 0 0.01em rgba(0, 0, 0, 0.25))
+        drop-shadow(0 0.04em 0.05em rgba(18, 12, 8, 0.2));
       font-family: "lincoln-electric-regular", sans-serif;
-font-weight: 400;
-font-style: normal;
+      font-weight: 400;
+      font-style: normal;
       font-size: clamp(3.5rem, 16cqw, 15rem);
       left: 50%;
       line-height: 0.72;
       mix-blend-mode: normal;
-      opacity: 0.92;
-      paint-order: stroke fill;
+      /*opacity: 0.92;*/
       pointer-events: none;
       position: absolute;
       text-align: center;
-      text-shadow:
-        0 0.012em 0 rgba(255, 247, 218, 0.58),
-        0 0 0.22em rgba(180, 96, 42, 0.34);
       text-transform: uppercase;
       top: clamp(0.7rem, 2.2cqw, 1.8rem);
       transform: translateX(-50%);
@@ -294,17 +291,6 @@ font-style: normal;
       width: min-content;
       z-index: 5;
     }
-
-    /*.section-photo-title::after {*/
-    /*  color: rgba(255, 221, 135, 0.25);*/
-    /*  content: attr(data-title);*/
-    /*  inset: 0;*/
-    /*  mix-blend-mode: overlay;*/
-    /*  position: absolute;*/
-    /*  text-shadow: none;*/
-    /*  transform: translate(-0.014em, -0.018em);*/
-    /*  z-index: -1;*/
-    /*}*/
 
     .container-video {
       background: #171412;
@@ -349,10 +335,10 @@ font-style: normal;
     }
 
     .foundry-video::before {
-      background:
-        linear-gradient(90deg, rgba(18, 15, 13, 0.78), rgba(18, 15, 13, 0.44) 42%, rgba(18, 15, 13, 0.08) 74%),
-        linear-gradient(0deg, rgba(18, 15, 13, 0.82), rgba(18, 15, 13, 0.18) 54%, rgba(18, 15, 13, 0.34)),
-        radial-gradient(circle at 29% 70%, rgba(236, 143, 57, 0.34), transparent 21%);
+      /*background:*/
+      /*  linear-gradient(90deg, rgba(18, 15, 13, 0.78), rgba(18, 15, 13, 0.44) 42%, rgba(18, 15, 13, 0.08) 74%),*/
+      /*  linear-gradient(0deg, rgba(18, 15, 13, 0.82), rgba(18, 15, 13, 0.18) 54%, rgba(18, 15, 13, 0.34)),*/
+      /*  radial-gradient(circle at 29% 70%, rgba(236, 143, 57, 0.34), transparent 21%);*/
       mix-blend-mode: multiply;
       opacity: 0.94;
       z-index: 2;
@@ -396,31 +382,27 @@ font-style: normal;
 
     .foundry-video-copy {
       bottom: clamp(1.1rem, 4cqw, 3.4rem);
-      color: var(--jenkins-paper-light);
+      color: var(--jenkins-paper);
       left: clamp(1rem, 5cqw, 5rem);
       max-width: min(38rem, 74cqw);
       padding: 0;
       pointer-events: none;
       position: absolute;
       right: clamp(1rem, 5cqw, 5rem);
-      text-shadow: 0 0.12em 0.28em rgba(18, 12, 8, 0.86);
+
       z-index: 7;
       background: transparent;
     }
 
     .foundry-video-copy h3 {
-      color: var(--jenkins-yellow);
+      color: var(--jenkins-paper);
       font-family: "lincoln-electric-regular", sans-serif;
-font-weight: 400;
-font-style: normal;
+      font-weight: 400;
+      font-style: normal;
       font-size: clamp(3.6rem, 11cqw, 9rem);
       letter-spacing: 0;
       line-height: 0.76;
       margin: 0 0 0.45rem;
-      text-shadow:
-        0 0.025em 0 rgba(48, 23, 14, 0.95),
-        0 0.08em 0.16em rgba(18, 12, 8, 0.88),
-        0 0 0.24em rgba(236, 143, 57, 0.52);
       text-transform: uppercase;
     }
 
@@ -430,6 +412,7 @@ font-style: normal;
       line-height: 1.5;
       margin: 0;
       max-width: 35rem;
+      text-shadow: 0 0.12em 0.28em rgba(18, 12, 8, 0.86);
     }
 
     .ending-video {
@@ -562,8 +545,16 @@ font-style: normal;
       margin: 0 0 10px;
       text-transform: uppercase;
       font-family: "lincoln-electric-regular", sans-serif;
-font-weight: 400;
-font-style: normal;
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    .story-block h2 span.futura {
+      font-family: "Futura", sans-serif;
+      font-weight: 600;
+      font-size: 48px;
+      padding-bottom: 16px;
+      display: block;
     }
 
     .story-block h3 {
@@ -761,8 +752,8 @@ font-style: normal;
           <div class="row g-5 align-items-center">
             <div class="col-lg-8 col-xl-7">
               <p class="eyebrow">Creative Spaces</p>
-              <h2>Legacy of Craftsmanship</h2>
-              <p class="article-copy mt-5">Originally opened in 1950 as the home of Humboldt’s Industrial Arts program, <a href="https://now.humboldt.edu/news/space-makers-again-jenkins-hall-reopens-after-12m-renovation?utm_source=now_weekly_newsletter&amp;utm_medium=email&amp;utm_campaign=hnow-2025-12-01&amp;_gl=1*7wb0z3*_gcl_au*ODE5NjAyMDExLjE3NzczMTM5NTM.*_ga*OGQyNzA0NGYtYmIzNS00NzA5LWFmYzktMDg4NTg1ODcxNjM3*_ga_JL6J7P9CG9*czE3ODExOTQ4NjkkbzEwNzIkZzEkdDE3ODExOTU4ODQkajYwJGwwJGgw">the building was named for Horace &ldquo;Pop&rdquo; Jenkins</a>, a ceramicist and faculty member who championed hands-on learning. Following a $12 million renovation funded by the California State University’s Chancellor’s Office, the building re-opened in Fall 2025 as a modern home for the <a href="https://www.humboldt.edu/academics/programs/art">sculpture and ceramics programs</a>, thoughtfully designed to support the next generation of artists.</p>
+              <h2><span class="futura">Legacy of</span> Craftsmanship</h2>
+              <p class="article-copy mt-4">Originally opened in 1950 as the home of Humboldt’s Industrial Arts program, <a href="https://now.humboldt.edu/news/space-makers-again-jenkins-hall-reopens-after-12m-renovation?utm_source=now_weekly_newsletter&amp;utm_medium=email&amp;utm_campaign=hnow-2025-12-01&amp;_gl=1*7wb0z3*_gcl_au*ODE5NjAyMDExLjE3NzczMTM5NTM.*_ga*OGQyNzA0NGYtYmIzNS00NzA5LWFmYzktMDg4NTg1ODcxNjM3*_ga_JL6J7P9CG9*czE3ODExOTQ4NjkkbzEwNzIkZzEkdDE3ODExOTU4ODQkajYwJGwwJGgw">the building was named for Horace &ldquo;Pop&rdquo; Jenkins</a>, a ceramicist and faculty member who championed hands-on learning. Following a $12 million renovation funded by the California State University’s Chancellor’s Office, the building re-opened in Fall 2025 as a modern home for the <a href="https://www.humboldt.edu/academics/programs/art">sculpture and ceramics programs</a>, thoughtfully designed to support the next generation of artists.</p>
             </div>
             <div class="col-lg-4 col-xl-5">
               <figure class="intro-photo photo-small" data-photo-reveal data-float data-speed="5">
@@ -896,13 +887,13 @@ font-style: normal;
               </div>
               <div class="col-lg-12 pt-4">
                 <p class="article-copy">The ceramics studios supports every stage of the ceramic-making process. The studios include a variety of facilities for students to explore both wheel throwing and handbuilding, developing their work from raw clay to finished pieces.
-                  <br /><br />The studio has dedicated spaces for clay preparation, glazing, firing, and mold-making. Low- and high-fire facilities allow students to learn a variety of firing techniques, while the glaze room serves as a place for experimentation with color, texture, and surface design.</p>
+                  <br /><br />The studio has dedicated spaces for clay preparation, glazing, firing, and mold-making. Low- and high-fire facilities allow students to learn a variety of firing techniques, while the glaze room serves as a place for experimentation with color, texture, and surface design.
+                <br /><br />Together, these spaces foster an environment where artistry, creativity, and self-expression thrive.</p>
               </div>
             </div>
           </div>
         </article>
         <article class="story-block" style="--accent: var(--jenkins-terracotta);" data-reveal>
-          <h3>Together, these spaces foster an environment where artistry, creativity, and self-expression thrive.</h3>
           <figure class="story-video ending-video" data-photo-reveal>
             <video autoplay muted loop playsinline preload="metadata" poster="images/jenkins_hall/outro/ceramics-outro-loop-poster.jpg" aria-label="Looping video of a student throwing clay on a pottery wheel in Jenkins Hall">
               <source src="images/jenkins_hall/outro/ceramics-outro-loop.mp4" type="video/mp4">
